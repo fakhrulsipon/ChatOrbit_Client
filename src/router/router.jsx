@@ -5,6 +5,11 @@ import MainLayout from "../Layout/MainLayout";
 import Home from "../Page/Home/Home";
 import Login from "../Page/Authentication/Login/Login";
 import Register from "../Page/Authentication/Register/Register";
+import DashboardLayout from "../Page/DashboardLayout/DashboardLayout";
+import PrivetRoute from "../Route/PrivetRoute";
+import MyProfile from "../Page/DashboardLayout/MyProfile";
+import AddPost from "../Page/DashboardLayout/AddPost";
+import MyPost from "../Page/DashboardLayout/MyPost";
 
 
 export const router = createBrowserRouter([
@@ -26,4 +31,22 @@ export const router = createBrowserRouter([
         }
     ]
   },
+  {
+    path: '/dashboard',
+    element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
+    children: [
+      {
+        path: 'myProfile',
+        element: <PrivetRoute><MyProfile></MyProfile></PrivetRoute>
+      },
+      {
+        path: 'addPost',
+        element: <PrivetRoute><AddPost></AddPost></PrivetRoute>
+      },
+      {
+        path: 'myPost',
+        element: <PrivetRoute><MyPost></MyPost></PrivetRoute>
+      }
+    ]
+  }
 ]);
