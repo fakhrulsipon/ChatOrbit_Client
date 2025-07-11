@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 
 const Register = () => {
     const [profileImage, setProfileImage] = useState('');
-    console.log("profileimage", profileImage)
     const { register, handleSubmit, formState: { errors } } = useForm()
     const { createUser, updateProfileInfo } = use(AuthContext);
     const onSubmit = data => {

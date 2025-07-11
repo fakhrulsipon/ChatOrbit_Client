@@ -10,6 +10,7 @@ import PrivetRoute from "../Route/PrivetRoute";
 import MyProfile from "../Page/DashboardLayout/MyProfile";
 import AddPost from "../Page/DashboardLayout/AddPost";
 import MyPost from "../Page/DashboardLayout/MyPost";
+import MemberShip from "../Page/MemberShip/MemberShip";
 
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
         {
             path: '/register',
             element: <Register></Register>
+        },
+        {
+          path: '/memberShip',
+          element: <PrivetRoute><MemberShip></MemberShip></PrivetRoute>
         }
     ]
   },
