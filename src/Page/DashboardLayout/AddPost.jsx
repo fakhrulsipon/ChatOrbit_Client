@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Provider/Provider';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
+import Swal from 'sweetalert2';
 
 const AddPost = () => {
     const [profileImage, setProfileImage] = useState('');
@@ -33,6 +34,17 @@ const AddPost = () => {
 
     console.log('postCount', postCountData?.postCount)
 
+    if (postCountData?.postCount > 5) {
+        return (
+            <div className="text-center mt-10">
+                <p className="mb-4 text-red-600 font-semibold">
+                    You have reached the maximum limit of 5 posts.
+                </p>
+                <Link to={'/memberShip'}><button className="btn btn-primary">Become a Membe</button></Link>
+            </div>
+        );
+    }
+
     const onSubmit = async (data) => {
         const postData = {
             ...data,
@@ -45,25 +57,24 @@ const AddPost = () => {
 
         try {
             await axios.post('http://localhost:5000/posts', postData);
-            alert('Post added successfully');
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Post added successfully',
+                timer: 2000,
+                showConfirmButton: false,
+            });
             reset();
             // প্রয়োজন হলে অন্য পেইজে নিয়ে যেতে পারো
         } catch (error) {
-            console.error('Post adding error:', error);
-            alert('Failed to add post');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response?.data?.message || 'Failed to add post. Please try again.',
+                confirmButtonText: 'Retry',
+            });
         }
     };
-
-    if (postCountData?.postCount >= 5) {
-        return (
-            <div className="text-center mt-10">
-                <p className="mb-4 text-red-600 font-semibold">
-                    You have reached the maximum limit of 5 posts.
-                </p>
-                <Link to={'/memberShip'}><button className="btn btn-primary">Become a Membe</button></Link>
-            </div>
-        );
-    }
 
     const handleImage = async (e) => {
         const image = e.target.files[0];
