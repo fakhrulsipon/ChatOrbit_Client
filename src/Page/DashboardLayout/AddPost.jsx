@@ -1,14 +1,16 @@
 import React, { useState, use } from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Provider/Provider';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hook/useAxiosSecure';
+import axios from 'axios';
 
 const AddPost = () => {
     const [profileImage, setProfileImage] = useState('');
     const { user } = use(AuthContext)
+    const axiosSecure = useAxiosSecure();
 
 
     // React Hook Form
@@ -27,7 +29,7 @@ const AddPost = () => {
         queryKey: ['postCount', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/posts/count/${user.email}`);
+            const res = await axiosSecure.get(`/posts/count/${user.email}`);
             return res.data;
         },
     });
@@ -56,7 +58,7 @@ const AddPost = () => {
         };
 
         try {
-            await axios.post('http://localhost:5000/posts', postData);
+            await axiosSecure.post('/posts', postData);
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
