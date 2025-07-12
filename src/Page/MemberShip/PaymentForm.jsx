@@ -2,13 +2,16 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { use, useState } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 import { AuthContext } from '../../Provider/Provider';
+import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
 
 const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState('');
     const axiosSecure = useAxiosSecure();
-    const {user} = use(AuthContext);
+    const { user } = use(AuthContext);
+    const navigate = useNavigate();
 
     const amount = 10;
     const amountInCents = amount * 100;
@@ -41,8 +44,8 @@ const PaymentForm = () => {
                 amountInCents,
 
             })
-            console.log('res from intent', res)
             
+
             const clientSecret = res.data.clientSecret;
             const result = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
@@ -55,13 +58,33 @@ const PaymentForm = () => {
             });
 
             if (result.error) {
-                // Show error to your customer
                 setError(result.error.message);
             } else {
                 setError('');
                 if (result.paymentIntent.status === 'succeeded') {
-                    // Show a success message to your customer
-                    console.log('payment successfull')
+                    // Member update API call
+                    axiosSecure.patch(`/users/member/${user?.email}`)
+                        .then(res => {
+                            if (res.data.modifiedCount) {
+                                Swal.fire({
+                                    title: 'Payment Successful!',
+                                    text: 'You are now a Gold Member.',
+                                    icon: 'success',
+                                    confirmButtonText: 'Go to Dashboard'
+                                }).then(() => {
+                                    navigate('/dashboard/addPost');
+                                });
+                            }
+
+                        })
+                        .catch(err => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Membership Update Failed',
+                                text: err.message || 'Something went wrong. Please try again later.'
+                            });
+                        });
+
                 }
             }
         }

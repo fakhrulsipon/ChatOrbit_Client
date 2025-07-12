@@ -13,7 +13,6 @@ const AddPost = () => {
     const axiosSecure = useAxiosSecure();
 
 
-    // React Hook Form
     const {
         register,
         handleSubmit,
@@ -21,10 +20,9 @@ const AddPost = () => {
         reset,
     } = useForm();
 
+    // akta user koyta post korse er data fetch
     const {
         data: postCountData,
-        isLoading,
-        isError,
     } = useQuery({
         queryKey: ['postCount', user?.email],
         enabled: !!user?.email,
@@ -34,9 +32,20 @@ const AddPost = () => {
         },
     });
 
-    console.log('postCount', postCountData?.postCount)
+    // user er badge branze kina check
+    const {
+        data: usersBadge,
+    } = useQuery({
+        queryKey: ['usersBadge', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users/${user.email}`);
+            return res.data;
+        },
+    });
+    const badge = usersBadge?.badges?.[0];
 
-    if (postCountData?.postCount > 5) {
+    if (postCountData?.postCount > 5 && badge === 'bronze') {
         return (
             <div className="text-center mt-10">
                 <p className="mb-4 text-red-600 font-semibold">
