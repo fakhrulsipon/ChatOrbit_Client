@@ -1,10 +1,13 @@
-import React from 'react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import PaymentForm from './PaymentForm';
 
+const stripePromise = loadStripe(import.meta.env.VITE_payment_key)
 const MemberShip = () => {
     return (
-        <div>
-            <h1>this is member ship page</h1>
-        </div>
+        <Elements stripe={stripePromise}>
+            <PaymentForm></PaymentForm>
+        </Elements>
     );
 };
 
