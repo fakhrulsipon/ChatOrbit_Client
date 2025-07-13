@@ -44,9 +44,8 @@ const PaymentForm = () => {
                 amountInCents,
 
             })
-            
-
             const clientSecret = res.data.clientSecret;
+            
             const result = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: elements.getElement(CardElement),

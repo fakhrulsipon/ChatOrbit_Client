@@ -1,6 +1,6 @@
 import React, { use, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 import SocialLogin from '../SociaLogin/SocialLogin';
 import { AuthContext } from '../../../Provider/Provider';
@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 
 
 const Register = () => {
+    const navigate = useNavigate();
     const [profileImage, setProfileImage] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm()
     const { createUser, updateProfileInfo } = use(AuthContext);
@@ -43,6 +44,7 @@ const Register = () => {
                             timer: 2500,
                             showConfirmButton: false
                         });
+                        navigate('/')
                     })
                     .catch(error => {
                         Swal.fire({

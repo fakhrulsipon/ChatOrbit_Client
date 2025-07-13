@@ -1,11 +1,13 @@
 import React, { use } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SociaLogin/SocialLogin';
 import { AuthContext } from '../../../Provider/Provider';
 import Swal from 'sweetalert2';
 
 const Login = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const { signUser } = use(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -20,6 +22,7 @@ const Login = () => {
                     timer: 2000,
                     showConfirmButton: false
                 });
+                navigate(location.state || '/')
             })
             .catch(error => {
                 Swal.fire({
@@ -50,7 +53,7 @@ const Login = () => {
                 <button className="py-2 font-semibold rounded-md btn-neutral bg-[#CAEB66] text-black border-none mt-4">Login</button>
             </form>
             <p>Are you new this site? please <Link className='underline text-[#8FA748] font-bold' to='/register'>Register</Link></p>
-            <SocialLogin></SocialLogin>
+            <SocialLogin location={location}></SocialLogin>
         </div>
     );
 };

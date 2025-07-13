@@ -2,9 +2,11 @@ import React, { use } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../../Provider/Provider';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
-const SocialLogin = () => {
+const SocialLogin = ({location}) => {
     const { googleSignIn } = use(AuthContext)
+    const navigate = useNavigate();
     const handleGoogle = () => {
         googleSignIn()
             .then(async (res) => {
@@ -31,6 +33,7 @@ const SocialLogin = () => {
                     timer: 2000,
                     showConfirmButton: false,
                 });
+                navigate(location.state || '/')
             })
             .catch(error => {
                 Swal.fire({
