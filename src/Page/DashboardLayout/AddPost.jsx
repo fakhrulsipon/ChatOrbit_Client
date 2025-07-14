@@ -23,6 +23,8 @@ const AddPost = () => {
     // akta user koyta post korse er data fetch
     const {
         data: postCountData,
+        isLoading: countLoading,
+        refetch
     } = useQuery({
         queryKey: ['postCount', user?.email],
         enabled: !!user?.email,
@@ -31,10 +33,12 @@ const AddPost = () => {
             return res.data;
         },
     });
+    console.log(postCountData?.postCount)
 
     // user er badge branze kina check
     const {
         data: usersBadge,
+        isLoading: badgeLoading
     } = useQuery({
         queryKey: ['usersBadge', user?.email],
         enabled: !!user?.email,
@@ -44,6 +48,10 @@ const AddPost = () => {
         },
     });
     const badge = usersBadge?.badges?.[0];
+
+    if(!user || countLoading || badgeLoading){
+        return <span className="loading loading-bars loading-xl"></span>;
+    }
 
     if (postCountData?.postCount > 5 && badge === 'bronze') {
         return (
@@ -77,6 +85,7 @@ const AddPost = () => {
                 showConfirmButton: false,
             });
             reset();
+            refetch()
             // প্রয়োজন হলে অন্য পেইজে নিয়ে যেতে পারো
         } catch (error) {
             Swal.fire({

@@ -11,6 +11,7 @@ import MyProfile from "../Page/DashboardLayout/MyProfile";
 import AddPost from "../Page/DashboardLayout/AddPost";
 import MyPost from "../Page/DashboardLayout/MyPost";
 import MemberShip from "../Page/MemberShip/MemberShip";
+import PostComments from "../Page/Comments/PostComments";
 
 
 export const router = createBrowserRouter([
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
         {
           path: '/memberShip',
           element: <PrivetRoute><MemberShip></MemberShip></PrivetRoute>
+        },
+        {
+          path: '/comments/:id',
+          element: <PrivetRoute><PostComments></PostComments></PrivetRoute>
         }
     ]
   },

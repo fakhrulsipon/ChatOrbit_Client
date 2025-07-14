@@ -1,10 +1,10 @@
-import React from 'react';
-import Navbar from './Navbar';
+
+import Posts from '../../components/Posts'
 
 const Home = () => {
     return (
         <div>
-        
+        <Posts></Posts>
         </div>
     );
 };
