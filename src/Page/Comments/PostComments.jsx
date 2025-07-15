@@ -1,9 +1,9 @@
-import React from 'react';
+
 
 const PostComments = () => {
     return (
         <div>
-            
+            <h1>this is my comments</h1>
         </div>
     );
 };

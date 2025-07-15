@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Banner from './Banner';
+import { Link } from 'react-router';
 
 const HomePage = () => {
     const [searchTag, setSearchTag] = useState('');
@@ -54,6 +55,7 @@ const HomePage = () => {
                     data.posts.map(post => (
                         <div key={post._id} className="card bg-base-100 shadow-md p-4">
                             <div className="flex items-center gap-3 mb-2">
+                                 <img className="w-12 h-12" src={post.authorImage} alt="" />
                                 <div>
                                     <h2 className="text-lg font-semibold">{post.postTitle}</h2>
                                     <p className="text-sm text-gray-500">{new Date(post.postTime).toLocaleString()}</p>
@@ -64,6 +66,7 @@ const HomePage = () => {
                                 <span>👍 {post.upVote}</span>
                                 <span>Votes: {post.upVote - post.downVote}</span>
                             </div>
+                            <Link to={`details/${post._id}`}><button className='btn'>View More</button></Link>
                         </div>
                     ))
                 ) : (

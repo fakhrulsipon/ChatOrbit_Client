@@ -14,7 +14,7 @@ const MyPosts = () => {
         queryKey: ['userPosts', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/user-posts?email=${user.email}`);
+            const res = await axiosSecure.get(`/usersPosts?email=${user.email}`);
             return res.data;
         }
     });
@@ -73,7 +73,7 @@ const MyPosts = () => {
                                     <td className="font-medium">{post.postTitle}</td>
                                     <td>{(post.upVote || 0) - (post.downVote || 0)}</td>
                                     <td>
-                                        <Link to={`/comments/${post._id}`}>
+                                        <Link to={`/postComments/${post._id}`}>
                                             <button className="btn btn-sm btn-outline btn-info">Comments</button>
                                         </Link>
                                     </td>
