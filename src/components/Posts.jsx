@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import Banner from './Banner';
 
 const HomePage = () => {
+    const [searchTag, setSearchTag] = useState('');
     const [page, setPage] = useState(1);
     const [sortBy, setSortBy] = useState('newest');
 
     const { data, isLoading } = useQuery({
-        queryKey: ['posts', page, sortBy],
+        queryKey: ['posts', page, sortBy, searchTag],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/posts?page=${page}&sort=${sortBy}`);
+            const res = await axios.get(`http://localhost:5000/posts?page=${page}&sort=${sortBy}&tag=${searchTag}`);
             return res.data;
         },
     });
@@ -20,6 +22,14 @@ const HomePage = () => {
 
     return (
         <div className="p-6">
+
+            {/* banner section search functionality */}
+            <Banner onSearch={(tag) => {
+                setSearchTag(tag);
+                setPage(1);
+            }} />
+
+            {/* sorting dropdwon */}
             <div className="flex justify-center mb-6">
                 <div className="dropdown dropdown-center">
                     <div tabIndex={0} role="button" className="btn btn-primary">
@@ -44,7 +54,6 @@ const HomePage = () => {
                     data.posts.map(post => (
                         <div key={post._id} className="card bg-base-100 shadow-md p-4">
                             <div className="flex items-center gap-3 mb-2">
-                                <img src={post.authorImage} alt="author" className="w-10 h-10 rounded-full" />
                                 <div>
                                     <h2 className="text-lg font-semibold">{post.postTitle}</h2>
                                     <p className="text-sm text-gray-500">{new Date(post.postTime).toLocaleString()}</p>
