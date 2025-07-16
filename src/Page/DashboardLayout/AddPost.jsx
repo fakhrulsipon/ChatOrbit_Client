@@ -103,7 +103,7 @@ const AddPost = () => {
         const formData = new FormData();
         formData.append('image', image)
 
-        const imgUrl = `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_image_upload_key}`
+        const imgUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_upload_key}`
         const res = await axios.post(imgUrl, formData)
         setProfileImage(res.data.data.url)
 
