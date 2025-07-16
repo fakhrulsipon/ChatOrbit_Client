@@ -38,6 +38,11 @@ const DashboardLayout = () => {
       <li><NavLink to={'/dashboard/myProfile'}>My Profile</NavLink></li>
       <li><NavLink to={'/dashboard/addPost'}>Add Post</NavLink></li>
       <li><NavLink to={'/dashboard/myPost'}>My Post</NavLink></li>
+      <li><NavLink to={'/dashboard/adminProfile'}>Admin Profile</NavLink></li>
+      <li><NavLink to={'/dashboard/manageUsers'}>Manage Users</NavLink></li>
+      <li><NavLink to={'/dashboard/activities'}>Activities</NavLink></li>
+      <li><NavLink to={'/dashboard/announcement'}>Make Announcement</NavLink></li>
+      
     </ul>
   </div>
 </div>

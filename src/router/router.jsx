@@ -13,6 +13,10 @@ import MyPost from "../Page/DashboardLayout/MyPost";
 import MemberShip from "../Page/MemberShip/MemberShip";
 import PostComments from "../Page/Comments/PostComments";
 import PostDetails from "../Page/PostDetails";
+import AdminProfile from "../Page/DashboardLayout/AdminProfile";
+import ManageUsers from "../Page/DashboardLayout/ManageUsers";
+import Activities from "../Page/DashboardLayout/Activities";
+import Announcement from "../Page/DashboardLayout/Announcement";
 
 
 export const router = createBrowserRouter([
@@ -61,6 +65,22 @@ export const router = createBrowserRouter([
       {
         path: 'myPost',
         element: <PrivetRoute><MyPost></MyPost></PrivetRoute>
+      },
+      {
+        path: 'adminProfile',
+        element: <AdminProfile></AdminProfile>
+      },
+      {
+        path: 'manageUsers',
+        element: <ManageUsers></ManageUsers>
+      },
+      {
+        path: 'activities',
+        element: <Activities></Activities>
+      },
+      {
+        path: 'announcement',
+        element: <Announcement></Announcement>
       }
     ]
   }
