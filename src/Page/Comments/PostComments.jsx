@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
-import { use, useState } from "react";
-import { Dialog } from "@headlessui/react";
+import { use, useRef, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Provider/Provider";
@@ -26,7 +25,6 @@ const PostComments = () => {
   const [selectedFeedbacks, setSelectedFeedbacks] = useState({});
   const [reported, setReported] = useState({});
   const [modalComment, setModalComment] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleFeedbackChange = (commentId, value) => {
     setSelectedFeedbacks((prev) => ({ ...prev, [commentId]: value }));
@@ -46,9 +44,11 @@ const PostComments = () => {
       alert("Reported successfully!");
   };
 
+  const modalRef = useRef()
+
   const openModal = (commentText) => {
     setModalComment(commentText);
-    setIsOpen(true);
+    modalRef.current?.showModal();
   };
 
   if (isLoading)
@@ -144,25 +144,17 @@ const PostComments = () => {
       </div>
 
       {/* Modal */}
-      <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        className="relative z-50"
-      >
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="w-full max-w-md rounded bg-white p-6">
-            <Dialog.Title className="text-lg font-bold mb-2">Full Comment</Dialog.Title>
-            <p className="text-gray-700 mb-4">{modalComment}</p>
-            <button
-              className="btn btn-sm btn-primary"
-              onClick={() => setIsOpen(false)}
-            >
-              Close
-            </button>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
+<dialog ref={modalRef} id="my_modal_1" className="modal">
+  <div className="modal-box">
+    <h1>{modalComment}</h1>
+    <div className="modal-action">
+      <form method="dialog">
+        {/* if there is a button in form, it will close the modal */}
+        <button className="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
     </div>
   );
 };

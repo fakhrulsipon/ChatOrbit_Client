@@ -1,8 +1,12 @@
+
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 
 const Activities = () => {
+    const [selectedComment, setSelectedComment] = useState('')
+
     const { data: reports = [], isLoading, isError, refetch } = useQuery({
         queryKey: ["reported-comments"],
         queryFn: async () => {
@@ -10,9 +14,6 @@ const Activities = () => {
             return res.data;
         },
     });
-
-    if (isLoading) return <span className="loading loading-bars loading-lg"></span>;
-    if (isError) return <p className="text-red-500">Failed to load reported comments.</p>;
 
     const handleDelete = (reportId, commentId) => {
         console.log('reportId', reportId, 'commentId', commentId)
@@ -46,43 +47,93 @@ const Activities = () => {
         });
     }
 
+    const modalRef = useRef();
+
+    const handleReadMore = (comment) => {
+        setSelectedComment(comment)
+        modalRef.current?.showModal();
+    }
+
+
+    if (isLoading) return <span className="loading loading-bars loading-lg"></span>;
+    if (isError) return <p className="text-red-500">Failed to load reported comments.</p>;
     return (
-        <div className="max-w-5xl mx-auto p-6">
+        <div className="max-w-6xl mx-auto p-6">
             <h2 className="text-3xl font-bold mb-6 text-center">🚨 Reported Comments</h2>
 
             {reports.length === 0 ? (
                 <p className="text-center text-gray-600">No reports found.</p>
             ) : (
-                <div className="space-y-4">
-                    {reports.map((report) => (
-                        <div
-                            key={report._id}
-                            className="border border-gray-300 rounded-lg p-4 shadow bg-white"
-                        >
-                            <p className="text-sm text-gray-600">
-                                <span className="font-medium text-black">Reported By:</span> {report.reportedBy}
-                            </p>
-                            <p className="mt-1 text-gray-800">
-                                <span className="font-medium">Comment:</span> {report.commentText}
-                            </p>
-                            <p className="mt-1 text-gray-800">
-                                <span className="font-medium">Feedback:</span> {report.feedback}
-                            </p>
-                            <p className="mt-1 text-gray-500 text-sm">
-                                <span className="font-medium">Reported At:</span>{" "}
-                                {new Date(report.reportedAt).toLocaleString()}
-                            </p>
+                <div className="overflow-x-auto">
+                    <table className="table w-full border border-gray-300">
+                        <thead className="bg-gray-100">
+                            <tr>
+                                <th className="px-4 py-2 text-left">#</th>
+                                <th className="px-4 py-2 text-left">Reported By</th>
+                                <th className="px-4 py-2 text-left">Comment</th>
+                                <th className="px-4 py-2 text-left">Feedback</th>
+                                <th className="px-4 py-2 text-left">Reported At</th>
+                                <th className="px-4 py-2 text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reports.map((report, index) => (
+                                <tr key={report._id} className="border-t border-gray-300">
+                                    <td className="px-4 py-2">{index + 1}</td>
+                                    <td className="px-4 py-2">{report.reportedBy}</td>
+                                    {/* commet Text er Fn */}
+                                    <td className="px-4 py-2">
+                                        {report.commentText.length > 20 ? (
+                                            <>
+                                                {report.commentText.slice(0, 20)}...
+                                                <button
+                                                    onClick={() => handleReadMore(report.commentText)}
+                                                    className="ml-2 text-blue-600 underline text-sm"
+                                                >
+                                                    Read More
+                                                </button>
+                                            </>
+                                        ) : (
+                                            report.commentText
+                                        )}
+                                    </td>
 
-                            <div className="mt-4 flex gap-3">
-                                <button onClick={() => handleDelete(report._id, report.commentId)} className="px-4 py-1 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                    Delete Comment
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                                    <td className="px-4 py-2">{report.feedback}</td>
+                                    <td className="px-4 py-2 text-sm text-gray-600">
+                                        {new Date(report.reportedAt).toLocaleString()}
+                                    </td>
+                                    <td className="px-4 py-2 text-center">
+                                        <button
+                                            onClick={() => handleDelete(report._id, report.commentId)}
+                                            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                                        >
+                                            Delete Comment
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             )}
+            
+            {/* modal */}
+            <dialog ref={modalRef} id="my_modal_1" className="modal">
+                <div className="modal-box">
+                    {selectedComment}
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+
         </div>
+
+
+
     );
 };
 
