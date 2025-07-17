@@ -1,11 +1,10 @@
+
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const MakeAnnouncement = () => {
-  const { register, handleSubmit} = useForm();
-
-
+  const { register, handleSubmit, reset } = useForm();
   const onSubmit = async (data) => {
     try {
       const res = await axios.post("http://localhost:5000/announcements", {
@@ -19,7 +18,7 @@ const MakeAnnouncement = () => {
           title: "Announcement Posted!",
           text: "Your announcement has been successfully published.",
         });
-        // reset();
+        reset();
       }
     } catch (err) {
       console.error(err);
@@ -30,7 +29,6 @@ const MakeAnnouncement = () => {
       });
     }
   };
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-xl rounded-xl">
       <h2 className="text-2xl font-semibold mb-6 text-center">📢 Make Announcement</h2>

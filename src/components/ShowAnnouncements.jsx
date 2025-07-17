@@ -1,18 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const fetchAnnouncements = async () => {
-  const res = await axios.get("http://localhost:5000/announcements");
-  return res.data;
-};
-
 const ShowAnnouncements = () => {
-  const { data: announcements = [], isLoading } = useQuery({
+  // announcements query
+  const { data: announcements = [], isLoading: loadingAnnouncements } = useQuery({
     queryKey: ["announcements"],
-    queryFn: fetchAnnouncements,
+    queryFn: async () => {
+      const res = await axios.get("http://localhost:5000/announcements");
+      return res.data;
+    },
   });
 
-  if (isLoading) return <p className="text-center">Loading announcements...</p>;
+  // count query
+  const { data: announcementCount = 0, isLoading: loadingCount, isError } = useQuery({
+    queryKey: ['announcementCount'],
+    queryFn: async () => {
+      const res = await axios.get('http://localhost:5000/announcement-count');
+      return res.data.count;
+    }
+  });
+
+  if (loadingAnnouncements || loadingCount) {
+    return <span className="loading loading-bars loading-xl"></span>;
+  }
+
+  if (isError) return <p>Something went wrong!</p>;
+
+  if (announcementCount === 0) {
+    return null;
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4">

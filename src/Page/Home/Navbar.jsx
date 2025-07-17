@@ -4,13 +4,14 @@ import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../../Provider/Provider';
 import { use } from "react";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { useQuery } from '@tanstack/react-query';
 
 const Navbar = () => {
   const { logoutUser, user } = use(AuthContext)
   const navLinks = <>
     <li><NavLink to='/'>Home</NavLink></li>
     <li><NavLink to='/'>Membership</NavLink></li>
-    <li><NavLink><IoNotificationsOutline size={25} /></NavLink></li>
   </>
 
   const handleLogout = () => {
@@ -32,6 +33,20 @@ const Navbar = () => {
         });
       })
   }
+
+
+  const { data: announcementCount = 0, isLoading, isError } = useQuery({
+    queryKey: ['announcementCount'],
+    queryFn: async () => {
+      const res = await axios.get('http://localhost:5000/announcement-count');
+      return res.data.count;
+    }
+  });
+
+  if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
+  if (isError) return <p>Something went wrong!</p>;
+
+
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -50,6 +65,10 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           {navLinks}
+         <div className="relative">
+           <li><NavLink><IoNotificationsOutline size={25} /></NavLink></li>
+           <span className="absolute left-7 bottom-3 font-bold">{announcementCount}</span>
+         </div>
         </ul>
       </div>
       <div className="navbar-end">
