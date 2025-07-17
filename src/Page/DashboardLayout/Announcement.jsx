@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const MakeAnnouncement = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit} = useForm();
 
 
   const onSubmit = async (data) => {
@@ -19,7 +19,7 @@ const MakeAnnouncement = () => {
           title: "Announcement Posted!",
           text: "Your announcement has been successfully published.",
         });
-        reset();
+        // reset();
       }
     } catch (err) {
       console.error(err);
