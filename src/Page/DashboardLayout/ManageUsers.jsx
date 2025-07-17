@@ -13,9 +13,11 @@ const ManageUsers = () => {
   });
 
   const handleRoleChange = async (userId, role) => {
-    const url = role === 'admin'
+    const url = role !== 'admin'
       ? `http://localhost:5000/users/admin/${userId}`
       : `http://localhost:5000/users/remove-admin/${userId}`;
+      
+      
 
     try {
       const response = await axios.patch(url);
@@ -62,7 +64,7 @@ const ManageUsers = () => {
                   </button>
                 </td>
                 <td className="px-4 py-2 border">
-                  {user.badges[0] || 'free'}
+                  {user.badges[0]}
                 </td>
               </tr>
             ))}
