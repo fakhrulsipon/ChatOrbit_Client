@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const ManageUsers = () => {
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+
   const { data: users = [], isLoading, isError, refetch } = useQuery({
-    queryKey: ['users'],
+    queryKey: ['users', debouncedSearch],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/users');
+      const res = await axios.get(`http://localhost:5000/users?search=${debouncedSearch}`);
       return res.data;
     }
   });
@@ -16,8 +27,8 @@ const ManageUsers = () => {
     const url = role !== 'admin'
       ? `http://localhost:5000/users/admin/${userId}`
       : `http://localhost:5000/users/remove-admin/${userId}`;
-      
-      
+
+
 
     try {
       const response = await axios.patch(url);
@@ -39,6 +50,7 @@ const ManageUsers = () => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+      <input type="text" placeholder='type user name' className='input input-bordered mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="overflow-x-auto">
         <table className="table w-full border border-gray-300">
           <thead className="bg-gray-100">

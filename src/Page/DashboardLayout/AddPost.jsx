@@ -4,13 +4,11 @@ import { AuthContext } from '../../Provider/Provider';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
-import useAxiosSecure from '../../hook/useAxiosSecure';
 import axios from 'axios';
 
 const AddPost = () => {
     const [profileImage, setProfileImage] = useState('');
     const { user } = use(AuthContext)
-    const axiosSecure = useAxiosSecure();
 
 
     const {
@@ -19,6 +17,15 @@ const AddPost = () => {
         formState: { errors },
         reset,
     } = useForm();
+    
+    // all tag ger 
+    const { data: tags, isLoading: tagLoading } = useQuery({
+        queryKey: ['tags'],
+        queryFn: async () => {
+            const res = await axios.get('http://localhost:5000/tags');
+            return res.data
+        }
+    })
 
     // akta user koyta post korse er data fetch
     const {
@@ -29,7 +36,7 @@ const AddPost = () => {
         queryKey: ['postCount', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/posts/count/${user.email}`);
+            const res = await axios.get(`http://localhost:5000/posts/count/${user.email}`);
             return res.data;
         },
     });
@@ -43,13 +50,13 @@ const AddPost = () => {
         queryKey: ['usersBadge', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users/${user.email}`);
+            const res = await axios.get(`http://localhost:5000/users/${user.email}`);
             return res.data;
         },
     });
     const badge = usersBadge?.badges?.[0];
 
-    if(!user || countLoading || badgeLoading){
+    if (!user || countLoading || badgeLoading || tagLoading) {
         return <span className="loading loading-bars loading-xl"></span>;
     }
 
@@ -76,7 +83,7 @@ const AddPost = () => {
         };
 
         try {
-            await axiosSecure.post('/posts', postData);
+            await axios.post('http://localhost:5000/posts', postData);
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
@@ -84,7 +91,7 @@ const AddPost = () => {
                 timer: 2000,
                 showConfirmButton: false,
             });
-            // reset();
+            reset();
             refetch()
             // প্রয়োজন হলে অন্য পেইজে নিয়ে যেতে পারো
         } catch (error) {
@@ -160,13 +167,11 @@ const AddPost = () => {
                         defaultValue=""
                     >
                         <option value="" disabled>Select a tag</option>
-                        <option value="javascript">JavaScript</option>
-                        <option value="react">React</option>
-                        <option value="nodejs">Node.js</option>
-                        <option value="mongodb">MongoDB</option>
-                        <option value="html">HTML</option>
-                        <option value="css">CSS</option>
-                        <option value="mern">MERN Stack</option>
+                        {tags.map((tag) => (
+                            <option key={tag._id} value={tag.tag}>
+                                {tag.tag}
+                            </option>
+                        ))}
                     </select>
                     {errors.tag && <p className="text-red-500 text-sm mt-1">Tag is required</p>}
                 </div>

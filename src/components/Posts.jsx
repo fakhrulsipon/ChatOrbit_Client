@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Banner from './Banner';
 import { Link } from 'react-router';
+import AllTags from './AllTags';
 
 const HomePage = () => {
     const [searchTag, setSearchTag] = useState('');
@@ -29,6 +30,8 @@ const HomePage = () => {
                 setSearchTag(tag);
                 setPage(1);
             }} />
+
+            <AllTags setSearchTag={setSearchTag} setPage={setPage}></AllTags>
 
             {/* sorting dropdwon */}
             <div className="flex justify-center mb-6">
