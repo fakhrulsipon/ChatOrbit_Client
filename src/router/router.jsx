@@ -17,6 +17,7 @@ import AdminProfile from "../Page/DashboardLayout/AdminProfile";
 import ManageUsers from "../Page/DashboardLayout/ManageUsers";
 import Activities from "../Page/DashboardLayout/Activities";
 import Announcement from "../Page/DashboardLayout/Announcement";
+import ErrorPage from "../Page/ErrorPage";
 
 
 export const router = createBrowserRouter([
@@ -83,5 +84,9 @@ export const router = createBrowserRouter([
         element: <Announcement></Announcement>
       }
     ]
+  },
+  {
+    path: '*',
+    element: <ErrorPage></ErrorPage>
   }
 ]);
