@@ -5,16 +5,38 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Provider/Provider";
 
 const PostComments = () => {
-  const { id } = useParams();
-  const {user} = use(AuthContext)
+  const [selectedFeedbacks, setSelectedFeedbacks] = useState({});
+  const [reported, setReported] = useState({});
+  const [modalComment, setModalComment] = useState("");
+  const modalRef = useRef()
 
-  const { data: comments = [], isLoading, isError } = useQuery({
-    queryKey: ["comments", id],
+
+  const { id } = useParams();
+  const { user } = use(AuthContext)
+  const [currentPage, setCurrentPage] = useState(1)
+  const limit = 5;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["comments", id, currentPage, limit],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/comments/${id}`);
+      const res = await axios.get(`http://localhost:5000/comments/${id}?page=${currentPage}&limit=${limit}`);
       return res.data;
     },
   });
+
+
+  if (isLoading)
+    return <div className="text-center py-10">Loading comments...</div>;
+
+  if (isError || !data || !data.comments) {
+    return (
+      <div className="text-center py-10 text-red-500">
+        Failed to load comments.
+      </div>
+    );
+  }
+
+  const { totalPages, comments } = data;
 
   const feedbackOptions = [
     "Inappropriate language",
@@ -22,9 +44,7 @@ const PostComments = () => {
     "Offensive content",
   ];
 
-  const [selectedFeedbacks, setSelectedFeedbacks] = useState({});
-  const [reported, setReported] = useState({});
-  const [modalComment, setModalComment] = useState("");
+  
 
   const handleFeedbackChange = (commentId, value) => {
     setSelectedFeedbacks((prev) => ({ ...prev, [commentId]: value }));
@@ -34,17 +54,17 @@ const PostComments = () => {
     const feedback = selectedFeedbacks[commentId];
     if (!feedback) return;
 
-      await axios.post("http://localhost:5000/comment/reports", {
-        commentId,
-        commentText,
-        reportedBy: user.email,
-        feedback,
-      });
-      setReported((prev) => ({ ...prev, [commentId]: true }));
-      alert("Reported successfully!");
+    await axios.post("http://localhost:5000/comment/reports", {
+      commentId,
+      commentText,
+      reportedBy: user.email,
+      feedback,
+    });
+    setReported((prev) => ({ ...prev, [commentId]: true }));
+    alert("Reported successfully!");
   };
 
-  const modalRef = useRef()
+  
 
   const openModal = (commentText) => {
     setModalComment(commentText);
@@ -120,13 +140,12 @@ const PostComments = () => {
                   {/* report btn */}
                   <td>
                     <button
-                      className={`btn btn-sm ${
-                        reported[comment._id]
-                          ? "btn-disabled"
-                          : selectedFeedbacks[comment._id]
+                      className={`btn btn-sm ${reported[comment._id]
+                        ? "btn-disabled"
+                        : selectedFeedbacks[comment._id]
                           ? "btn-error"
                           : "btn-disabled"
-                      }`}
+                        }`}
                       onClick={() => handleReport(comment._id, comment.commentText)}
                       disabled={
                         !selectedFeedbacks[comment._id] || reported[comment._id]
@@ -135,7 +154,7 @@ const PostComments = () => {
                       {reported[comment._id] ? "Reported" : "Report"}
                     </button>
                   </td>
-                  
+
                 </tr>
               );
             })}
@@ -144,17 +163,51 @@ const PostComments = () => {
       </div>
 
       {/* Modal */}
-<dialog ref={modalRef} id="my_modal_1" className="modal">
-  <div className="modal-box">
-    <h1>{modalComment}</h1>
-    <div className="modal-action">
-      <form method="dialog">
-        {/* if there is a button in form, it will close the modal */}
-        <button className="btn">Close</button>
-      </form>
-    </div>
-  </div>
-</dialog>
+      <dialog ref={modalRef} id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h1>{modalComment}</h1>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
+      {/* Pagination Buttons */}
+      <div className="flex justify-center mt-6 gap-2">
+        {/* Previous Button */}
+        <button
+          className="btn btn-sm"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+
+        {/* Page Number Buttons */}
+        {Array.from({ length: totalPages }, (_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentPage(idx + 1)}
+            className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+
+        {/* Next Button */}
+        <button
+          className="btn btn-sm"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+
+
     </div>
   );
 };

@@ -1,12 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { FaMedal } from 'react-icons/fa';
 import { use } from 'react';
 import { AuthContext } from '../../Provider/Provider';
-import useAxiosSecure from '../../hook/useAxiosSecure';
+import axios from 'axios';
 
 const MyProfile = () => {
-    const axiosSecure = useAxiosSecure();
     const { user } = use(AuthContext);
 
     // Get user info
@@ -14,7 +12,7 @@ const MyProfile = () => {
         queryKey: ['userInfo', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/users/${user.email}`);
+            const res = await axios.get(`http://localhost:5000/users/${user.email}`);
             return res.data;
         }
     });
@@ -25,7 +23,7 @@ const MyProfile = () => {
         queryKey: ['recentPosts', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/user-posts?email=${user.email}`);
+            const res = await axios.get(`http://localhost:5000/user-posts?email=${user.email}`);
             return res.data;
         }
     });

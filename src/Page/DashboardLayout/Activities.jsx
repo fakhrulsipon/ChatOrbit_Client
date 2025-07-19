@@ -6,14 +6,17 @@ import Swal from "sweetalert2";
 
 const Activities = () => {
     const [selectedComment, setSelectedComment] = useState('')
+    const [currentPage, setCurrentPage] = useState(1)
+    const limit = 5;
 
-    const { data: reports = [], isLoading, isError, refetch } = useQuery({
+    const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["reported-comments"],
         queryFn: async () => {
-            const res = await axios.get("http://localhost:5000/reported-comments");
+            const res = await axios.get(`http://localhost:5000/reported-comments?page=${currentPage}&limit=${limit}`);
             return res.data;
         },
     });
+
 
     const handleDelete = (reportId, commentId) => {
         console.log('reportId', reportId, 'commentId', commentId)
@@ -57,6 +60,9 @@ const Activities = () => {
 
     if (isLoading) return <span className="loading loading-bars loading-lg"></span>;
     if (isError) return <p className="text-red-500">Failed to load reported comments.</p>;
+
+     const {reports, totalPages} = data;
+     
     return (
         <div className="max-w-6xl mx-auto p-6">
             <h2 className="text-3xl font-bold mb-6 text-center">🚨 Reported Comments</h2>
@@ -116,7 +122,7 @@ const Activities = () => {
                     </table>
                 </div>
             )}
-            
+
             {/* modal */}
             <dialog ref={modalRef} id="my_modal_1" className="modal">
                 <div className="modal-box">
@@ -129,6 +135,39 @@ const Activities = () => {
                     </div>
                 </div>
             </dialog>
+
+
+            {/* Pagination Buttons */}
+            <div className="flex justify-center mt-6 gap-2">
+                {/* Previous Button */}
+                <button
+                    className="btn btn-sm"
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                >
+                    Previous
+                </button>
+
+                {/* Page Number Buttons */}
+                {Array.from({ length: totalPages }, (_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => setCurrentPage(idx + 1)}
+                        className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
+                    >
+                        {idx + 1}
+                    </button>
+                ))}
+
+                {/* Next Button */}
+                <button
+                    className="btn btn-sm"
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                >
+                    Next
+                </button>
+            </div>
 
         </div>
 

@@ -1,15 +1,14 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { use, useState } from 'react';
-import useAxiosSecure from '../../hook/useAxiosSecure';
 import { AuthContext } from '../../Provider/Provider';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState('');
-    const axiosSecure = useAxiosSecure();
     const { user } = use(AuthContext);
     const navigate = useNavigate();
 
@@ -40,7 +39,7 @@ const PaymentForm = () => {
             console.log('payment method', paymentMethod)
 
             // step-2: create payment intent
-            const res = await axiosSecure.post('/create-payment-intent', {
+            const res = await axios.post(' http://localhost:5000/create-payment-intent', {
                 amountInCents,
 
             })
@@ -62,7 +61,7 @@ const PaymentForm = () => {
                 setError('');
                 if (result.paymentIntent.status === 'succeeded') {
                     // Member update API call
-                    axiosSecure.patch(`/users/member/${user?.email}`)
+                    axios.patch(` http://localhost:5000/users/member/${user?.email}`)
                         .then(res => {
                             if (res.data.modifiedCount) {
                                 Swal.fire({

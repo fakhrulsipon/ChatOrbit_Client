@@ -91,7 +91,7 @@ const AddPost = () => {
                 timer: 2000,
                 showConfirmButton: false,
             });
-            reset();
+            // reset();
             refetch()
             // প্রয়োজন হলে অন্য পেইজে নিয়ে যেতে পারো
         } catch (error) {

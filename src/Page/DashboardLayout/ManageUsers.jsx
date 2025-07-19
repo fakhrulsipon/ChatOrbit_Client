@@ -6,7 +6,9 @@ import Swal from 'sweetalert2';
 const ManageUsers = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-  
+  const [currentPage, setCurrentPage] = useState(1)
+  const limit = 5;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);
@@ -15,13 +17,17 @@ const ManageUsers = () => {
   }, [search]);
 
 
-  const { data: users = [], isLoading, isError, refetch } = useQuery({
-    queryKey: ['users', debouncedSearch],
+  const { data = { result: [], totalPage: 1 }, isLoading, isError, refetch } = useQuery({
+    queryKey: ['users', debouncedSearch, currentPage],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/users?search=${debouncedSearch}`);
+      const res = await axios.get(`http://localhost:5000/users?search=${debouncedSearch}&page=${currentPage}&limit=${limit}`);
       return res.data;
     }
   });
+
+
+  const users = data.result;
+  const totalPages = data.totalPage;
 
   const handleRoleChange = async (userId, role) => {
     const url = role !== 'admin'
@@ -83,6 +89,40 @@ const ManageUsers = () => {
           </tbody>
         </table>
       </div>
+
+
+      {/* Pagination Buttons */}
+      <div className="flex justify-center mt-6 gap-2">
+        {/* Previous Button */}
+        <button
+          className="btn btn-sm"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+
+        {/* Page Number Buttons */}
+        {Array.from({ length: totalPages }, (_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentPage(idx + 1)}
+            className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+
+        {/* Next Button */}
+        <button
+          className="btn btn-sm"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+
     </div>
   );
 };

@@ -7,13 +7,13 @@ import AllTags from './AllTags';
 
 const HomePage = () => {
     const [searchTag, setSearchTag] = useState('');
-    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [sortBy, setSortBy] = useState('newest');
 
     const { data, isLoading } = useQuery({
-        queryKey: ['posts', page, sortBy, searchTag],
+        queryKey: ['posts', currentPage, sortBy, searchTag],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/posts?page=${page}&sort=${sortBy}&tag=${searchTag}`);
+            const res = await axios.get(`http://localhost:5000/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
             return res.data;
         },
     });
@@ -28,10 +28,10 @@ const HomePage = () => {
             {/* banner section search functionality */}
             <Banner onSearch={(tag) => {
                 setSearchTag(tag);
-                setPage(1);
+                setCurrentPage(1);
             }} />
 
-            <AllTags setSearchTag={setSearchTag} setPage={setPage}></AllTags>
+            <AllTags setSearchTag={setSearchTag} setCurrentPage={setCurrentPage}></AllTags>
 
             {/* sorting dropdwon */}
             <div className="flex justify-center mb-6">
@@ -77,20 +77,39 @@ const HomePage = () => {
                 )}
             </div>
 
-            {/* Pagination */}
-            <div className="flex justify-center mt-6">
-                <div className="join">
-                    {[...Array(totalPages).keys()].map(num => (
+              {/* Pagination Buttons */}
+                    <div className="flex justify-center mt-6 gap-2">
+                        {/* Previous Button */}
                         <button
-                            key={num}
-                            onClick={() => setPage(num + 1)}
-                            className={`join-item btn btn-sm ${page === num + 1 ? 'btn-active' : ''}`}
+                            className="btn btn-sm"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
                         >
-                            {num + 1}
+                            Previous
                         </button>
-                    ))}
-                </div>
-            </div>
+
+                        {/* Page Number Buttons */}
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentPage(idx + 1)}
+                                className={`btn btn-sm ${currentPage=== idx + 1 ? 'btn-primary' : 'btn-outline'}`}
+                            >
+                                {idx + 1}
+                            </button>
+                        ))}
+
+                        {/* Next Button */}
+                        <button
+                            className="btn btn-sm"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next
+                        </button>
+                    </div>
+
+
         </div>
     );
 };

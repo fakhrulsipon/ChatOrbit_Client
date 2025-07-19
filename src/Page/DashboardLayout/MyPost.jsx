@@ -1,23 +1,29 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
-import { use } from 'react';
-import useAxiosSecure from '../../hook/useAxiosSecure';
+import { use, useState } from 'react';
 import { AuthContext } from '../../Provider/Provider';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const MyPosts = () => {
-    const axiosSecure = useAxiosSecure();
     const { user } = use(AuthContext);
+    const [currentPage, setCurrentPage] = useState(1)
+    const limit = 5;
 
     // Fetch all posts of the user
     const { data: posts = [], isLoading, refetch } = useQuery({
-        queryKey: ['userPosts', user?.email],
+        queryKey: ['userPosts', user?.email, currentPage, limit],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/usersPosts?email=${user.email}`);
+            const res = await axios.get(` http://localhost:5000/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`);
             return res.data;
         }
     });
+
+    const myPosts = posts.posts || [];
+    const totalPages = posts.totalPages || 1;
+    console.log('mypost', myPosts, 'totalpages',totalPages)
+
 
     if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
 
@@ -33,14 +39,14 @@ const MyPosts = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axiosSecure.delete(`/user-posts/${postId}`)
+                    await axios.delete(` http://localhost:5000/user-posts/${postId}`)
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your post has been deleted.",
                         icon: "success"
                     });
                     refetch()
-                    
+
                 }
                 catch (error) {
                     console.log('userPost delete error', error)
@@ -48,6 +54,7 @@ const MyPosts = () => {
             }
         });
     }
+
 
     return (
         <div className="max-w-5xl mx-auto px-4 py-8">
@@ -67,7 +74,7 @@ const MyPosts = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {posts.map((post, index) => (
+                            {myPosts.map((post, index) => (
                                 <tr key={post._id}>
                                     <td>{index + 1}</td>
                                     <td className="font-medium">{post.postTitle}</td>
@@ -86,6 +93,42 @@ const MyPosts = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    
+                    {/* Pagination Buttons */}
+                    <div className="flex justify-center mt-6 gap-2">
+                        {/* Previous Button */}
+                        <button
+                            className="btn btn-sm"
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Previous
+                        </button>
+
+                        {/* Page Number Buttons */}
+                        {Array.from({ length: totalPages }, (_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentPage(idx + 1)}
+                                className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
+                            >
+                                {idx + 1}
+                            </button>
+                        ))}
+
+                        {/* Next Button */}
+                        <button
+                            className="btn btn-sm"
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next
+                        </button>
+                    </div>
+
+
+
                 </div>
             )}
         </div>

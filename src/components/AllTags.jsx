@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-const AllTags = ({ setSearchTag, setPage }) => {
+const AllTags = ({ setSearchTag, setCurrentPage }) => {
     const { data: tags, isError, isLoading } = useQuery({
         queryKey: ['tags'],
         queryFn: async () => {
@@ -19,7 +19,7 @@ const AllTags = ({ setSearchTag, setPage }) => {
           <button
             key={index}
             onClick={() => {setSearchTag(tag.tag);
-                setPage(1);
+                setCurrentPage(1);
             }}
             className="btn btn-sm border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm"
           >
