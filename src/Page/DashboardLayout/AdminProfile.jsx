@@ -11,17 +11,18 @@ const AdminProfile = () => {
     const { data: stats = {} } = useQuery({
         queryKey: ["admin-stats"],
         queryFn: async () => {
-            const res = await axios.get("http://localhost:5000/admin-stats");
+            const res = await axios.get("http://localhost:5000/admin-stats", {withCredentials: true});
             return res.data;
         },
     });
+
 
     const handleAddTag = async (e) => {
         e.preventDefault()
         if (!tagName.trim()) return;
 
         try {
-            const res = await axios.post("http://localhost:5000/tag", { tag: tagName });
+            const res = await axios.post("http://localhost:5000/tag", { tag: tagName }, {withCredentials: true});
             if (res.data.insertedId) {
                 Swal.fire("Success", "Tag added successfully!", "success");
                 setTagName('');

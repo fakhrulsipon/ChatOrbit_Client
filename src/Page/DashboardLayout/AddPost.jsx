@@ -36,7 +36,7 @@ const AddPost = () => {
         queryKey: ['postCount', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/posts/count/${user.email}`);
+            const res = await axios.get(`http://localhost:5000/posts/count/${user.email}`, {withCredentials: true});
             return res.data;
         },
     });
@@ -50,7 +50,7 @@ const AddPost = () => {
         queryKey: ['usersBadge', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/users/${user.email}`);
+            const res = await axios.get(`http://localhost:5000/users/${user.email}`, {withCredentials: true});
             return res.data;
         },
     });
@@ -83,7 +83,7 @@ const AddPost = () => {
         };
 
         try {
-            await axios.post('http://localhost:5000/posts', postData);
+            await axios.post('http://localhost:5000/posts', postData, {withCredentials: true});
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',

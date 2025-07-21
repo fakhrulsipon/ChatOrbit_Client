@@ -10,7 +10,7 @@ const MakeAnnouncement = () => {
       const res = await axios.post("http://localhost:5000/announcements", {
         ...data,
         createdAt: new Date(),
-      });
+      }, {withCredentials: true});
 
       if (res.data.insertedId) {
         Swal.fire({

@@ -15,7 +15,9 @@ const MyPosts = () => {
         queryKey: ['userPosts', user?.email, currentPage, limit],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(` http://localhost:5000/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`);
+            const res = await axios.get(` http://localhost:5000/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`,{
+                withCredentials: true
+            });
             return res.data;
         }
     });
@@ -39,7 +41,7 @@ const MyPosts = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(` http://localhost:5000/user-posts/${postId}`)
+                    await axios.delete(` http://localhost:5000/user-posts/${postId}`, {withCredentials: true})
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your post has been deleted.",

@@ -12,7 +12,7 @@ const Activities = () => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["reported-comments"],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/reported-comments?page=${currentPage}&limit=${limit}`);
+            const res = await axios.get(`http://localhost:5000/reported-comments?page=${currentPage}&limit=${limit}`, {withCredentials: true});
             return res.data;
         },
     });
@@ -31,7 +31,7 @@ const Activities = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`http://localhost:5000/admin/delete-reported-comment/${reportId}/${commentId}`)
+                    const res = await axios.delete(`http://localhost:5000/admin/delete-reported-comment/${reportId}/${commentId}`, {withCredentials: true})
                     const { deletedComment, deletedReport } = res.data;
                     if (deletedComment === 1 || deletedReport === 1) {
                         Swal.fire({

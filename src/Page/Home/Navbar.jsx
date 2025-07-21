@@ -14,25 +14,25 @@ const Navbar = () => {
     <li><NavLink to='/'>Membership</NavLink></li>
   </>
 
-  const handleLogout = () => {
-    logoutUser()
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Logout Successful',
-          text: 'You have been logged out successfully.',
-          timer: 2000,
-          showConfirmButton: false,
-        });
-      })
-      .catch(error => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Logout Failed',
-          text: error.message || 'Something went wrong.',
-        });
-      })
-  }
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      Swal.fire({
+        icon: 'success',
+        title: 'Logout Successful',
+        text: 'You have been logged out successfully.',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Logout Failed',
+        text: error.message || 'Something went wrong.',
+      });
+    }
+  };
+
 
 
   const { data: announcementCount = 0, isLoading, isError } = useQuery({
@@ -65,10 +65,10 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           {navLinks}
-         <div className="relative">
-           <li><NavLink><IoNotificationsOutline size={25} /></NavLink></li>
-           <span className="absolute left-7 bottom-3 font-bold">{announcementCount}</span>
-         </div>
+          <div className="relative">
+            <li><NavLink><IoNotificationsOutline size={25} /></NavLink></li>
+            <span className="absolute left-7 bottom-3 font-bold">{announcementCount}</span>
+          </div>
         </ul>
       </div>
       <div className="navbar-end">

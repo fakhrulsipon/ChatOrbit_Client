@@ -28,7 +28,7 @@ const PostDetails = () => {
 
     const handleVote = async (type) => {
         try {
-            const res = await axios.patch(`http://localhost:5000/post/${type}/${postId}`);
+            const res = await axios.patch(`http://localhost:5000/post/${type}/${postId}`, {withCredentials:true});
             if (res.data.modifiedCount > 0) {
                 refetch();
             } else {
@@ -67,7 +67,7 @@ const PostDetails = () => {
         };
 
         try {
-            const res = await axios.post("http://localhost:5000/comments", commentData);
+            const res = await axios.post("http://localhost:5000/comments", commentData, {withCredentials: true});
             if (res.data.insertedId) {
                 Swal.fire("Success", "Your comment has been posted.", "success");
                 setCommentText("");

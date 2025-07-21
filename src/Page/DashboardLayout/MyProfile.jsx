@@ -12,7 +12,7 @@ const MyProfile = () => {
         queryKey: ['userInfo', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/users/${user.email}`);
+            const res = await axios.get(`http://localhost:5000/users/${user.email}`, {withCredentials: true});
             return res.data;
         }
     });
@@ -23,7 +23,7 @@ const MyProfile = () => {
         queryKey: ['recentPosts', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/user-posts?email=${user.email}`);
+            const res = await axios.get(`http://localhost:5000/user-posts?email=${user.email}`, {withCredentials: true});
             return res.data;
         }
     });

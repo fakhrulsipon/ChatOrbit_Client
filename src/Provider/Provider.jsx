@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/firebase.init';
+import axios from 'axios';
 
 export const AuthContext = createContext(null);
 
 const googleProvider = new GoogleAuthProvider();
 
-const Provider = ({children}) => {
+const Provider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
@@ -18,9 +19,17 @@ const Provider = ({children}) => {
         setLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
-    const logoutUser = () => {
+    const logoutUser = async () => {
         setLoading(true)
-        return signOut(auth)
+        try {
+            await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
+            await signOut(auth)
+            setUser(null)
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            throw error;
+        }
     }
 
     const updateProfileInfo = (updateUserProfile) => {
@@ -32,24 +41,38 @@ const Provider = ({children}) => {
         return signInWithPopup(auth, googleProvider);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            console.log('user in the auth state change', currentUser)
             setLoading(false);
+
+            if (currentUser?.email) {
+                axios.post('http://localhost:5000/jwt', { email: currentUser.email }, {
+                    withCredentials: true
+                })
+                    .then(res => {
+                        console.log('token after jwt', res.data)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+
+            console.log('user in the auth state change', currentUser)
+
         });
         return () => {
             unSubscribe();
         }
-    },[])
+    }, [])
     const authInfo = {
-     user,
-     loading,
-     createUser,
-     signUser,
-     logoutUser,
-     googleSignIn,
-     updateProfileInfo
+        user,
+        loading,
+        createUser,
+        signUser,
+        logoutUser,
+        googleSignIn,
+        updateProfileInfo
 
     }
     return (

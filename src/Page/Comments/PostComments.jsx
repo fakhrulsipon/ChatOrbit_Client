@@ -59,7 +59,7 @@ const PostComments = () => {
       commentText,
       reportedBy: user.email,
       feedback,
-    });
+    }, {withCredentials: true});
     setReported((prev) => ({ ...prev, [commentId]: true }));
     alert("Reported successfully!");
   };

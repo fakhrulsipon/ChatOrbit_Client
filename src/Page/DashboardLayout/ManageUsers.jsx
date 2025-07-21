@@ -20,7 +20,7 @@ const ManageUsers = () => {
   const { data = { result: [], totalPage: 1 }, isLoading, isError, refetch } = useQuery({
     queryKey: ['users', debouncedSearch, currentPage],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/users?search=${debouncedSearch}&page=${currentPage}&limit=${limit}`);
+      const res = await axios.get(`http://localhost:5000/all-users?search=${debouncedSearch}&page=${currentPage}&limit=${limit}`,  {withCredentials: true});
       return res.data;
     }
   });
@@ -37,7 +37,7 @@ const ManageUsers = () => {
 
 
     try {
-      const response = await axios.patch(url);
+      const response = await axios.patch(url, {withCredentials: true});
       if (response.data.modifiedCount > 0) {
         refetch();
       }
