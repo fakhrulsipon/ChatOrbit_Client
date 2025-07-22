@@ -18,6 +18,8 @@ import ManageUsers from "../Page/DashboardLayout/ManageUsers";
 import Activities from "../Page/DashboardLayout/Activities";
 import Announcement from "../Page/DashboardLayout/Announcement";
 import ErrorPage from "../Page/ErrorPage";
+import Forbidden from "../Page/Forbidden";
+import AdminRoute from "../Route/AdminRoute";
 
 
 export const router = createBrowserRouter([
@@ -48,6 +50,10 @@ export const router = createBrowserRouter([
         {
           path: '/details/:postId',
           element: <PostDetails></PostDetails>
+        },
+        {
+          path: '/forbidden',
+          element: <Forbidden></Forbidden>
         }
     ]
   },
@@ -69,19 +75,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'adminProfile',
-        element: <AdminProfile></AdminProfile>
+        element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
       },
       {
         path: 'manageUsers',
-        element: <ManageUsers></ManageUsers>
+        element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
       },
       {
         path: 'activities',
-        element: <Activities></Activities>
+        element: <AdminRoute><Activities></Activities></AdminRoute>
       },
       {
         path: 'announcement',
-        element: <Announcement></Announcement>
+        element: <AdminRoute><Announcement></Announcement></AdminRoute>
       }
     ]
   },
