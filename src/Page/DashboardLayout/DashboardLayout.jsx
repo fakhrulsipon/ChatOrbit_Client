@@ -1,10 +1,10 @@
-import React from 'react';
-import { NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 import useUserRole from '../../hook/useUserRole';
+import Logo from '../../components/Logo';
 
 const DashboardLayout = () => {
   const { role, roleLoading } = useUserRole();
-  console.log(role, roleLoading)
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -31,16 +31,28 @@ const DashboardLayout = () => {
           <div className="mx-2 flex-1 px-2">Dashboard</div>
         </div>
         {/* Page content here */}
-        <Outlet></Outlet>
+        <div className='bg-cyan-200'>
+          <Outlet></Outlet>
+        </div>
         {/* Page content here */}
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <ul className="menu bg-orange-50 text-base-content min-h-full w-80 p-4">
+          <Link className='mb-3' to={'/'}><Logo></Logo></Link>
           {/* Sidebar content here */}
-          <li><NavLink to={'/dashboard/myProfile'}>My Profile</NavLink></li>
-          <li><NavLink to={'/dashboard/addPost'}>Add Post</NavLink></li>
-          <li><NavLink to={'/dashboard/myPost'}>My Post</NavLink></li>
+
+
+          {/* user and member route link */}
+          {
+            !roleLoading && (role === 'user' || role === 'member') && (
+              <>
+                <li><NavLink to={'/dashboard/myProfile'}>My Profile</NavLink></li>
+                <li><NavLink to={'/dashboard/addPost'}>Add Post</NavLink></li>
+                <li><NavLink to={'/dashboard/myPost'}>My Post</NavLink></li>
+              </>
+            )
+          }
 
           {/* admin route Link */}
           {

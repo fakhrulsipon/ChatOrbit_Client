@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hook/useAxiosSecure';
 
 const ManageUsers = () => {
+  const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1)
@@ -20,24 +21,24 @@ const ManageUsers = () => {
   const { data = { result: [], totalPage: 1 }, isLoading, isError, refetch } = useQuery({
     queryKey: ['users', debouncedSearch, currentPage],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000/all-users?search=${debouncedSearch}&page=${currentPage}&limit=${limit}`,  {withCredentials: true});
+      const res = await axiosSecure.get(`/all-users?search=${debouncedSearch}&page=${currentPage}&limit=${limit}`);
       return res.data;
     }
   });
 
 
-  const users = data.result;
-  const totalPages = data.totalPage;
+  const users = data?.result;
+  const totalPages = data?.totalPage;
 
   const handleRoleChange = async (userId, role) => {
     const url = role !== 'admin'
-      ? `http://localhost:5000/users/admin/${userId}`
-      : `http://localhost:5000/users/remove-admin/${userId}`;
+      ? `/users/admin/${userId}`
+      : `/users/remove-admin/${userId}`;
 
 
 
     try {
-      const response = await axios.patch(url, {withCredentials: true});
+      const response = await axiosSecure.patch(url);
       if (response.data.modifiedCount > 0) {
         refetch();
       }
@@ -50,7 +51,14 @@ const ManageUsers = () => {
     }
   };
 
-  if (isLoading) return <p className="text-center mt-10">Loading users...</p>;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
+  }
+
   if (isError) return <p className="text-center mt-10 text-red-500">Failed to load users.</p>;
 
   return (
@@ -62,7 +70,7 @@ const ManageUsers = () => {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-2 border">Name</th>
-              <th className="px-4 py-2 border">Email</th>
+              <th className=" px-4 py-2 border">Email</th>
               <th className="px-4 py-2 border">Role</th>
               <th className="px-4 py-2 border">Membership</th>
             </tr>
@@ -71,7 +79,7 @@ const ManageUsers = () => {
             {users.map((user) => (
               <tr key={user._id} className="text-center">
                 <td className="px-4 py-2 border">{user.name}</td>
-                <td className="px-4 py-2 border">{user.email}</td>
+                <td className=" px-4 py-3  border-b ">{user.email}</td>
                 <td className="px-4 py-2 border">
                   <button
                     onClick={() => handleRoleChange(user._id, user.role)}
@@ -92,36 +100,94 @@ const ManageUsers = () => {
 
 
       {/* Pagination Buttons */}
-      <div className="flex justify-center mt-6 gap-2">
+      <div className="join flex flex-wrap justify-center mt-6 gap-2">
         {/* Previous Button */}
         <button
-          className="btn btn-sm"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          className="join-item btn btn-sm"
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
-          Previous
+          «
         </button>
 
-        {/* Page Number Buttons */}
-        {Array.from({ length: totalPages }, (_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentPage(idx + 1)}
-            className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
-          >
-            {idx + 1}
-          </button>
-        ))}
+        {/* Dynamic Page Numbers */}
+        {(() => {
+          const pages = [];
+          const maxVisiblePages = 5;
+          let startPage, endPage;
+
+          if (totalPages <= maxVisiblePages) {
+            startPage = 1;
+            endPage = totalPages;
+          } else {
+            const half = Math.floor(maxVisiblePages / 2);
+            if (currentPage <= half + 1) {
+              startPage = 1;
+              endPage = maxVisiblePages;
+            } else if (currentPage >= totalPages - half) {
+              startPage = totalPages - maxVisiblePages + 1;
+              endPage = totalPages;
+            } else {
+              startPage = currentPage - half;
+              endPage = currentPage + half;
+            }
+          }
+
+          if (startPage > 1) {
+            pages.push(
+              <button
+                key={1}
+                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                onClick={() => setCurrentPage(1)}
+              >
+                1
+              </button>
+            );
+            if (startPage > 2) {
+              pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+            }
+          }
+
+          for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+              <button
+                key={i}
+                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                onClick={() => setCurrentPage(i)}
+              >
+                {i}
+              </button>
+            );
+          }
+
+          if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+              pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+            }
+            pages.push(
+              <button
+                key={totalPages}
+                className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                onClick={() => setCurrentPage(totalPages)}
+              >
+                {totalPages}
+              </button>
+            );
+          }
+
+          return pages;
+        })()}
 
         {/* Next Button */}
         <button
-          className="btn btn-sm"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          className="join-item btn btn-sm"
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
         >
-          Next
+          »
         </button>
       </div>
+
 
     </div>
   );

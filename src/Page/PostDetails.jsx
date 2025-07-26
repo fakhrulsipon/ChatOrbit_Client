@@ -6,8 +6,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { use, useState } from "react";
 import { AuthContext } from "../Provider/Provider";
+import useAxiosSecure from "../hook/useAxiosSecure";
 
 const PostDetails = () => {
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate()
     const [commentText, setCommentText] = useState("");
     const { postId } = useParams();
@@ -28,7 +30,7 @@ const PostDetails = () => {
 
     const handleVote = async (type) => {
         try {
-            const res = await axios.patch(`http://localhost:5000/post/${type}/${postId}`, {withCredentials:true});
+            const res = await axiosSecure.patch(`http://localhost:5000/post/${type}/${postId}`);
             if (res.data.modifiedCount > 0) {
                 refetch();
             } else {
@@ -58,7 +60,7 @@ const PostDetails = () => {
 
         const commentData = {
             postId,
-            postTitle: post.postTitle,
+            postTitle: post.title,
             userEmail: user.email,
             userName: user.displayName,
             userImage: user.photoURL,
@@ -67,7 +69,7 @@ const PostDetails = () => {
         };
 
         try {
-            const res = await axios.post("http://localhost:5000/comments", commentData, {withCredentials: true});
+            const res = await axiosSecure.post("http://localhost:5000/comments", commentData);
             if (res.data.insertedId) {
                 Swal.fire("Success", "Your comment has been posted.", "success");
                 setCommentText("");

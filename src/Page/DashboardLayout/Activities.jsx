@@ -1,10 +1,11 @@
 
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const Activities = () => {
+    const axiosSecure = useAxiosSecure()
     const [selectedComment, setSelectedComment] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const limit = 5;
@@ -12,7 +13,7 @@ const Activities = () => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["reported-comments"],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/reported-comments?page=${currentPage}&limit=${limit}`, {withCredentials: true});
+            const res = await axiosSecure.get(`/reported-comments?page=${currentPage}&limit=${limit}`);
             return res.data;
         },
     });
@@ -31,7 +32,7 @@ const Activities = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axios.delete(`http://localhost:5000/admin/delete-reported-comment/${reportId}/${commentId}`, {withCredentials: true})
+                    const res = await axiosSecure.delete(`/admin/delete-reported-comment/${reportId}/${commentId}`)
                     const { deletedComment, deletedReport } = res.data;
                     if (deletedComment === 1 || deletedReport === 1) {
                         Swal.fire({
@@ -58,11 +59,18 @@ const Activities = () => {
     }
 
 
-    if (isLoading) return <span className="loading loading-bars loading-lg"></span>;
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+        );
+    }
+    
     if (isError) return <p className="text-red-500">Failed to load reported comments.</p>;
 
-     const {reports, totalPages} = data;
-     
+    const { reports, totalPages } = data;
+
     return (
         <div className="max-w-6xl mx-auto p-6">
             <h2 className="text-3xl font-bold mb-6 text-center">🚨 Reported Comments</h2>
@@ -138,34 +146,91 @@ const Activities = () => {
 
 
             {/* Pagination Buttons */}
-            <div className="flex justify-center mt-6 gap-2">
+            <div className="join flex flex-wrap justify-center mt-6 gap-2">
                 {/* Previous Button */}
                 <button
-                    className="btn btn-sm"
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    className="join-item btn btn-sm"
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                 >
-                    Previous
+                    «
                 </button>
 
-                {/* Page Number Buttons */}
-                {Array.from({ length: totalPages }, (_, idx) => (
-                    <button
-                        key={idx}
-                        onClick={() => setCurrentPage(idx + 1)}
-                        className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
-                    >
-                        {idx + 1}
-                    </button>
-                ))}
+                {/* Dynamic Page Numbers */}
+                {(() => {
+                    const pages = [];
+                    const maxVisiblePages = 5;
+                    let startPage, endPage;
+
+                    if (totalPages <= maxVisiblePages) {
+                        startPage = 1;
+                        endPage = totalPages;
+                    } else {
+                        const half = Math.floor(maxVisiblePages / 2);
+                        if (currentPage <= half + 1) {
+                            startPage = 1;
+                            endPage = maxVisiblePages;
+                        } else if (currentPage >= totalPages - half) {
+                            startPage = totalPages - maxVisiblePages + 1;
+                            endPage = totalPages;
+                        } else {
+                            startPage = currentPage - half;
+                            endPage = currentPage + half;
+                        }
+                    }
+
+                    if (startPage > 1) {
+                        pages.push(
+                            <button
+                                key={1}
+                                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                                onClick={() => setCurrentPage(1)}
+                            >
+                                1
+                            </button>
+                        );
+                        if (startPage > 2) {
+                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                        }
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        pages.push(
+                            <button
+                                key={i}
+                                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                                onClick={() => setCurrentPage(i)}
+                            >
+                                {i}
+                            </button>
+                        );
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                        }
+                        pages.push(
+                            <button
+                                key={totalPages}
+                                className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                                onClick={() => setCurrentPage(totalPages)}
+                            >
+                                {totalPages}
+                            </button>
+                        );
+                    }
+
+                    return pages;
+                })()}
 
                 {/* Next Button */}
                 <button
-                    className="btn btn-sm"
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    className="join-item btn btn-sm"
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                 >
-                    Next
+                    »
                 </button>
             </div>
 

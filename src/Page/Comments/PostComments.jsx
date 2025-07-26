@@ -1,10 +1,13 @@
 import { useParams } from "react-router";
-import { use, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../Provider/Provider";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const PostComments = () => {
+  const axiosSecure = useAxiosSecure();
   const [selectedFeedbacks, setSelectedFeedbacks] = useState({});
   const [reported, setReported] = useState({});
   const [modalComment, setModalComment] = useState("");
@@ -16,6 +19,34 @@ const PostComments = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const limit = 5;
 
+  // akta single post er je comment gulate report kora hoyse
+  const {
+    data: reportedComments = [],
+    isLoading: reportedLoading,
+    isError: reportedError,
+  } = useQuery({
+    queryKey: ["reported-comments", id, user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/comment/reports/${id}/${user.email}`);
+      return res.data;
+    }
+  });
+
+  // console.log(reportedComments)
+
+  //কমেন্টগুলো লোড হওয়ার পর রিপোর্ট করা কমেন্টগুলো সেট করুন
+  useEffect(() => {
+    if (reportedComments.length > 0) {
+      const reportedMap = {};
+      reportedComments.forEach(commentId => {
+        reportedMap[commentId] = true;
+      });
+      setReported(reportedMap);
+    }
+  }, [reportedComments]);
+
+  // akta sigle post er sobgula comment pawar get api
   const { data, isLoading, isError } = useQuery({
     queryKey: ["comments", id, currentPage, limit],
     queryFn: async () => {
@@ -24,17 +55,23 @@ const PostComments = () => {
     },
   });
 
+  if (isLoading || reportedLoading) {
+    return (
+      <div className="text-center py-10">
+        <span className="loading loading-spinner loading-lg"></span>
+        <p className="mt-2">Loading comments...</p>
+      </div>
+    );
+  }
 
-  if (isLoading)
-    return <div className="text-center py-10">Loading comments...</div>;
-
-  if (isError || !data || !data.comments) {
+  if (isError || !data || !data.comments || reportedError) {
     return (
       <div className="text-center py-10 text-red-500">
         Failed to load comments.
       </div>
     );
   }
+
 
   const { totalPages, comments } = data;
 
@@ -44,7 +81,7 @@ const PostComments = () => {
     "Offensive content",
   ];
 
-  
+
 
   const handleFeedbackChange = (commentId, value) => {
     setSelectedFeedbacks((prev) => ({ ...prev, [commentId]: value }));
@@ -54,29 +91,23 @@ const PostComments = () => {
     const feedback = selectedFeedbacks[commentId];
     if (!feedback) return;
 
-    await axios.post("http://localhost:5000/comment/reports", {
+    await axiosSecure.post("/comment/reports", {
       commentId,
+      postId: id,
       commentText,
       reportedBy: user.email,
       feedback,
-    }, {withCredentials: true});
+    });
     setReported((prev) => ({ ...prev, [commentId]: true }));
-    alert("Reported successfully!");
+    Swal.fire("Reported!", "Your feedback has been sent.", "success");
   };
-
-  
 
   const openModal = (commentText) => {
     setModalComment(commentText);
     modalRef.current?.showModal();
   };
 
-  if (isLoading)
-    return <div className="text-center py-10">Loading comments...</div>;
-  if (isError)
-    return (
-      <div className="text-center py-10 text-red-500">Failed to load comments.</div>
-    );
+
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -88,8 +119,7 @@ const PostComments = () => {
             <tr>
               <th>Email</th>
               <th>Comment</th>
-              <th>Feedback</th>
-              <th>Report</th>
+              <th>Feedback / Report</th>
             </tr>
           </thead>
           <tbody>
@@ -116,44 +146,51 @@ const PostComments = () => {
                     )}
                   </td>
 
-                  {/* feedback */}
-                  <td>
-                    <select
-                      className="select select-sm select-bordered"
-                      defaultValue=""
-                      onChange={(e) =>
-                        handleFeedbackChange(comment._id, e.target.value)
-                      }
-                      disabled={reported[comment._id]} // রিপোর্ট হলে disable করে দাও
-                    >
-                      <option disabled value="">
-                        Select feedback
-                      </option>
-                      {feedbackOptions.map((opt, i) => (
-                        <option key={i} value={opt}>
-                          {opt}
+
+                  <td colSpan={2}>
+                    <div className="flex flex-col md:flex-row gap-2 items-start md:items-center">
+
+                      {/* feedback */}
+                      <select
+                        className="select select-sm select-bordered"
+                        defaultValue=""
+                        onChange={(e) =>
+                          handleFeedbackChange(comment._id, e.target.value)
+                        }
+                        disabled={reported[comment._id]} // রিপোর্ট হলে disable করে দাও
+                      >
+                        <option disabled value="">
+                          Select feedback
                         </option>
-                      ))}
-                    </select>
+                        {feedbackOptions.map((opt, i) => (
+                          <option key={i} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* report btn */}
+
+                      <button
+                        className={`btn btn-sm ${reported[comment._id]
+                          ? "btn-disabled"
+                          : selectedFeedbacks[comment._id]
+                            ? "btn-error"
+                            : "btn-disabled"
+                          }`}
+                        onClick={() => handleReport(comment._id, comment.commentText)}
+                        disabled={
+                          !selectedFeedbacks[comment._id] || reported[comment._id]
+                        }
+                      >
+                        {reported[comment._id] ? "Reported" : "Report"}
+                      </button>
+
+
+                    </div>
                   </td>
 
-                  {/* report btn */}
-                  <td>
-                    <button
-                      className={`btn btn-sm ${reported[comment._id]
-                        ? "btn-disabled"
-                        : selectedFeedbacks[comment._id]
-                          ? "btn-error"
-                          : "btn-disabled"
-                        }`}
-                      onClick={() => handleReport(comment._id, comment.commentText)}
-                      disabled={
-                        !selectedFeedbacks[comment._id] || reported[comment._id]
-                      }
-                    >
-                      {reported[comment._id] ? "Reported" : "Report"}
-                    </button>
-                  </td>
+
 
                 </tr>
               );
@@ -176,36 +213,94 @@ const PostComments = () => {
       </dialog>
 
       {/* Pagination Buttons */}
-      <div className="flex justify-center mt-6 gap-2">
+      <div className="join flex flex-wrap justify-center mt-6 gap-2">
         {/* Previous Button */}
         <button
-          className="btn btn-sm"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          className="join-item btn btn-sm"
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
-          Previous
+          «
         </button>
 
-        {/* Page Number Buttons */}
-        {Array.from({ length: totalPages }, (_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentPage(idx + 1)}
-            className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
-          >
-            {idx + 1}
-          </button>
-        ))}
+        {/* Dynamic Page Numbers */}
+        {(() => {
+          const pages = [];
+          const maxVisiblePages = 5;
+          let startPage, endPage;
+
+          if (totalPages <= maxVisiblePages) {
+            startPage = 1;
+            endPage = totalPages;
+          } else {
+            const half = Math.floor(maxVisiblePages / 2);
+            if (currentPage <= half + 1) {
+              startPage = 1;
+              endPage = maxVisiblePages;
+            } else if (currentPage >= totalPages - half) {
+              startPage = totalPages - maxVisiblePages + 1;
+              endPage = totalPages;
+            } else {
+              startPage = currentPage - half;
+              endPage = currentPage + half;
+            }
+          }
+
+          if (startPage > 1) {
+            pages.push(
+              <button
+                key={1}
+                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                onClick={() => setCurrentPage(1)}
+              >
+                1
+              </button>
+            );
+            if (startPage > 2) {
+              pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+            }
+          }
+
+          for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+              <button
+                key={i}
+                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                onClick={() => setCurrentPage(i)}
+              >
+                {i}
+              </button>
+            );
+          }
+
+          if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+              pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+            }
+            pages.push(
+              <button
+                key={totalPages}
+                className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                onClick={() => setCurrentPage(totalPages)}
+              >
+                {totalPages}
+              </button>
+            );
+          }
+
+          return pages;
+        })()}
 
         {/* Next Button */}
         <button
-          className="btn btn-sm"
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          className="join-item btn btn-sm"
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
         >
-          Next
+          »
         </button>
       </div>
+
 
 
     </div>

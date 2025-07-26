@@ -15,19 +15,25 @@ const MyPosts = () => {
         queryKey: ['userPosts', user?.email, currentPage, limit],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(` http://localhost:5000/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`,{
+            const res = await axios.get(` http://localhost:5000/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`, {
                 withCredentials: true
             });
             return res.data;
         }
     });
 
-    const myPosts = posts.posts || [];
-    const totalPages = posts.totalPages || 1;
-    console.log('mypost', myPosts, 'totalpages',totalPages)
+    const myPosts = posts?.posts || [];
+    const totalPages = posts?.totalPages || 1;
+    // console.log('mypost', myPosts, 'totalpages',totalPages)
 
 
-    if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
+    if (isLoading) {
+        return (
+            <div className="min-h-[60vh] flex justify-center items-center">
+                <span className="loading loading-spinner text-cyan-500 w-16 h-16"></span>
+            </div>
+        );
+    }
 
     const handleDelete = (postId) => {
         Swal.fire({
@@ -41,7 +47,7 @@ const MyPosts = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(` http://localhost:5000/user-posts/${postId}`, {withCredentials: true})
+                    await axios.delete(` http://localhost:5000/user-posts/${postId}`, { withCredentials: true })
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your post has been deleted.",
@@ -51,7 +57,11 @@ const MyPosts = () => {
 
                 }
                 catch (error) {
-                    console.log('userPost delete error', error)
+                    Swal.fire({
+                        title: "Error!",
+                        text: error.message || "Failed to delete the post. Please try again.",
+                        icon: "error"
+                    });
                 }
             }
         });
@@ -64,13 +74,13 @@ const MyPosts = () => {
             {posts.length === 0 ? (
                 <p className="text-gray-600">You haven’t posted anything yet.</p>
             ) : (
-                <div className="overflow-x-auto">
+                <div className="">
                     <table className="table table-zebra w-full">
                         <thead>
                             <tr className="bg-gray-100 text-gray-700">
                                 <th>#</th>
                                 <th>Post Title</th>
-                                <th>Votes</th>
+                                <th className='hidden md:block'>Votes</th>
                                 <th>Comment</th>
                                 <th>Delete</th>
                             </tr>
@@ -80,7 +90,7 @@ const MyPosts = () => {
                                 <tr key={post._id}>
                                     <td>{index + 1}</td>
                                     <td className="font-medium">{post.postTitle}</td>
-                                    <td>{(post.upVote || 0) - (post.downVote || 0)}</td>
+                                    <td className='hidden md:block'>{(post.upVote || 0) - (post.downVote || 0)}</td>
                                     <td>
                                         <Link to={`/postComments/${post._id}`}>
                                             <button className="btn btn-sm btn-outline btn-info">Comments</button>
@@ -96,36 +106,93 @@ const MyPosts = () => {
                         </tbody>
                     </table>
 
-                    
+
                     {/* Pagination Buttons */}
-                    <div className="flex justify-center mt-6 gap-2">
+                    <div className="join flex flex-wrap justify-center mt-6 gap-2">
                         {/* Previous Button */}
                         <button
-                            className="btn btn-sm"
-                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            className="join-item btn btn-sm"
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                             disabled={currentPage === 1}
                         >
-                            Previous
+                            «
                         </button>
 
-                        {/* Page Number Buttons */}
-                        {Array.from({ length: totalPages }, (_, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => setCurrentPage(idx + 1)}
-                                className={`btn btn-sm ${currentPage === idx + 1 ? 'btn-primary' : 'btn-outline'}`}
-                            >
-                                {idx + 1}
-                            </button>
-                        ))}
+                        {/* Dynamic Page Numbers */}
+                        {(() => {
+                            const pages = [];
+                            const maxVisiblePages = 5;
+                            let startPage, endPage;
+
+                            if (totalPages <= maxVisiblePages) {
+                                startPage = 1;
+                                endPage = totalPages;
+                            } else {
+                                const half = Math.floor(maxVisiblePages / 2);
+                                if (currentPage <= half + 1) {
+                                    startPage = 1;
+                                    endPage = maxVisiblePages;
+                                } else if (currentPage >= totalPages - half) {
+                                    startPage = totalPages - maxVisiblePages + 1;
+                                    endPage = totalPages;
+                                } else {
+                                    startPage = currentPage - half;
+                                    endPage = currentPage + half;
+                                }
+                            }
+
+                            if (startPage > 1) {
+                                pages.push(
+                                    <button
+                                        key={1}
+                                        className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                                        onClick={() => setCurrentPage(1)}
+                                    >
+                                        1
+                                    </button>
+                                );
+                                if (startPage > 2) {
+                                    pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                                }
+                            }
+
+                            for (let i = startPage; i <= endPage; i++) {
+                                pages.push(
+                                    <button
+                                        key={i}
+                                        className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                                        onClick={() => setCurrentPage(i)}
+                                    >
+                                        {i}
+                                    </button>
+                                );
+                            }
+
+                            if (endPage < totalPages) {
+                                if (endPage < totalPages - 1) {
+                                    pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                                }
+                                pages.push(
+                                    <button
+                                        key={totalPages}
+                                        className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                                        onClick={() => setCurrentPage(totalPages)}
+                                    >
+                                        {totalPages}
+                                    </button>
+                                );
+                            }
+
+                            return pages;
+                        })()}
 
                         {/* Next Button */}
                         <button
-                            className="btn btn-sm"
-                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            className="join-item btn btn-sm"
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                             disabled={currentPage === totalPages}
                         >
-                            Next
+                            »
                         </button>
                     </div>
 

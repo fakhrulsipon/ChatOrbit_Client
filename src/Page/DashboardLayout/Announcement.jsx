@@ -1,16 +1,23 @@
-
-import axios from "axios";
+import { use } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Provider/Provider";
+import useAxiosSecure from "../../hook/useAxiosSecure";
+import { useNavigate } from "react-router";
 
 const MakeAnnouncement = () => {
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
+  const { user } = use(AuthContext)
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:5000/announcements", {
+      const res = await axiosSecure.post("/announcements", {
         ...data,
+        authorName: user.displayName,
+        authorImage: user.photoURL,
         createdAt: new Date(),
-      }, {withCredentials: true});
+      });
 
       if (res.data.insertedId) {
         Swal.fire({
@@ -19,6 +26,8 @@ const MakeAnnouncement = () => {
           text: "Your announcement has been successfully published.",
         });
         reset();
+        navigate('/')
+
       }
     } catch (err) {
       console.error(err);
@@ -30,7 +39,7 @@ const MakeAnnouncement = () => {
     }
   };
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-xl rounded-xl">
+    <div className="max-w-3xl p-6 bg-white shadow-xl rounded-xl my-10 mx-4 lg:mx-10 xl:mx-auto">
       <h2 className="text-2xl font-semibold mb-6 text-center">📢 Make Announcement</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
@@ -38,9 +47,9 @@ const MakeAnnouncement = () => {
           <label className="block mb-1 font-medium">Author Image URL</label>
           <input
             type="text"
-            {...register("authorImage", { required: true })}
+            defaultValue={user.photoURL}
             className="w-full border px-4 py-2 rounded-lg"
-            placeholder="https://i.ibb.co/..."
+            placeholder="Author Image"
           />
         </div>
 
@@ -48,9 +57,9 @@ const MakeAnnouncement = () => {
           <label className="block mb-1 font-medium">Author Name</label>
           <input
             type="text"
-            {...register("authorName", { required: true })}
+            defaultValue={user.displayName}
             className="w-full border px-4 py-2 rounded-lg"
-            placeholder="Admin Name"
+            placeholder="Author Name"
           />
         </div>
 

@@ -34,7 +34,7 @@ const HomePage = () => {
             <AllTags setSearchTag={setSearchTag} setCurrentPage={setCurrentPage}></AllTags>
 
             {/* sorting dropdwon */}
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center mb-6 mt-8">
                 <div className="dropdown dropdown-center">
                     <div tabIndex={0} role="button" className="btn btn-primary">
                         {sortBy === 'popularity' ? 'Sort by Popularity' : 'All Posts'}
@@ -55,59 +55,125 @@ const HomePage = () => {
                 {isLoading ? (
                     <span className="loading loading-bars loading-xl"></span>
                 ) : data?.posts?.length > 0 ? (
-                    data.posts.map(post => (
-                        <div key={post._id} className="card bg-base-100 shadow-md p-4">
-                            <div className="flex items-center gap-3 mb-2">
-                                 <img className="w-12 h-12" src={post.authorImage} alt="" />
-                                <div>
-                                    <h2 className="text-lg font-semibold">{post.postTitle}</h2>
-                                    <p className="text-sm text-gray-500">{new Date(post.postTime).toLocaleString()}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {data?.posts?.map(post => (
+                            <div key={post._id} className="card bg-white shadow-xl border hover:shadow-2xl transition-all duration-300 p-5 rounded-xl">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <img className="w-14 h-14 rounded-full border-2 border-primary" src={post.authorImage} alt="author" />
+                                    <div>
+                                        <h2 className="text-lg font-bold text-gray-800">{post.postTitle}</h2>
+                                        <p className="text-xs text-gray-500">{new Date(post.postTime).toLocaleString()}</p>
+                                    </div>
                                 </div>
+
+                                <p className="text-sm text-gray-600 mb-3">
+                                    Tag: <span className="badge badge-outline badge-sm">{post.tag}</span>
+                                </p>
+
+                                <div className="flex justify-between text-sm text-gray-700 mb-4">
+                                    <span>👍 {post.upVote}</span>
+                                    <span>Votes: {post.upVote - post.downVote}</span>
+                                </div>
+
+                                <Link to={`details/${post._id}`}>
+                                    <button className="btn btn-sm btn-primary w-full">View More</button>
+                                </Link>
                             </div>
-                            <p className="text-sm mb-2 text-gray-700">Tag: <span className="badge badge-outline">{post.tag}</span></p>
-                            <div className="flex gap-4 text-sm text-gray-600 mt-2">
-                                <span>👍 {post.upVote}</span>
-                                <span>Votes: {post.upVote - post.downVote}</span>
-                            </div>
-                            <Link to={`details/${post._id}`}><button className='btn'>View More</button></Link>
-                        </div>
-                    ))
+                        ))}
+                    </div>
                 ) : (
                     <p className="text-center mt-10 text-gray-500">No posts found.</p>
                 )}
             </div>
 
-              {/* Pagination Buttons */}
-                    <div className="flex justify-center mt-6 gap-2">
-                        {/* Previous Button */}
-                        <button
-                            className="btn btn-sm"
-                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                            disabled={currentPage === 1}
-                        >
-                            Previous
-                        </button>
+            {/* Pagination Buttons */}
+            <div className="join flex flex-wrap justify-center mt-6 gap-2">
+                {/* Previous Button */}
+                <button
+                    className="join-item btn btn-sm"
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                >
+                    «
+                </button>
 
-                        {/* Page Number Buttons */}
-                        {Array.from({ length: totalPages }, (_, idx) => (
+                {/* Dynamic Page Numbers */}
+                {(() => {
+                    const pages = [];
+                    const maxVisiblePages = 5;
+                    let startPage, endPage;
+
+                    if (totalPages <= maxVisiblePages) {
+                        startPage = 1;
+                        endPage = totalPages;
+                    } else {
+                        const half = Math.floor(maxVisiblePages / 2);
+                        if (currentPage <= half + 1) {
+                            startPage = 1;
+                            endPage = maxVisiblePages;
+                        } else if (currentPage >= totalPages - half) {
+                            startPage = totalPages - maxVisiblePages + 1;
+                            endPage = totalPages;
+                        } else {
+                            startPage = currentPage - half;
+                            endPage = currentPage + half;
+                        }
+                    }
+
+                    if (startPage > 1) {
+                        pages.push(
                             <button
-                                key={idx}
-                                onClick={() => setCurrentPage(idx + 1)}
-                                className={`btn btn-sm ${currentPage=== idx + 1 ? 'btn-primary' : 'btn-outline'}`}
+                                key={1}
+                                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                                onClick={() => setCurrentPage(1)}
                             >
-                                {idx + 1}
+                                1
                             </button>
-                        ))}
+                        );
+                        if (startPage > 2) {
+                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                        }
+                    }
 
-                        {/* Next Button */}
-                        <button
-                            className="btn btn-sm"
-                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                            disabled={currentPage === totalPages}
-                        >
-                            Next
-                        </button>
-                    </div>
+                    for (let i = startPage; i <= endPage; i++) {
+                        pages.push(
+                            <button
+                                key={i}
+                                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                                onClick={() => setCurrentPage(i)}
+                            >
+                                {i}
+                            </button>
+                        );
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                        }
+                        pages.push(
+                            <button
+                                key={totalPages}
+                                className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                                onClick={() => setCurrentPage(totalPages)}
+                            >
+                                {totalPages}
+                            </button>
+                        );
+                    }
+
+                    return pages;
+                })()}
+
+                {/* Next Button */}
+                <button
+                    className="join-item btn btn-sm"
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                >
+                    »
+                </button>
+            </div>
 
 
         </div>

@@ -1,20 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import React, { use, useState } from 'react';
 import { AuthContext } from '../../Provider/Provider';
 import Swal from 'sweetalert2';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import useAxiosSecure from '../../hook/useAxiosSecure';
 
 const AdminProfile = () => {
+    const axiosSecure = useAxiosSecure();
+
     const { user } = use(AuthContext)
     const [tagName, setTagName] = useState('')
-    const { data: stats = {} } = useQuery({
+    const { data: stats = {}, isLoading } = useQuery({
         queryKey: ["admin-stats"],
         queryFn: async () => {
-            const res = await axios.get("http://localhost:5000/admin-stats", {withCredentials: true});
+            const res = await axiosSecure.get("/admin-stats");
             return res.data;
         },
     });
+
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-64">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+        );
+    }
 
 
     const handleAddTag = async (e) => {
@@ -22,13 +33,17 @@ const AdminProfile = () => {
         if (!tagName.trim()) return;
 
         try {
-            const res = await axios.post("http://localhost:5000/tag", { tag: tagName }, {withCredentials: true});
+            const res = await axiosSecure.post("/tag", { tag: tagName });
             if (res.data.insertedId) {
                 Swal.fire("Success", "Tag added successfully!", "success");
                 setTagName('');
             }
         } catch (error) {
-            Swal.fire("Error", "Failed to add tag", error);
+            if (error.response?.status === 409) {
+                Swal.fire("⚠️ Duplicate", "This tag already exists!", "warning");
+            } else {
+                Swal.fire("❌ Error", "Failed to add tag", "error");
+            }
         }
     };
 
@@ -42,6 +57,7 @@ const AdminProfile = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-6">
+
             {/* profile Fn */}
             <div className="flex items-center gap-4 bg-white shadow p-4 rounded-lg">
                 <img src={user.photoURL} alt="Admin" className="w-20 h-20 rounded-full" />
@@ -96,6 +112,8 @@ const AdminProfile = () => {
                     <button type="submit" className="btn btn-primary">Add Tag</button>
                 </form>
             </div>
+
+
         </div>
 
     );

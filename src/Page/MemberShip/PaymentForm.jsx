@@ -69,7 +69,8 @@ const PaymentForm = () => {
                                     text: 'You are now a Gold Member.',
                                     icon: 'success',
                                     confirmButtonText: 'Go to Dashboard'
-                                }).then(() => {
+                                })
+                                .then(() => {
                                     navigate('/dashboard/addPost');
                                 });
                             }
@@ -89,7 +90,7 @@ const PaymentForm = () => {
     };
     return (
         <div>
-            <form onSubmit={handleSubmit} className='max-w-md mx-auto p-4 border rounded shadow-lg'>
+            <form onSubmit={handleSubmit} className='max-w-md mx-2 md:mx-auto p-4 border rounded shadow-lg mt-10'>
                 <CardElement className='border p-2 rounded mb-4'></CardElement>
                 <button className='btn btn-primary w-full' type="submit" disabled={!stripe}>
                     Pay {amount}
