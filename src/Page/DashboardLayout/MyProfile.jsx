@@ -1,12 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { FaMedal } from 'react-icons/fa';
-import { use } from 'react';
+import { use, useEffect } from 'react';
 import { AuthContext } from '../../Provider/Provider';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 
 const MyProfile = () => {
     const { user } = use(AuthContext);
     const axiosSecure = useAxiosSecure();
+
+     useEffect(() => {
+            document.title = 'MyProfile | ChatOrbit';
+        }, []);
 
     // Get user info
     const { data: userInfo, isLoading: userLoading } = useQuery({

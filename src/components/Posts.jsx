@@ -4,6 +4,7 @@ import axios from 'axios';
 import Banner from './Banner';
 import { Link } from 'react-router';
 import AllTags from './AllTags';
+import { HiChevronDown } from 'react-icons/hi';
 
 const HomePage = () => {
     const [searchTag, setSearchTag] = useState('');
@@ -36,8 +37,11 @@ const HomePage = () => {
             {/* sorting dropdwon */}
             <div className="flex justify-center mb-6 mt-8">
                 <div className="dropdown dropdown-center">
-                    <div tabIndex={0} role="button" className="btn btn-primary">
+                    <div tabIndex={0} role="button" className="btn btn-outline">
                         {sortBy === 'popularity' ? 'Sort by Popularity' : 'All Posts'}
+
+                        <HiChevronDown className="w-4 h-4 ml-1" />
+
                     </div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                         <li>
@@ -76,7 +80,7 @@ const HomePage = () => {
                                 </div>
 
                                 <Link to={`details/${post._id}`}>
-                                    <button className="btn btn-sm btn-primary w-full">View More</button>
+                                    <button className="btn btn-sm bg-cyan-600 text-white w-full">View More</button>
                                 </Link>
                             </div>
                         ))}

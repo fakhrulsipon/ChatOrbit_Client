@@ -10,6 +10,10 @@ const ManageUsers = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const limit = 5;
 
+   useEffect(() => {
+        document.title = 'ManageUsers | ChatOrbit';
+    }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(search);

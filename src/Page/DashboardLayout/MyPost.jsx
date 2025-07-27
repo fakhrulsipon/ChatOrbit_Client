@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router';
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { AuthContext } from '../../Provider/Provider';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -9,6 +9,10 @@ const MyPosts = () => {
     const { user } = use(AuthContext);
     const [currentPage, setCurrentPage] = useState(1)
     const limit = 5;
+
+    useEffect(() => {
+        document.title = 'MyPost | ChatOrbit';
+    }, []);
 
     // Fetch all posts of the user
     const { data: posts = [], isLoading, refetch } = useQuery({

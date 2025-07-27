@@ -14,7 +14,7 @@ const AllTags = ({ setSearchTag, setCurrentPage }) => {
 
     return (
         <div className="">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 justify-center">
         {tags.map((tag, index) => (
           <button
             key={index}

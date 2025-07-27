@@ -2,13 +2,14 @@
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Provider/Provider';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { use, useEffect } from 'react';
 import useAxiosSecure from '../../hook/useAxiosSecure';
 
 const AddPost = () => {
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'AddPost | ChatOrbit';
@@ -113,7 +114,7 @@ const AddPost = () => {
             });
             reset();
             refetch()
-            // প্রয়োজন হলে অন্য পেইজে নিয়ে যেতে পারো
+            navigate('/')
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -125,7 +126,7 @@ const AddPost = () => {
     };
 
     return (
-        <div className="max-w-lg md:mx-auto mx-6 mt-10 bg-emerald-200 p-10 rounded-3xl shadow-2xl border border-gray-200">
+        <div className="max-w-lg md:mx-auto mx-6 my-10 bg-emerald-200 p-10 rounded-3xl shadow-2xl border border-gray-200">
             <h2 className="text-3xl font-extrabold text-center mb-8 text-gradient bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 bg-clip-text text-transparent">
                 📝 Add New Post
             </h2>

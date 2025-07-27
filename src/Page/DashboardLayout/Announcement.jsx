@@ -1,4 +1,4 @@
-import { use } from "react";
+import { use, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/Provider";
@@ -9,7 +9,13 @@ const MakeAnnouncement = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { user } = use(AuthContext)
+
+ useEffect(() => {
+        document.title = 'Annoucement | ChatOrbit';
+    }, []);
+
   const { register, handleSubmit, reset } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const res = await axiosSecure.post("/announcements", {

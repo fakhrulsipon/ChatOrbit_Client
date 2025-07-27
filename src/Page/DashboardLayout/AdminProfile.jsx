@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { use, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { AuthContext } from '../../Provider/Provider';
 import Swal from 'sweetalert2';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
@@ -7,9 +7,13 @@ import useAxiosSecure from '../../hook/useAxiosSecure';
 
 const AdminProfile = () => {
     const axiosSecure = useAxiosSecure();
-
     const { user } = use(AuthContext)
     const [tagName, setTagName] = useState('')
+
+    useEffect(() => {
+           document.title = 'AdminProfile | ChatOrbit';
+       }, []);
+
     const { data: stats = {}, isLoading } = useQuery({
         queryKey: ["admin-stats"],
         queryFn: async () => {

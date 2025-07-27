@@ -1,6 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 
@@ -9,6 +9,10 @@ const Activities = () => {
     const [selectedComment, setSelectedComment] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const limit = 5;
+
+     useEffect(() => {
+            document.title = 'Activies | ChatOrbit';
+        }, []);
 
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["reported-comments"],
@@ -66,7 +70,7 @@ const Activities = () => {
             </div>
         );
     }
-    
+
     if (isError) return <p className="text-red-500">Failed to load reported comments.</p>;
 
     const { reports, totalPages } = data;

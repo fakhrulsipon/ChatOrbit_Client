@@ -1,9 +1,16 @@
 import { Link, NavLink, Outlet } from 'react-router';
 import useUserRole from '../../hook/useUserRole';
 import Logo from '../../components/Logo';
+import { FaBullhorn, FaChartBar, FaList, FaPlus, FaUser, FaUsers, FaUserShield } from 'react-icons/fa';
 
 const DashboardLayout = () => {
   const { role, roleLoading } = useUserRole();
+
+  const linkClass = ({ isActive }) =>
+    isActive
+      ? "flex items-center gap-2 text-white bg-blue-600 px-4 py-2 rounded-md font-semibold"
+      : "flex items-center gap-2 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-md";
+
 
   return (
     <div className="drawer lg:drawer-open">
@@ -31,15 +38,16 @@ const DashboardLayout = () => {
           <div className="mx-2 flex-1 px-2">Dashboard</div>
         </div>
         {/* Page content here */}
-        <div className='bg-cyan-200'>
-          <Outlet></Outlet>
+        <div className="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen">
+          <Outlet />
         </div>
         {/* Page content here */}
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu bg-orange-50 text-base-content min-h-full w-80 p-4">
-          <Link className='mb-3' to={'/'}><Logo></Logo></Link>
+        <ul className="menu bg-orange-50 text-base-content min-h-full w-80 p-4 gap-4 
+              shadow-xl rounded-tr-3xl rounded-br-3xl border-r border-orange-200">
+          <Link className='mb-5 pb-3' to={'/'}><Logo></Logo></Link>
           {/* Sidebar content here */}
 
 
@@ -47,9 +55,9 @@ const DashboardLayout = () => {
           {
             !roleLoading && (role === 'user' || role === 'member') && (
               <>
-                <li><NavLink to={'/dashboard/myProfile'}>My Profile</NavLink></li>
-                <li><NavLink to={'/dashboard/addPost'}>Add Post</NavLink></li>
-                <li><NavLink to={'/dashboard/myPost'}>My Post</NavLink></li>
+                <li><NavLink className={linkClass} to={'/dashboard/myProfile'}><FaUser></FaUser> My Profile</NavLink></li>
+                <li><NavLink className={linkClass} to={'/dashboard/addPost'}><FaPlus></FaPlus> Add Post</NavLink></li>
+                <li><NavLink className={linkClass} to={'/dashboard/myPost'}><FaList></FaList> My Post</NavLink></li>
               </>
             )
           }
@@ -58,10 +66,10 @@ const DashboardLayout = () => {
           {
             !roleLoading && role === 'admin' && <>
 
-              <li><NavLink to={'/dashboard/adminProfile'}>Admin Profile</NavLink></li>
-              <li><NavLink to={'/dashboard/manageUsers'}>Manage Users</NavLink></li>
-              <li><NavLink to={'/dashboard/activities'}>Activities</NavLink></li>
-              <li><NavLink to={'/dashboard/announcement'}>Make Announcement</NavLink></li>
+              <li><NavLink className={linkClass} to={'/dashboard/adminProfile'}><FaUserShield></FaUserShield> Admin Profile</NavLink></li>
+              <li><NavLink className={linkClass} to={'/dashboard/manageUsers'}><FaUsers></FaUsers> Manage Users</NavLink></li>
+              <li><NavLink className={linkClass} to={'/dashboard/activities'}><FaChartBar></FaChartBar> Activities</NavLink></li>
+              <li><NavLink className={linkClass} to={'/dashboard/announcement'}><FaBullhorn></FaBullhorn> Make Announcement</NavLink></li>
             </>
           }
 

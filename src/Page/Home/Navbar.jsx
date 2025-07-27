@@ -9,16 +9,33 @@ import { useQuery } from '@tanstack/react-query';
 
 const Navbar = () => {
   const { logoutUser, user } = use(AuthContext)
-  const navLinks = <>
-    <li><NavLink className={({ isActive }) =>
-      isActive ? "text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg"
-        : "hover:text-white text-white transition-colors"
-    } to='/'>Home</NavLink></li>
 
-    <li><NavLink className={({ isActive }) =>
-      isActive ? "text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg"
-        : "hover:text-white text-white transition-colors"
-    } to='/memberShip'>Membership</NavLink></li>
+  const navLinks = <>
+    <li>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg px-4 py-2 shadow-lg"
+            : "text-white px-4 py-2 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-200"
+        }
+        to='/'
+      >
+        Home
+      </NavLink>
+    </li>
+
+    <li>
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg px-4 py-2 shadow-lg"
+            : "text-white px-4 py-2 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-200"
+        }
+        to='/memberShip'
+      >
+        Membership
+      </NavLink>
+    </li>
   </>
 
   const handleLogout = async () => {
@@ -55,7 +72,7 @@ const Navbar = () => {
 
 
   return (
-    <div className="navbar bg-gradient-to-r from-indigo-900 via-purple-800 to-pink-700 shadow-xl w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 transition-all duration-300 hover:shadow-2xl">
+    <div className="navbar bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-400 shadow-xl w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 transition-all duration-300 hover:shadow-2xl">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden hover:scale-105 transition-transform">
@@ -69,8 +86,10 @@ const Navbar = () => {
             {navLinks}
 
             <div className="relative group">
-              <li className="hover:bg-white/10 rounded-lg transition-all">
-                <NavLink><IoNotificationsOutline size={25} className="text-white group-hover:text-purple-200" /></NavLink>
+              <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
+                <NavLink>
+                  <IoNotificationsOutline size={25} className="text-white group-hover:text-purple-200" />
+                </NavLink>
               </li>
               {
                 isLoading ? (
@@ -94,8 +113,10 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1 gap-2">
           {navLinks}
           <div className="relative group">
-            <li className="hover:bg-white/10 rounded-lg transition-all">
-              <NavLink><IoNotificationsOutline size={25} className="text-white group-hover:text-purple-200" /></NavLink>
+            <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
+              <NavLink>
+                <IoNotificationsOutline size={25} className="text-white group-hover:text-purple-200" />
+              </NavLink>
             </li>
             {
               isLoading ? (
