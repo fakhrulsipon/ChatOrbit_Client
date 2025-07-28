@@ -14,13 +14,13 @@ const HomePage = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['posts', currentPage, sortBy, searchTag],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
+            const res = await axios.get(`https://chatorbit-server.vercel.app/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
             return res.data;
         },
     });
 
     if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
-    const totalPost = data.total || 0;
+    const totalPost = data?.total || 0;
     const totalPages = Math.ceil(totalPost / 5);
 
     return (

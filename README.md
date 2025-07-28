@@ -6,7 +6,7 @@
 A full-featured discussion forum built with MERN stack (MongoDB, Express, React, Node.js) where users can create posts, comment, vote, and become premium members.
 
 ## Live URL
-https://chatorbit-example.netlify.app
+https://super-gelato-a1166f.netlify.app/
 
 ## Key Features
 - User authentication (email + social login)

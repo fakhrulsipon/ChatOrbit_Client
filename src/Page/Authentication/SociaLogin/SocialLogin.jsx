@@ -23,7 +23,7 @@ const SocialLogin = ({location}) => {
                     updatedAt: new Date().toISOString(),
                 }
 
-                await axios.post('http://localhost:5000/users', userInfo)
+                await axios.post('https://chatorbit-server.vercel.app/users', userInfo)
               
 
                 Swal.fire({

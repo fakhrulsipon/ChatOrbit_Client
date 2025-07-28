@@ -22,7 +22,7 @@ const Provider = ({ children }) => {
     const logoutUser = async () => {
         setLoading(true)
         try {
-            await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
+            await axios.post('https://chatorbit-server.vercel.app/logout', {}, { withCredentials: true });
             await signOut(auth)
             setUser(null)
             setLoading(false)
@@ -47,7 +47,7 @@ const Provider = ({ children }) => {
             setLoading(false);
 
             if (currentUser?.email) {
-                axios.post('http://localhost:5000/jwt', { email: currentUser.email }, {
+                axios.post('https://chatorbit-server.vercel.app/jwt', { email: currentUser.email }, {
                     withCredentials: true
                 })
                     .catch(error => {

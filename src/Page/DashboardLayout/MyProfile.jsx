@@ -41,6 +41,7 @@ const MyProfile = () => {
             </div>
         );
     }
+   
 
     return (
         <div className="max-w-4xl md:mx-auto mx-6 p-6 bg-gradient-to-br from-white via-sky-50 to-cyan-100 shadow-xl rounded-2xl my-10 border border-cyan-200 transition-transform hover:scale-[1.01] duration-300">
@@ -78,9 +79,9 @@ const MyProfile = () => {
                 <h3 className="text-2xl font-bold text-cyan-800 mb-4 border-b pb-2 border-cyan-300">
                     My Recent Posts
                 </h3>
-                {recentPosts.length > 0 ? (
+                {recentPosts?.length > 0 ? (
                     <div className="space-y-4">
-                        {recentPosts.map(post => (
+                        {recentPosts?.map(post => (
                             <div
                                 key={post._id}
                                 className="p-4 border border-cyan-200 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"

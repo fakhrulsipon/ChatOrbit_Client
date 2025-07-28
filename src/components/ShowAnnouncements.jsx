@@ -6,7 +6,7 @@ const ShowAnnouncements = () => {
   const { data: announcements = [], isLoading: loadingAnnouncements } = useQuery({
     queryKey: ["announcements"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/announcements");
+      const res = await axios.get("https://chatorbit-server.vercel.app/announcements");
       return res.data;
     },
   });
@@ -15,7 +15,7 @@ const ShowAnnouncements = () => {
   const { data: announcementCount = 0, isLoading: loadingCount, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/announcement-count');
+      const res = await axios.get('https://chatorbit-server.vercel.app/announcement-count');
       return res.data.count;
     }
   });

@@ -62,7 +62,7 @@ const Navbar = () => {
   const { data: announcementCount = 0, isLoading, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/announcement-count');
+      const res = await axios.get('https://chatorbit-server.vercel.app/announcement-count');
       return res.data.count;
     }
   });
