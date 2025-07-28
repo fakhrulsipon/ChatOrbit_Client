@@ -50,15 +50,12 @@ const Provider = ({ children }) => {
                 axios.post('http://localhost:5000/jwt', { email: currentUser.email }, {
                     withCredentials: true
                 })
-                    .then(res => {
-                        console.log('token after jwt', res.data)
-                    })
                     .catch(error => {
-                        console.log(error)
+                        console.error("JWT token fetch failed:", error);
                     })
             }
 
-            console.log('user in the auth state change', currentUser)
+            // console.log('user in the auth state change', currentUser)
 
         });
         return () => {

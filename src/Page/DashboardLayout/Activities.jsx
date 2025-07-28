@@ -24,7 +24,7 @@ const Activities = () => {
 
 
     const handleDelete = (reportId, commentId) => {
-        console.log('reportId', reportId, 'commentId', commentId)
+        // console.log('reportId', reportId, 'commentId', commentId)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",

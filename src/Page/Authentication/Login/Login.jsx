@@ -16,7 +16,7 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-        console.log(data)
+        // console.log(data)
         signUser(data.email, data.password)
             .then(res => {
                 Swal.fire({

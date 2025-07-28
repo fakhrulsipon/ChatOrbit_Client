@@ -13,6 +13,10 @@ const PostComments = () => {
   const [modalComment, setModalComment] = useState("");
   const modalRef = useRef()
 
+   useEffect(() => {
+            document.title = 'Feedback | ChatOrbit';
+        }, []);
+
 
   const { id } = useParams();
   const { user } = use(AuthContext)

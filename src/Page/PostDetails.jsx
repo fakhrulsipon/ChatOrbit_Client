@@ -63,7 +63,7 @@ const PostDetails = () => {
         if (!commentText.trim()) {
             return Swal.fire("Empty Comment", "Write something to comment.", "error");
         }
-
+       
         const commentData = {
             postId,
             postTitle: post.postTitle,
