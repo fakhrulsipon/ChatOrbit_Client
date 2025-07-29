@@ -19,7 +19,13 @@ const HomePage = () => {
         },
     });
 
-    if (isLoading) return <span className="loading loading-bars loading-xl"></span>;
+    if (isLoading) {
+    return (
+        <div className="flex justify-center mt-20">
+            <span className="loading loading-bars loading-xl text-center"></span>
+        </div>
+    );
+}
     const totalPost = data?.total || 0;
     const totalPages = Math.ceil(totalPost / 5);
 
@@ -56,9 +62,7 @@ const HomePage = () => {
 
 
             <div className="space-y-4">
-                {isLoading ? (
-                    <span className="loading loading-bars loading-xl"></span>
-                ) : data?.posts?.length > 0 ? (
+                {data?.posts?.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {data?.posts?.map(post => (
                             <div key={post._id} className="card bg-white shadow-xl border hover:shadow-2xl transition-all duration-300 p-5 rounded-xl">

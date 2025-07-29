@@ -96,7 +96,7 @@ const PostDetails = () => {
         </div>
     );
     return (
-        <div className="max-w-4xl my-12 mx-auto px-6 py-10 bg-gradient-to-br from-white via-emerald-50 to-white rounded-3xl border border-emerald-400 shadow-xl shadow-emerald-100/50 transition-all duration-300">
+        <div className="max-w-4xl my-12 lg:mx-auto px-6 py-10 bg-gradient-to-br from-white via-emerald-50 to-white rounded-3xl border border-emerald-400 shadow-xl shadow-emerald-100/50 transition-all duration-300 mx-4">
             <h2 className="text-2xl font-extrabold text-emerald-700 mb-5 flex items-center gap-2"> <FaUser className="text-emerald-500" /> Author Info</h2>
             <div className="flex items-center gap-5 mb-6 border-b pb-5">
                 <img className="w-16 h-16 rounded-full ring-4 ring-emerald-300 shadow-md object-cover" src={post.authorImage} alt="" />
