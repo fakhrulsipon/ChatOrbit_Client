@@ -78,7 +78,7 @@ Built for **engagement**, **moderation**, and **growth**, it combines all the es
 
 ```bash
 # 1️⃣ Clone the repository
-git clone https://github.com/your-username/chatorbit.git
+git clone https://github.com/fakhrulsipon/chatorbit.git
 cd ChatOrbit_Client
 
 # 2️⃣ Install frontend dependencies
@@ -97,4 +97,4 @@ npm run dev
 # 5️⃣ Run backend separately if using decoupled server
 cd ChatOrbit_Server
 npm install
-npm run dev
+nodemon index.js
