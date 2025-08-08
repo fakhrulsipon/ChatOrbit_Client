@@ -1,114 +1,122 @@
 
 
-# Chatorbit - Community Forum
+💬 ChatOrbit - Community Forum
+A full-featured, modern discussion forum built with the MERN stack (MongoDB, Express.js, React, Node.js), where users can post, comment, vote, and become premium members. The platform supports secure authentication, real-time interactions, and admin moderation.
 
-## Purpose
-A full-featured discussion forum built with MERN stack (MongoDB, Express, React, Node.js) where users can create posts, comment, vote, and become premium members.
+🌐 Live URL
+🔗 ChatOrbit Live Site
 
-## Live URL
-https://super-gelato-a1166f.netlify.app/
+🚀 Project Overview
+A community-based forum for open discussions, Q&A, and content sharing.
 
-## Key Features
-- User authentication (email + social login)
-- Post creation with tags and voting
-- Comment system with reporting
-- Membership system with Bronze/Gold badges
-- Admin dashboard for content management
-- Responsive design for all devices
+Offers voting system, comment reporting, and premium membership (Bronze, Gold).
 
-## NPM Packages Used
-### Frontend Packages
-| Package | Version | Purpose |
-|---------|---------|---------|
-| react | ^19.1.0 | Core framework |
-| react-dom | ^19.1.0 | React DOM rendering |
-| @tanstack/react-query | ^5.82.0 | Data fetching |
-| react-router | ^7.6.3 | Routing |
-| react-hook-form | ^7.60.0 | Form management |
-| firebase | ^11.10.0 | Authentication |
-| @stripe/react-stripe-js | ^3.7.0 | Payment processing |
-| react-share | ^5.2.2 | Social sharing |
-| lottie-react | ^2.4.1 | Animations |
-| react-icons | ^5.5.0 | Icon library |
-| sweetalert2 | ^11.22.2 | Alert notifications |
-| @headlessui/react | ^2.2.4 | UI components |
-| recharts | ^3.1.0 | Data visualization |
+Includes an Admin Dashboard to manage users, posts, and reports.
 
-### Backend
-- `express` - Server framework
-- `mongoose` - MongoDB ODM
-- `jsonwebtoken` - Authentication
-- `stripe` - Payment processing
+Ensures responsiveness and accessibility across all devices.
 
-### Dev Tools
-- `vite` - Build tool
-- `eslint` - Code linting
+🛠️ Key Features
+🔐 User Authentication (Email + Social Login via Firebase)
 
-🔎 Reported Activities / Comments (Admin Panel)
-This feature allows the Admin to review, manage, and take actions on reported user comments — just like a Facebook group admin moderates inappropriate or harmful content.
+📝 Post Creation with Tags, Voting & Commenting
 
-📋 Overview
-Admins can view a paginated list of all reported comments.
+🚩 Comment Reporting System with Admin Review Panel
 
-Each report includes:
+💎 Membership Badges: Bronze and Gold with Stripe Payment Integration
 
-Reporter Email (Who reported the comment)
+🧑‍💼 Admin Dashboard for Moderation and Analytics
 
-Comment Text (with "Read More" option if long)
+📊 Data Visualizations via Recharts
 
-Feedback Reason (selected by the reporter)
+📱 Mobile-Responsive, Fast and Optimized UI
 
-Reported Time
+🧩 Technologies Used
+⚛️ Frontend
+Package	Version	Purpose
+react	^19.1.0	Core UI framework
+react-dom	^19.1.0	DOM rendering
+react-router	^7.6.3	Routing
+react-hook-form	^7.60.0	Form handling
+@tanstack/react-query	^5.82.0	Data fetching & caching
+firebase	^11.10.0	Auth & Hosting
+@stripe/react-stripe-js	^3.7.0	Payment Integration
+sweetalert2	^11.22.2	Alert & Confirm Dialogs
+@headlessui/react	^2.2.4	Accessible Modals and UI elements
+lottie-react	^2.4.1	Animation rendering
+react-icons	^5.5.0	Icon support
+recharts	^3.1.0	Charts & Graphs
+axios	latest	HTTP Requests
 
-Admin Actions
+🌐 Backend
+express – Web server framework
 
-🛠️ Admin Functionalities
-View Comment Details:
+mongoose – MongoDB object modeling
 
-If a comment exceeds 20 characters, a "Read More" button allows the admin to view the full comment in a modal.
+jsonwebtoken – Secure auth via JWT
 
-Delete Reported Comment:
+stripe – Payment handling
 
-Admin can click the "Delete Comment" button.
+⚙️ Dev Tools
+vite – Fast dev server
 
-A confirmation prompt (via SweetAlert) ensures safety before deletion.
+eslint – Code linting and formatting
 
-If confirmed:
+📦 How to Run Locally
+bash
+Copy
+Edit
+# Clone the repository
+git clone https://github.com/your-username/chatorbit.git
+cd chatorbit
 
-The comment is permanently deleted from the system.
+# Install dependencies
+npm install
 
-The report associated with it is also removed.
+# Add environment variables
+# Create a .env file and include Firebase, Stripe, and MongoDB URIs
 
-Success or error feedback is shown using styled alerts.
+# Start the development server
+npm run dev
+Make sure to also run the backend server (in a separate terminal) if decoupled.
 
-Pagination:
+🧾 Admin - Reported Comments Panel
+Admin can view and manage user-reported comments:
 
-Admins can navigate through all reports using pagination controls.
+Features:
+Paginated Reports (5 per page)
 
-Only 5 reports are shown per page to maintain clarity.
+Feedback Reasons and Reporter Email
 
-💡 Why This Feature Matters
-This feature ensures community safety and quality by empowering admins to take action against harmful, spammy, or irrelevant content. It mimics real-world community moderation practices like those in Facebook groups or Reddit forums.
+Full Comment Preview (with "Read More" modal)
 
-✅ Technologies Used
-React for UI
+Delete Comment with confirmation via SweetAlert
 
-TanStack React Query for efficient data fetching and caching
+MongoDB Aggregation used for efficient backend queries
 
-Axios (with Secure Hook) for API calls
+Why It Matters:
+Helps maintain a clean and respectful community, much like moderation in Reddit or Facebook Groups.
 
-SweetAlert2 for confirmation prompts
+🖼️ Screenshots & Media
+Add your homepage screenshot and admin dashboard screenshots in this section using GitHub or external image links.
 
-React Dialog (Modal) for full comment preview
+🧪 Optional Future Enhancements
+🔔 Mark reports as Resolved instead of deleting
 
-MongoDB Aggregation (server-side) for paginated report fetch
+📊 Filter by feedback reason
 
-🧪 Optional Enhancements (Future Ideas)
-Mark as Resolved instead of just deleting
+📬 Warning email system to repeated offenders
 
-View User History (to detect repeated offenses)
+📄 View user comment history for admins
 
-Send Warning Email to the reported user
+🏫 Education & Credits
+This project was developed as part of a full-stack developer learning journey using:
 
-Filter by Feedback Type for focused moderation
+Firebase
 
+MongoDB Atlas
+
+Stripe
+
+React
+
+Vite
