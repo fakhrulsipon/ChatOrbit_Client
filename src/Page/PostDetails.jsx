@@ -25,8 +25,7 @@ const PostDetails = () => {
         queryKey: ['post', postId],
         enabled: !!postId,
         queryFn: async () => {
-            const res = await axios.get(`https://chatorbit-server.vercel.app
-/post/${postId}`)
+            const res = await axios.get(`https://chatorbit-server.vercel.app/post/${postId}`)
             return res.data
         }
     })
