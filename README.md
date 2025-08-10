@@ -8,7 +8,7 @@ Supports secure authentication, real-time interactions, Stripe payments, and adm
 ---
 
 ## 🌐 Live Demo
-https://super-gelato-a1166f.netlify.app/
+[🔗 Visit Live Site](https://super-gelato-a1166f.netlify.app/)
 ---
 
 ## 🚀 Project Overview
