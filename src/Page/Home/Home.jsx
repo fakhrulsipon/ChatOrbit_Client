@@ -4,6 +4,7 @@ import Posts from '../../components/Posts'
 import ShowAnnouncements from '../../components/ShowAnnouncements';
 import LatestPosts from '../../components/LatestPosts';
 import TopVotedPosts from '../../components/TopVotedPosts';
+import HeroSection from '../../components/HeroSection';
 
 const Home = () => {
     
@@ -13,6 +14,7 @@ const Home = () => {
 
     return (
         <div>
+            <HeroSection></HeroSection>
             <Posts></Posts>
              <LatestPosts></LatestPosts>
             <TopVotedPosts></TopVotedPosts>

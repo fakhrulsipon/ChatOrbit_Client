@@ -30,7 +30,7 @@ const HomePage = () => {
     const totalPages = Math.ceil(totalPost / 12);
 
     return (
-        <div className="px-4 md:px-12 lg:px-8 xl:px-16">
+        <div className="mt-8 lg:mt-12 xl:mt-16 px-4 md:px-12 lg:px-8 xl:px-16">
 
             {/* banner section search functionality */}
             <Banner onSearch={(tag) => {

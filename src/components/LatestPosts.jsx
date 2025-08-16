@@ -21,7 +21,7 @@ const LatestPosts = () => {
     }
 
     return (
-        <div className='mt-8 lg:mt-12 xl:mt-16 px-4 md:px-12 lg:px-8 xl:px-16'>
+        <div className='mt-8 lg:mt-12 xl:mt-16'>
 
             <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-gray-800">📌 Latest Posts</h2>
@@ -31,7 +31,7 @@ const LatestPosts = () => {
             </div>
 
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 px-4 md:px-12 lg:px-8 xl:px-16">
                 {latestPosts.map(post => (
                     <div
                         key={post._id}
