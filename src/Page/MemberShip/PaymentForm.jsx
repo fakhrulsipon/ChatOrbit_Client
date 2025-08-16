@@ -44,7 +44,7 @@ const PaymentForm = () => {
 
             })
             const clientSecret = res.data.clientSecret;
-            
+
             const result = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: elements.getElement(CardElement),
@@ -61,8 +61,7 @@ const PaymentForm = () => {
                 setError('');
                 if (result.paymentIntent.status === 'succeeded') {
                     // Member update API call
-                    axios.patch(` http://localhost:5000
-/users/member/${user?.email}`)
+                    axios.patch(` http://localhost:5000/users/member/${user?.email}`)
                         .then(res => {
                             if (res.data.modifiedCount) {
                                 Swal.fire({
@@ -71,9 +70,9 @@ const PaymentForm = () => {
                                     icon: 'success',
                                     confirmButtonText: 'Go to Dashboard'
                                 })
-                                .then(() => {
-                                    navigate('/dashboard/addPost');
-                                });
+                                    .then(() => {
+                                        navigate('/dashboard/addPost');
+                                    });
                             }
 
                         })
@@ -90,17 +89,33 @@ const PaymentForm = () => {
         }
     };
     return (
-        <div>
-            <form onSubmit={handleSubmit} className='max-w-md mx-2 md:mx-auto p-4 border rounded shadow-lg mt-10'>
-                <CardElement className='border p-2 rounded mb-4'></CardElement>
-                <button className='btn btn-primary w-full' type="submit" disabled={!stripe}>
-                    Pay {amount}
-                </button>
-                {
-                    error && <p className='text-red-600'>{error}</p>
-                }
-            </form>
+        <div className="h-[calc(100vh-295px)] flex items-center justify-center p-4">
+            <div className="max-w-md w-full p-6 bg-white rounded shadow-lg">
+                {/* Static Text Above Form */}
+                <p className="text-gray-700 mb-4 text-center">
+                    Please enter your payment details below to complete the transaction.
+                </p>
+
+                {/* Payment Form */}
+                <form onSubmit={handleSubmit}>
+                    <CardElement className='border p-2 rounded mb-4' />
+                    <button
+                        className='btn bg-blue-400 hover:bg-blue-500 w-full text-white'
+                        type="submit"
+                        disabled={!stripe}
+                    >
+                        Pay {amount}
+                    </button>
+                    {error && <p className='text-red-600 mt-2'>{error}</p>}
+                </form>
+
+                {/* Static Text Below Form */}
+                <p className="text-gray-500 mt-4 text-sm text-center">
+                    Your payment is secure and encrypted. We do not store your card details.
+                </p>
+            </div>
         </div>
+
     );
 };
 

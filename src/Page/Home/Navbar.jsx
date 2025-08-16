@@ -63,6 +63,7 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-white rounded-box z-1 mt-3 w-52 p-2 shadow-xl border border-white/10 gap-2">
             <li><NavLink to='/' className={ActiveLinks}>Home</NavLink></li>
             <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
+            <li><NavLink to='/about' className={ActiveLinks}>About</NavLink></li>
 
             <div className="relative group">
               <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
@@ -91,7 +92,14 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-4 items-center">
           <li><NavLink to='/' className={ActiveLinks}>Home</NavLink></li>
-          <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
+          {
+            user && <>
+            <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
+            </>
+          }
+          <li><NavLink to='/about' className={ActiveLinks}>About</NavLink></li>
+          <li><NavLink to='/blogs' className={ActiveLinks}>Blogs</NavLink></li>
+          <li><NavLink to='/about' className={ActiveLinks}>Privacy Policy</NavLink></li>
           <div className="relative group">
             <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
               <NavLink>
@@ -129,7 +137,7 @@ const Navbar = () => {
               </ul>
             </div>
           ) : (
-            <Link to={'/login'} className="btn bg-white text-purple-900 hover:bg-purple-200 hover:scale-105 transform transition-all font-bold border-none shadow-lg">
+            <Link to={'/login'} className="btn bg-blue-400 text-white hover:bg-blue-600 hover:scale-105 transform transition-all font-bold border-none shadow-lg">
               Join Us
             </Link>
           )

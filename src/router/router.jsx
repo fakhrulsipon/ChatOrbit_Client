@@ -20,6 +20,8 @@ import Announcement from "../Page/DashboardLayout/Announcement";
 import ErrorPage from "../Page/ErrorPage";
 import Forbidden from "../Page/Forbidden";
 import AdminRoute from "../Route/AdminRoute";
+import About from "../components/About";
+import Blogs from "../Page/Blogs";
 
 
 export const router = createBrowserRouter([
@@ -50,6 +52,14 @@ export const router = createBrowserRouter([
         {
           path: '/details/:postId',
           element: <PostDetails></PostDetails>
+        },
+        {
+          path: '/about',
+          element: <About></About>
+        },
+        {
+          path: '/blogs',
+          element: <Blogs></Blogs>
         },
         {
           path: '/forbidden',
