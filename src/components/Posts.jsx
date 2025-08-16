@@ -14,7 +14,7 @@ const HomePage = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['posts', currentPage, sortBy, searchTag],
         queryFn: async () => {
-            const res = await axios.get(`https://chatorbit-server.vercel.app/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
+            const res = await axios.get(`http://localhost:5000/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
             return res.data;
         },
     });
@@ -27,10 +27,10 @@ const HomePage = () => {
     );
 }
     const totalPost = data?.total || 0;
-    const totalPages = Math.ceil(totalPost / 5);
+    const totalPages = Math.ceil(totalPost / 12);
 
     return (
-        <div className="p-6">
+        <div className="px-4 md:px-12 lg:px-8 xl:px-16">
 
             {/* banner section search functionality */}
             <Banner onSearch={(tag) => {
@@ -63,7 +63,7 @@ const HomePage = () => {
 
             <div className="space-y-4">
                 {data?.posts?.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {data?.posts?.map(post => (
                             <div key={post._id} className="card bg-white shadow-xl border hover:shadow-2xl transition-all duration-300 p-5 rounded-xl">
                                 <div className="flex items-center gap-4 mb-4">
@@ -83,8 +83,8 @@ const HomePage = () => {
                                     <span>Votes: {post.upVote - post.downVote}</span>
                                 </div>
 
-                                <Link to={`details/${post._id}`}>
-                                    <button className="btn btn-sm bg-cyan-600 text-white w-full">View More</button>
+                                <Link to={`details/${post._id}`} className='mt-auto'>
+                                    <button className="btn btn-sm rounded-lg bg-blue-400 hover:bg-blue-500 text-white">View More</button>
                                 </Link>
                             </div>
                         ))}

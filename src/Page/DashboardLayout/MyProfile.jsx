@@ -44,7 +44,7 @@ const MyProfile = () => {
    
 
     return (
-        <div className="max-w-4xl md:mx-auto mx-6 p-6 bg-gradient-to-br from-white via-sky-50 to-cyan-100 shadow-xl rounded-2xl my-10 border border-cyan-200 transition-transform hover:scale-[1.01] duration-300">
+        <div className="max-w-4xl md:mx-auto mx-6 p-6 shadow-xl rounded-2xl my-10 border border-cyan-200 transition-transform hover:scale-[1.01] duration-300">
             {/* Profile Section */}
             <div className="flex items-center gap-6">
                 <img

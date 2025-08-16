@@ -30,7 +30,7 @@ const AddPost = () => {
     const { data: tags, isLoading: tagLoading } = useQuery({
         queryKey: ['tags'],
         queryFn: async () => {
-            const res = await axios.get('https://chatorbit-server.vercel.app/tags');
+            const res = await axios.get('http://localhost:5000/tags');
             return res.data
         }
     })
@@ -104,7 +104,7 @@ const AddPost = () => {
         };
 
         try {
-            await axiosSecure.post('https://chatorbit-server.vercel.app/posts', postData);
+            await axiosSecure.post('http://localhost:5000/posts', postData);
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',

@@ -6,7 +6,7 @@ import { AuthContext } from '../Provider/Provider';
 
 
 const axiosSecure = axios.create({
-  baseURL: 'https://chatorbit-server.vercel.app',
+  baseURL: 'http://localhost:5000',
   withCredentials: true,
 });
  

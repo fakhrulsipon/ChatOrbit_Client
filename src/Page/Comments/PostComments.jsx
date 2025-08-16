@@ -54,7 +54,7 @@ const PostComments = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["comments", id, currentPage, limit],
     queryFn: async () => {
-      const res = await axios.get(`https://chatorbit-server.vercel.app
+      const res = await axios.get(`http://localhost:5000
 /comments/${id}?page=${currentPage}&limit=${limit}`);
       return res.data;
     },

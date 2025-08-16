@@ -7,6 +7,7 @@ Supports secure authentication, real-time interactions, Stripe payments, and adm
 
 ## 🌐 Live Demo
 [🔗 Visit Live Site](https://super-gelato-a1166f.netlify.app/)
+
 ---
 
 ## 🚀 Project Overview
@@ -41,51 +42,15 @@ Built for **engagement**, **moderation**, and **growth**, it combines all the es
 ### ⚛️ Frontend
 
 | Package                     | Version   | Purpose                             |
-|----------------------------|-----------|-------------------------------------|
-| `react`                    | ^19.1.0   | Core UI framework                   |
-| `react-router`             | ^7.6.3    | SPA Routing                         |
-| `react-hook-form`          | ^7.60.0   | Form handling                       |
-| `@tanstack/react-query`    | ^5.82.0   | Data fetching & caching             |
-| `firebase`                 | ^11.10.0  | Authentication & Hosting            |
-| `@stripe/react-stripe-js`  | ^3.7.0    | Payment Integration                 |
-| `sweetalert2`              | ^11.22.2  | Alert & Confirm Dialogs             |
-| `@headlessui/react`        | ^2.2.4    | Accessible UI components            |
-| `lottie-react`             | ^2.4.1    | Animations                          |
-| `react-icons`              | ^5.5.0    | Icon support                        |
-| `recharts`                 | ^3.1.0    | Data visualizations                 |
-| `axios`                    | latest    | API Requests                        |
-
-### 🌐 Backend
-
-- `express` – Web server framework  
-- `mongoose` – MongoDB object modeling  
-- `jsonwebtoken` – Secure JWT auth  
-- `stripe` – Payment gateway integration
-
-### ⚙️ Dev Tools
-
-- `vite` – Lightning-fast dev environment  
-- `eslint` – Linting & code formatting  
-- `dotenv` – Environment variable management
-
----
-
-## 📦 How to Run Locally
-
-```bash
-# 1️⃣ Clone the repository
-git clone https://github.com/fakhrulsipon/chatorbit.git
-cd ChatOrbit_Client
-
-# 2️⃣ Install frontend dependencies
-npm install
-
-# 3️⃣ Add environment variables
-# ➜ Create a .env file with:
-# - VITE_FIREBASE_API_KEY
-# - VITE_FIREBASE_AUTH_DOMAIN
-# - VITE_MONGODB_URI
-# - VITE_STRIPE_PUBLIC_KEY
-
-# 4️⃣ Start development server
-npm run dev
+|-----------------------------|-----------|-------------------------------------|
+| `react`                     | ^19.1.0   | Core UI framework                   |
+| `react-router`              | ^7.6.3    | SPA Routing                         |
+| `react-hook-form`           | ^7.60.0   | Form handling                       |
+| `@tanstack/react-query`     | ^5.82.0   | Data fetching & caching             |
+| `firebase`                  | ^11.10.0  | Authentication & Hosting            |
+| `@stripe/react-stripe-js`   | ^3.7.0    | Payment Integration                 |
+| `sweetalert2`               | ^11.22.2  | Alert & Confirm Dialogs             |
+| `@headlessui/react`         | ^2.2.4    | Accessible UI components            |
+| `lottie-react`              | ^2.4.1    | Animations                          |
+| `react-icons`               | ^5.5.0    | Icon support                        |
+| `recharts`                  | ^3.1.0    | Data visualizations

@@ -6,7 +6,7 @@ const ShowAnnouncements = () => {
   const { data: announcements = [], isLoading: loadingAnnouncements } = useQuery({
     queryKey: ["announcements"],
     queryFn: async () => {
-      const res = await axios.get("https://chatorbit-server.vercel.app/announcements");
+      const res = await axios.get("http://localhost:5000/announcements");
       return res.data;
     },
   });
@@ -15,7 +15,7 @@ const ShowAnnouncements = () => {
   const { data: announcementCount = 0, isLoading: loadingCount, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
-      const res = await axios.get('https://chatorbit-server.vercel.app/announcement-count');
+      const res = await axios.get('http://localhost:5000/announcement-count');
       return res.data.count;
     }
   });
@@ -32,7 +32,7 @@ const ShowAnnouncements = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-3xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+      <h2 className="text-3xl font-bold mb-8 text-center text-blue-400">
         📢 Community Announcements
       </h2>
 

@@ -39,7 +39,7 @@ const PaymentForm = () => {
             console.log('payment method', paymentMethod)
 
             // step-2: create payment intent
-            const res = await axios.post('https://chatorbit-server.vercel.app/create-payment-intent', {
+            const res = await axios.post('http://localhost:5000/create-payment-intent', {
                 amountInCents,
 
             })
@@ -61,7 +61,7 @@ const PaymentForm = () => {
                 setError('');
                 if (result.paymentIntent.status === 'succeeded') {
                     // Member update API call
-                    axios.patch(` https://chatorbit-server.vercel.app
+                    axios.patch(` http://localhost:5000
 /users/member/${user?.email}`)
                         .then(res => {
                             if (res.data.modifiedCount) {

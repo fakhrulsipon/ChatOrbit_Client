@@ -10,33 +10,11 @@ import { useQuery } from '@tanstack/react-query';
 const Navbar = () => {
   const { logoutUser, user } = use(AuthContext)
 
-  const navLinks = <>
-    <li>
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg px-4 py-2 shadow-lg"
-            : "text-white px-4 py-2 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-200"
-        }
-        to='/'
-      >
-        Home
-      </NavLink>
-    </li>
+  const ActiveLinks = ({ isActive }) =>
+    isActive
+      ? "text-blue-400 border-b-2 border-blue-400  font-medium transition-all duration-200"
+      : "hover:text-blue-400 font-medium transition-all duration-200";
 
-    <li>
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg px-4 py-2 shadow-lg"
-            : "text-white px-4 py-2 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-200"
-        }
-        to='/memberShip'
-      >
-        Membership
-      </NavLink>
-    </li>
-  </>
 
   const handleLogout = async () => {
     try {
@@ -62,7 +40,7 @@ const Navbar = () => {
   const { data: announcementCount = 0, isLoading, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
-      const res = await axios.get('https://chatorbit-server.vercel.app/announcement-count');
+      const res = await axios.get('http://localhost:5000/announcement-count');
       return res.data.count;
     }
   });
@@ -72,30 +50,31 @@ const Navbar = () => {
 
 
   return (
-    <div className="navbar bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-400 shadow-xl w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 transition-all duration-300 hover:shadow-2xl">
+    <div className="navbar px-4 md:px-12 lg:px-8 xl:px-16 bg-white w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden hover:scale-105 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-gradient-to-b from-indigo-800 to-purple-900 rounded-box z-1 mt-3 w-52 p-2 shadow-xl border border-white/10">
-            {navLinks}
+            className="menu menu-sm dropdown-content bg-white rounded-box z-1 mt-3 w-52 p-2 shadow-xl border border-white/10 gap-2">
+            <li><NavLink to='/' className={ActiveLinks}>Home</NavLink></li>
+            <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
 
             <div className="relative group">
               <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
                 <NavLink>
-                  <IoNotificationsOutline size={25} className="text-white group-hover:text-purple-200" />
+                  <IoNotificationsOutline size={27} className="text-black group-hover:text-purple-200" />
                 </NavLink>
               </li>
               {
                 isLoading ? (
                   <span className="absolute left-7 bottom-3 loading loading-spinner loading-xs text-white"></span>
                 ) : (
-                  <span className="absolute left-6 bottom-4 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full animate-pulse">
+                  <span className="absolute left-8 bottom-5 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full">
                     {announcementCount}
                   </span>
                 )
@@ -104,25 +83,26 @@ const Navbar = () => {
 
           </ul>
         </div>
-        <div className="flex items-center hover:scale-105 transition-transform gap-2">
-          <span className="btn btn-ghost text-xl text-white font-bold tracking-wider hover:text-purple-800">Chatorbit</span>
+        <div className="flex items-center gap-2">
+          <span className=" text-3xl text-black font-bold tracking-wider">Chatorbit</span>
           <img className='w-12 h-12' src={'/Chatorbit.png'} alt="Logo" />
         </div>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2">
-          {navLinks}
+        <ul className="menu menu-horizontal gap-4 items-center">
+          <li><NavLink to='/' className={ActiveLinks}>Home</NavLink></li>
+          <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
           <div className="relative group">
             <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
               <NavLink>
-                <IoNotificationsOutline size={25} className="text-white group-hover:text-purple-200" />
+                <IoNotificationsOutline size={27} className="text-black" />
               </NavLink>
             </li>
             {
               isLoading ? (
                 <span className="absolute left-7 bottom-3 loading loading-spinner loading-xs text-white"></span>
               ) : (
-                <span className="absolute left-6 bottom-4 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full animate-bounce">
+                <span className="absolute left-8 bottom-6 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full">
                   {announcementCount}
                 </span>
               )
@@ -141,11 +121,11 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-gradient-to-b from-indigo-800 to-purple-900 rounded-box w-52 border border-white/10"
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-white text-black rounded-box w-52"
               >
-                <li className="hover:bg-emerald-500 rounded-lg"><span className="font-semibold text-white cursor-default">{user.displayName}</span></li>
-                <li className="hover:bg-emerald-500 rounded-lg"><Link to="/dashboard" className="text-white hover:text-white">Dashboard</Link></li>
-                <li className="hover:bg-emerald-500 rounded-lg"><button onClick={handleLogout} className="text-white hover:text-white">Logout</button></li>
+                <li className="hover:bg-blue-400 rounded-lg"><span className="font-medium hover:text-white text- cursor-default">{user.displayName}</span></li>
+                <li className="hover:bg-blue-400 rounded-lg"><Link to="/dashboard" className=" hover:text-white">Dashboard</Link></li>
+                <li className="hover:bg-blue-400 rounded-lg"><button onClick={handleLogout} className=" hover:text-white">Logout</button></li>
               </ul>
             </div>
           ) : (

@@ -32,7 +32,7 @@ const Register = () => {
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
                 }
-                await axios.post('https://chatorbit-server.vercel.app/users', userInfo)
+                await axios.post('http://localhost:5000/users', userInfo)
 
                 // update user profile in firebase
                 const updateProfile = {

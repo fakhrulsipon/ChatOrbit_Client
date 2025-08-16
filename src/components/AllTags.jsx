@@ -5,7 +5,7 @@ const AllTags = ({ setSearchTag, setCurrentPage }) => {
   const { data: tags, isError, isLoading } = useQuery({
     queryKey: ['tags'],
     queryFn: async () => {
-      const res = await axios.get('https://chatorbit-server.vercel.app/tags');
+      const res = await axios.get('http://localhost:5000/tags');
       return res.data
     }
   })
