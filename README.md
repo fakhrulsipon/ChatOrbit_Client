@@ -1,5 +1,3 @@
-
-
 # 💬 ChatOrbit - Community Forum
 
 A **full-featured**, modern discussion forum built with the **MERN stack** (MongoDB, Express.js, React, Node.js), where users can post, comment, vote, and become premium members.  
@@ -91,8 +89,3 @@ npm install
 
 # 4️⃣ Start development server
 npm run dev
-
-# 5️⃣ Run backend separately if using decoupled server
-cd ChatOrbit_Server
-npm install
-nodemon index.js
