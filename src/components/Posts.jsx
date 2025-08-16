@@ -20,12 +20,12 @@ const HomePage = () => {
     });
 
     if (isLoading) {
-    return (
-        <div className="flex justify-center mt-20">
-            <span className="loading loading-bars loading-xl text-center"></span>
-        </div>
-    );
-}
+        return (
+            <div className="flex justify-center mt-20">
+                <span className="loading loading-bars loading-xl text-center"></span>
+            </div>
+        );
+    }
     const totalPost = data?.total || 0;
     const totalPages = Math.ceil(totalPost / 12);
 
@@ -65,26 +65,36 @@ const HomePage = () => {
                 {data?.posts?.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {data?.posts?.map(post => (
-                            <div key={post._id} className="card bg-white shadow-xl border hover:shadow-2xl transition-all duration-300 p-5 rounded-xl">
-                                <div className="flex items-center gap-4 mb-4">
-                                    <img className="w-14 h-14 rounded-full border-2 border-primary" src={post.authorImage} alt="author" />
+                            <div key={post._id} className="card bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-200 p-6 rounded-2xl flex flex-col justify-between">
+                                {/* Author Info */}
+                                <div className="flex items-center gap-4 mb-5">
+                                    <img className="w-16 h-16 rounded-full border-2 border-blue-400 object-cover" src={post.authorImage} alt="author" />
                                     <div>
-                                        <h2 className="text-lg font-bold text-gray-800">{post.postTitle}</h2>
+                                        <h2 className="text-lg font-semibold text-gray-800">{post.postTitle}</h2>
                                         <p className="text-xs text-gray-500">{new Date(post.postTime).toLocaleString()}</p>
                                     </div>
                                 </div>
 
-                                <p className="text-sm text-gray-600 mb-3">
-                                    Tag: <span className="badge badge-outline badge-sm">{post.tag}</span>
-                                </p>
-
-                                <div className="flex justify-between text-sm text-gray-700 mb-4">
-                                    <span>👍 {post.upVote}</span>
-                                    <span>Votes: {post.upVote - post.downVote}</span>
+                                {/* Tags & Votes */}
+                                <div className='flex flex-col justify-center items-start mb-4 gap-2'>
+                                    <span className="badge badge-outline badge-sm text-blue-500 border-blue-400">{post.tag}</span>
+                                    <div className="flex gap-6 text-sm text-gray-700">
+                                        <span>👍 {post.upVote}</span>
+                                        <span>👎 {post.downVote}</span>
+                                    </div>
                                 </div>
 
+                                {/* Comments & Vote Count */}
+                                <div className="flex justify-between text-sm text-gray-600 font-medium mb-4">
+                                    <span>💬 {post.totalComments} Comments</span>
+                                    <span>⭐ Votes: {post.upVote - post.downVote}</span>
+                                </div>
+
+                                {/* View More Button */}
                                 <Link to={`details/${post._id}`} className='mt-auto'>
-                                    <button className="btn btn-sm rounded-lg bg-blue-400 hover:bg-blue-500 text-white">View More</button>
+                                    <button className="btn btn-sm rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white transition-all duration-300">
+                                        View More
+                                    </button>
                                 </Link>
                             </div>
                         ))}

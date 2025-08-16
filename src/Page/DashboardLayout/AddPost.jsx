@@ -126,8 +126,8 @@ const AddPost = () => {
     };
 
     return (
-        <div className="max-w-lg md:mx-auto mx-6 my-10 bg-emerald-200 p-10 rounded-3xl shadow-2xl border border-gray-200">
-            <h2 className="text-3xl font-extrabold text-center mb-8 text-gradient bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+        <div className="max-w-xl mx-auto mx-6 my-10 p-10 rounded-3xl">
+            <h2 className="text-3xl font-semibold text-center mb-8  text-blue-400">
                 📝 Add New Post
             </h2>
 

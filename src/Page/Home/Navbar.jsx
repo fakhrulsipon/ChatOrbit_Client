@@ -50,7 +50,7 @@ const Navbar = () => {
 
 
   return (
-    <div className="navbar px-4 md:px-12 lg:px-8 xl:px-16 bg-white w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90">
+    <div className="navbar p-0 px-4 md:px-12 lg:px-8 xl:px-16 bg-white w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden hover:scale-105 transition-transform">
@@ -100,7 +100,7 @@ const Navbar = () => {
             </li>
             {
               isLoading ? (
-                <span className="absolute left-7 bottom-3 loading loading-spinner loading-xs text-white"></span>
+                <span className="absolute left-7 bottom-5 loading loading-spinner loading-xs text-white"></span>
               ) : (
                 <span className="absolute left-8 bottom-6 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full">
                   {announcementCount}

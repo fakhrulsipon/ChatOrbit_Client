@@ -44,16 +44,16 @@ const MyProfile = () => {
    
 
     return (
-        <div className="max-w-4xl md:mx-auto mx-6 p-6 shadow-xl rounded-2xl my-10 border border-cyan-200 transition-transform hover:scale-[1.01] duration-300">
+        <div className="max-w-7xl md:mx-auto mx-6 p-6 rounded-2xl my-10">
             {/* Profile Section */}
-            <div className="flex items-center gap-6">
+            <div className="md:flex items-center gap-6">
                 <img
                     src={userInfo?.image || user?.photoURL}
                     alt="User"
-                    className="w-24 h-24 rounded-full object-cover ring-4 ring-cyan-300"
+                    className="w-24 h-24 mb-4 rounded-full object-cover ring-4 ring-blue-400"
                 />
                 <div>
-                    <h2 className="text-2xl font-extrabold text-cyan-800">{userInfo?.name || user?.displayName}</h2>
+                    <h2 className="text-3xl font-semibold text-black">{userInfo?.name || user?.displayName}</h2>
                     <p className="text-gray-700 font-medium">{userInfo?.email || user?.email}</p>
 
                     {/* Show Badges */}
@@ -76,7 +76,7 @@ const MyProfile = () => {
 
             {/* Recent Posts */}
             <div className="mt-10">
-                <h3 className="text-2xl font-bold text-cyan-800 mb-4 border-b pb-2 border-cyan-300">
+                <h3 className="text-2xl font-semibold text-blue-400 mb-4  pb-2">
                     My Recent Posts
                 </h3>
                 {recentPosts?.length > 0 ? (
@@ -84,13 +84,13 @@ const MyProfile = () => {
                         {recentPosts?.map(post => (
                             <div
                                 key={post._id}
-                                className="p-4 border border-cyan-200 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                                className="p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
                             >
                                 <h4 className="text-lg font-semibold text-gray-800">{post.postTitle}</h4>
                                 <p className="text-gray-600 mt-1">
-                                    {post.postDescription?.slice(0, 100)}...
+                                    {post.postDescription}
                                 </p>
-                                <p className="text-sm text-cyan-600 mt-2 font-medium">
+                                <p className="text-sm text-gray-400 mt-2 font-medium">
                                     Tag: #{post.tag}
                                 </p>
                             </div>

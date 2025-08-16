@@ -2,7 +2,7 @@ import React from 'react';
 
 const FAQSection = () => {
   return (
-    <div className="py-12 mt-8 lg:mt-12 xl:mt-16 px-4 md:px-12 lg:px-8 xl:px-16">
+    <div className="my-8 lg:my-12 xl:my-16 px-4 md:px-12 lg:px-8 xl:px-16">
       {/* Title & Description */}
       <div className="max-w-2xl mx-auto text-center mb-8">
         <h2 className="text-3xl font-bold mb-4">Getting Started with ChatOrbit</h2>

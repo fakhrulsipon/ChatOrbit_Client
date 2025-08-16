@@ -45,7 +45,7 @@ const MakeAnnouncement = () => {
     }
   };
   return (
-    <div className="max-w-3xl p-6 bg-white shadow-xl rounded-xl my-10 mx-4 lg:mx-10 xl:mx-auto">
+    <div className="max-w-3xl p-6 rounded-xl my-10 mx-4 lg:mx-10 xl:mx-auto">
       <h2 className="text-2xl font-semibold mb-6 text-center">📢 Make Announcement</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 
@@ -54,7 +54,7 @@ const MakeAnnouncement = () => {
           <input
             type="text"
             defaultValue={user.photoURL}
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
             placeholder="Author Image"
           />
         </div>
@@ -64,7 +64,7 @@ const MakeAnnouncement = () => {
           <input
             type="text"
             defaultValue={user.displayName}
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
             placeholder="Author Name"
           />
         </div>
@@ -74,7 +74,7 @@ const MakeAnnouncement = () => {
           <input
             type="text"
             {...register("title", { required: true })}
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
             placeholder="New Feature Announcement"
           />
         </div>
@@ -83,18 +83,20 @@ const MakeAnnouncement = () => {
           <label className="block mb-1 font-medium">Description</label>
           <textarea
             {...register("description", { required: true })}
-            className="w-full border px-4 py-2 rounded-lg"
+            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
             rows="4"
             placeholder="Write the announcement details..."
           ></textarea>
         </div>
 
-        <button
+        <div className="w-full">
+          <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg w-full"
+          className="bg-blue-400 hover:bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg flex mx-auto"
         >
           Post Announcement
         </button>
+        </div>
       </form>
     </div>
   );

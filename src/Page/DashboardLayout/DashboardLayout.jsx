@@ -8,12 +8,12 @@ const DashboardLayout = () => {
 
   const linkClass = ({ isActive }) =>
     isActive
-      ? "flex items-center gap-2 text-white bg-blue-600 px-4 py-2 rounded-md font-semibold"
-      : "flex items-center gap-2 text-gray-700 hover:text-blue-600 px-4 py-2 rounded-md";
+      ? "flex items-center gap-2 text-white bg-blue-400 px-4 py-2 rounded-md font-semibold"
+      : "flex items-center gap-2 text-gray-700 hover:text-blue-500 px-4 py-2 rounded-md";
 
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open bg-gradient-to-r from-blue-50 to-blue-100">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
@@ -38,16 +38,22 @@ const DashboardLayout = () => {
           <div className="mx-2 flex-1 px-2">Dashboard</div>
         </div>
         {/* Page content here */}
-        <div className="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen">
+        <div className="min-h-screen">
           <Outlet />
         </div>
         {/* Page content here */}
       </div>
       <div className="drawer-side">
+
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu bg-orange-50 text-base-content min-h-full w-80 p-4 gap-4 
-              shadow-xl rounded-tr-3xl rounded-br-3xl border-r border-orange-200">
-          <Link className='mb-5 pb-3' to={'/'}><Logo></Logo></Link>
+        <ul className="menu bg-gradient-to-t from-blue-200 via-blue-100 to-white text-base-content min-h-full w-80 p-4 gap-4 
+              shadow-xl border-r border-blue-300">
+
+          <Link className='flex justify-center items-center' to={'/'}>
+            <img className='w-12 h-12' src={'/Chatorbit.png'} alt="Logo" />
+            <span className=" text-2xl text-black font-bold tracking-wider">Chatorbit</span>
+          </Link>
+
           {/* Sidebar content here */}
 
 

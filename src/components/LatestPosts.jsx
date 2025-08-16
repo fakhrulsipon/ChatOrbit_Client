@@ -35,38 +35,36 @@ const LatestPosts = () => {
                 {latestPosts.map(post => (
                     <div
                         key={post._id}
-                        className="card bg-white shadow-xl border hover:shadow-2xl transition-all duration-300 p-5 rounded-xl"
+                        className="bg-gradient-to-br from-white to-blue-50 shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-6 rounded-3xl"
                     >
-                        <div className="flex items-center gap-4 mb-4">
+                        {/* Author Info */}
+                        <div className="flex items-center gap-4 mb-5">
                             <img
-                                className="w-14 h-14 rounded-full border-2 border-primary"
+                                className="w-16 h-16 rounded-full border-2 border-blue-400 object-cover"
                                 src={post.authorImage}
                                 alt="author"
                             />
                             <div>
-                                <h2 className="text-lg font-bold text-gray-800">{post.postTitle}</h2>
+                                <h2 className="text-lg font-semibold text-gray-800">{post.postTitle}</h2>
                                 <p className="text-xs text-gray-500">
                                     {new Date(post.postTime).toLocaleString()}
                                 </p>
                             </div>
                         </div>
 
-                        <p className="text-sm text-gray-600 mb-3">
-                            Tag:{" "}
-                            <span className="badge badge-outline badge-sm">{post.tag}</span>
+                        {/* Tag */}
+                        <p className="text-sm text-gray-600 mb-4">
+                            Tag: <span className="badge badge-outline badge-sm text-blue-500 border-blue-400">{post.tag}</span>
                         </p>
 
-                        <div className="flex justify-between text-sm text-gray-700 mb-4">
+                        {/* Votes */}
+                        <div className="flex justify-between text-sm text-gray-700 font-medium">
                             <span>👍 {post.upVote}</span>
                             <span>Votes: {post.upVote - post.downVote}</span>
                         </div>
-
-                        <Link to={`details/${post._id}`} className="mt-auto">
-                            <button className="btn btn-sm rounded-lg bg-blue-400 hover:bg-blue-500 text-white">
-                                View More
-                            </button>
-                        </Link>
                     </div>
+
+
                 ))}
             </div>
         </div>
