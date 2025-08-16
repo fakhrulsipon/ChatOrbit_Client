@@ -5,6 +5,7 @@ import ShowAnnouncements from '../../components/ShowAnnouncements';
 import LatestPosts from '../../components/LatestPosts';
 import TopVotedPosts from '../../components/TopVotedPosts';
 import HeroSection from '../../components/HeroSection';
+import FAQSection from '../Comments/FAQSection';
 
 const Home = () => {
     
@@ -15,10 +16,12 @@ const Home = () => {
     return (
         <div>
             <HeroSection></HeroSection>
+            
             <Posts></Posts>
              <LatestPosts></LatestPosts>
             <TopVotedPosts></TopVotedPosts>
             <ShowAnnouncements></ShowAnnouncements>
+            <FAQSection></FAQSection>
         </div>
     );
 };
