@@ -31,9 +31,9 @@ const blogs = [
 
 const Blog = () => {
     return (
-        <div className="min-h-screen py-16 px-4">
+        <div className="min-h-screen my-8 lg:my-12 xl:my-16 px-4 md:px-12 lg:px-8 xl:px-16">
             <div className="max-w-5xl mx-auto">
-                <h1 className="text-5xl font-extrabold text-center text-blue-600 mb-12">
+                <h1 className="md:text-4xl text-3xl font-semibold text-center text-blue-600 mb-12">
                     Chatorbit Insights
                 </h1>
 
@@ -48,18 +48,12 @@ const Blog = () => {
                                 />
                             </div>
                             <div className="md:w-1/2">
-                                <h2 className="text-3xl font-bold text-gray-800">{blog.title}</h2>
+                                <h2 className="md:text-2xl text-xl font-bold text-gray-800">{blog.title}</h2>
                                 <p className="text-gray-600 mt-4">{blog.excerpt}</p>
                                 <div className="mt-6 flex justify-between items-center text-gray-500 text-sm">
                                     <span>By {blog.author}</span>
                                     <span>{blog.date}</span>
                                 </div>
-                                <Link 
-                                    to={`/blog/${blog.id}`}
-                                    className="mt-4 inline-block text-white bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-full font-medium transition-colors"
-                                >
-                                    Read More
-                                </Link>
                             </div>
                         </div>
                     ))}

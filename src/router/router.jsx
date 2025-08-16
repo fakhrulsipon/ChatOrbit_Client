@@ -22,6 +22,7 @@ import Forbidden from "../Page/Forbidden";
 import AdminRoute from "../Route/AdminRoute";
 import About from "../components/About";
 import Blogs from "../Page/Blogs";
+import Privacy from "../Page/Privacy";
 
 
 export const router = createBrowserRouter([
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
         {
           path: '/blogs',
           element: <Blogs></Blogs>
+        },
+        {
+          path: '/privacy',
+          element: <Privacy></Privacy>
         },
         {
           path: '/forbidden',

@@ -99,7 +99,7 @@ const Navbar = () => {
           }
           <li><NavLink to='/about' className={ActiveLinks}>About</NavLink></li>
           <li><NavLink to='/blogs' className={ActiveLinks}>Blogs</NavLink></li>
-          <li><NavLink to='/about' className={ActiveLinks}>Privacy Policy</NavLink></li>
+          <li><NavLink to='/privacy' className={ActiveLinks}>Privacy Policy</NavLink></li>
           <div className="relative group">
             <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
               <NavLink>
