@@ -63,14 +63,14 @@ const HomePage = () => {
 
             <div className="space-y-4">
                 {data?.posts?.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6">
                         {data?.posts?.map(post => (
                             <div key={post._id} className="card bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-200 p-6 rounded-2xl flex flex-col justify-between">
                                 {/* Author Info */}
-                                <div className="flex items-center gap-4 mb-5">
+                                <div className="xl:flex items-center gap-4 mb-5">
                                     <img className="w-16 h-16 rounded-full border-2 border-blue-400 object-cover" src={post.authorImage} alt="author" />
                                     <div>
-                                        <h2 className="text-lg font-semibold text-gray-800">{post.postTitle}</h2>
+                                        <h2 className="text-lg font-semibold text-gray-800 mt-2">{post.postTitle}</h2>
                                         <p className="text-xs text-gray-500">{new Date(post.postTime).toLocaleString()}</p>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@ const HomePage = () => {
                                 </div>
 
                                 {/* View More Button */}
-                                <Link to={`details/${post._id}`} className='mt-auto'>
+                                <Link to={`details/${post._id}`} className=''>
                                     <button className="btn btn-sm rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white transition-all duration-300">
                                         View More
                                     </button>

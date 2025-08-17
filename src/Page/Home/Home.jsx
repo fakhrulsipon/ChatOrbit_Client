@@ -7,7 +7,6 @@ import TopVotedPosts from '../../components/TopVotedPosts';
 import FAQSection from '../Comments/FAQSection';
 import Testimonials from '../../components/Testimonials';
 import Features from '../../components/Features';
-import Join from '../../components/Join';
 
 const Home = () => {
     

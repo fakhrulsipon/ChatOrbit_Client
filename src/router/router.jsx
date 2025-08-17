@@ -23,6 +23,7 @@ import AdminRoute from "../Route/AdminRoute";
 import About from "../components/About";
 import Blogs from "../Page/Blogs";
 import Privacy from "../Page/Privacy";
+import Overview from "../Page/Overview";
 
 
 export const router = createBrowserRouter([
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
     path: '/dashboard',
     element: <PrivetRoute><DashboardLayout></DashboardLayout></PrivetRoute>,
     children: [
+      {
+        index: true,
+        element: <PrivetRoute><Overview></Overview></PrivetRoute>
+      },
       {
         path: 'myProfile',
         element: <PrivetRoute><MyProfile></MyProfile></PrivetRoute>

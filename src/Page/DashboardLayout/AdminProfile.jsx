@@ -113,7 +113,7 @@ const AdminProfile = () => {
                         onChange={(e) => setTagName(e.target.value)}
                         required
                     />
-                    <button type="submit" className="btn btn-primary">Add Tag</button>
+                    <button type="submit" className="btn bg-blue-400 hover:bg-blue-500 text-white">Add Tag</button>
                 </form>
             </div>
 

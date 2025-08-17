@@ -10,8 +10,8 @@ const Footer = () => {
                 to="/"
                 className={({ isActive }) =>
                     isActive
-                        ? "text-primary font-bold border-b-2 border-primary"
-                        : "text-gray-700 hover:text-primary"
+                        ? "text-blue-400 font-bold border-b-2 border-blue-400"
+                        : "text-gray-700"
                 }
             >
                 Home
@@ -21,22 +21,46 @@ const Footer = () => {
                 to="/membership"
                 className={({ isActive }) =>
                     isActive
-                        ? "text-primary font-bold border-b-2 border-primary"
-                        : "text-gray-700 hover:text-primary"
+                        ? "text-blue-400 font-bold border-b-2 border-blue-400"
+                        : "text-gray-700"
                 }
             >
                 Membership
             </NavLink>
+
             <NavLink
-                to="/about-us"
+                to="/about"
                 className={({ isActive }) =>
                     isActive
-                        ? "text-primary font-bold border-b-2 border-primary"
-                        : "text-gray-700 hover:text-primary"
+                        ? "text-blue-400 font-bold border-b-2 border-blue-400"
+                        : "text-gray-700"
                 }
             >
                 About
             </NavLink>
+
+            <NavLink
+                to="/blogs"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-blue-400 font-bold border-b-2 border-blue-400"
+                        : "text-gray-700"
+                }
+            >
+                Blogs
+            </NavLink>
+
+            <NavLink
+                to="/privacy"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-blue-400 font-bold border-b-2 border-blue-400"
+                        : "text-gray-700"
+                }
+            >
+                Privacy Policy
+            </NavLink>
+
 
         </>
     );

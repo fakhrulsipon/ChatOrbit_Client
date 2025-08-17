@@ -68,7 +68,7 @@ const ManageUsers = () => {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
-      <input type="text" placeholder='type user name' className='input input-bordered mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input type="text" placeholder='type user name' className='input input-bordered focus:outline-none mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="overflow-x-auto">
         <table className="table w-full border border-gray-300">
           <thead className="bg-gray-100">

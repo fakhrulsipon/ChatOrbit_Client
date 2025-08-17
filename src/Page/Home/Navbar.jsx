@@ -51,6 +51,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar p-0 px-4 md:px-12 lg:px-8 xl:px-16 bg-white w-full sticky top-0 z-50 backdrop-blur-sm bg-opacity-90">
+
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden hover:scale-105 transition-transform">
@@ -62,8 +63,14 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-white rounded-box z-1 mt-3 w-52 p-2 shadow-xl border border-white/10 gap-2">
             <li><NavLink to='/' className={ActiveLinks}>Home</NavLink></li>
-            <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
+            {
+              user && <>
+                <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
+              </>
+            }
             <li><NavLink to='/about' className={ActiveLinks}>About</NavLink></li>
+            <li><NavLink to='/blogs' className={ActiveLinks}>Blogs</NavLink></li>
+            <li><NavLink to='/privacy' className={ActiveLinks}>Privacy Policy</NavLink></li>
 
             <div className="relative group">
               <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
@@ -84,24 +91,27 @@ const Navbar = () => {
 
           </ul>
         </div>
+
         <div className="flex items-center gap-2">
-          <span className=" text-3xl text-black font-bold tracking-wider">Chatorbit</span>
-          <img className='w-12 h-12' src={'/Chatorbit.png'} alt="Logo" />
+          <img className='w-12 h-12 hidden md:block' src={'/Chatorbit.png'} alt="Logo" />
+          <span className=" text-2xl text-black font-bold tracking-wider">Chatorbit</span>
         </div>
+
       </div>
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal gap-4 items-center">
           <li><NavLink to='/' className={ActiveLinks}>Home</NavLink></li>
           {
             user && <>
-            <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
+              <li><NavLink to='/membership' className={ActiveLinks}>Membership</NavLink></li>
             </>
           }
           <li><NavLink to='/about' className={ActiveLinks}>About</NavLink></li>
           <li><NavLink to='/blogs' className={ActiveLinks}>Blogs</NavLink></li>
           <li><NavLink to='/privacy' className={ActiveLinks}>Privacy Policy</NavLink></li>
           <div className="relative group">
-            <li className="hover:bg-white/10 rounded-lg px-2 py-1 transition-all duration-200 hover:scale-105">
+            <li className="hover:bg-white/10 rounded-lg transition-all duration-200 hover:scale-105">
               <NavLink>
                 <IoNotificationsOutline size={27} className="text-black" />
               </NavLink>
@@ -110,7 +120,7 @@ const Navbar = () => {
               isLoading ? (
                 <span className="absolute left-7 bottom-5 loading loading-spinner loading-xs text-white"></span>
               ) : (
-                <span className="absolute left-8 bottom-6 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full">
+                <span className="absolute left-6 bottom-5 text-xs bg-pink-500 text-white px-1.5 py-0.5 rounded-full">
                   {announcementCount}
                 </span>
               )
@@ -118,6 +128,7 @@ const Navbar = () => {
           </div>
         </ul>
       </div>
+
       <div className="navbar-end">
         {
           user ? (

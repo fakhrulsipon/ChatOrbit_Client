@@ -141,7 +141,7 @@ const AddPost = () => {
                     type="text"
                     defaultValue={user?.displayName || ''}
                     readOnly
-                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
 
                 {/* Photo URL */}
@@ -152,7 +152,7 @@ const AddPost = () => {
                     type="text"
                     defaultValue={user?.photoURL || ''}
                     readOnly
-                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
 
                 {/* Email */}
@@ -163,7 +163,7 @@ const AddPost = () => {
                     type="email"
                     defaultValue={user?.email || ''}
                     readOnly
-                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
 
                 {/* Post Title */}
@@ -174,7 +174,7 @@ const AddPost = () => {
                     type="text"
                     {...register('postTitle', { required: true })}
                     placeholder="Type your post title here..."
-                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-500 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
                 {errors.postTitle && <p className="text-red-600 text-sm mt-1">Post Title is required</p>}
 
@@ -185,7 +185,7 @@ const AddPost = () => {
                 <textarea
                     {...register('postDescription', { required: true })}
                     placeholder="Write your post description here..."
-                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 focus:outline-none focus:ring-4 focus:ring-indigo-500 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                     rows={5}
                 />
                 {errors.postDescription && <p className="text-red-600 text-sm mt-1">Post Description is required</p>}
@@ -196,7 +196,7 @@ const AddPost = () => {
                 </label>
                 <select
                     {...register('tag', { required: true })}
-                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                     defaultValue=""
                 >
                     <option value="" disabled>Select a tag</option>
@@ -211,7 +211,7 @@ const AddPost = () => {
                 {/* Submit Button */}
                 <button
                     type="submit"
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white font-bold py-3 rounded-2xl shadow-lg"
+                    className="w-full bg-blue-500 hover:bg-blue-600 transition duration-300 text-white font-bold py-3 rounded-2xl shadow-lg"
                 >
                     🚀 Add Post
                 </button>

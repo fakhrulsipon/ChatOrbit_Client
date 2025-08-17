@@ -29,21 +29,21 @@ const TopVotedPosts = () => {
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6 mt-8">
                 {topPosts.map(post => (
                     <div
                         key={post._id}
                         className="bg-gradient-to-br from-white to-blue-50 shadow-md hover:shadow-2xl hover:scale-105 transition-transform duration-300 p-6 rounded-3xl"
                     >
                         {/* Author Info */}
-                        <div className="flex items-center gap-4 mb-5">
+                        <div className="xl:flex items-center gap-4 mb-5">
                             <img
                                 className="w-16 h-16 rounded-full border-2 border-blue-400 object-cover"
                                 src={post.authorImage}
                                 alt="author"
                             />
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-800">{post.postTitle}</h2>
+                                <h2 className="text-lg font-semibold text-gray-800 mt-2">{post.postTitle}</h2>
                                 <p className="text-xs text-gray-500">
                                     {new Date(post.postTime).toLocaleString()}
                                 </p>

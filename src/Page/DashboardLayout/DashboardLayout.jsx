@@ -1,7 +1,6 @@
 import { Link, NavLink, Outlet } from 'react-router';
 import useUserRole from '../../hook/useUserRole';
-import Logo from '../../components/Logo';
-import { FaBullhorn, FaChartBar, FaList, FaPlus, FaUser, FaUsers, FaUserShield } from 'react-icons/fa';
+import { FaBullhorn, FaChartBar, FaChartPie, FaList, FaPlus, FaUser, FaUsers, FaUserShield } from 'react-icons/fa';
 
 const DashboardLayout = () => {
   const { role, roleLoading } = useUserRole();
@@ -46,40 +45,43 @@ const DashboardLayout = () => {
       <div className="drawer-side">
 
         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu bg-gradient-to-t from-blue-200 via-blue-100 to-white text-base-content min-h-full w-80 p-4 gap-4 
-              shadow-xl border-r border-blue-300">
 
+        <div className='min-h-full bg-gradient-to-t from-blue-200 to-blue-100 px-8 pt-10'>
           <Link className='flex justify-center items-center' to={'/'}>
             <img className='w-12 h-12' src={'/Chatorbit.png'} alt="Logo" />
             <span className=" text-2xl text-black font-bold tracking-wider">Chatorbit</span>
           </Link>
 
-          {/* Sidebar content here */}
+          <ul className="menu bg-white text-base-content w-80 p-4 gap-4 border-r border-blue-300 mt-30 rounded-2xl">
 
+            {/* Sidebar content here */}
 
-          {/* user and member route link */}
-          {
-            !roleLoading && (role === 'user' || role === 'member') && (
-              <>
-                <li><NavLink className={linkClass} to={'/dashboard/myProfile'}><FaUser></FaUser> My Profile</NavLink></li>
-                <li><NavLink className={linkClass} to={'/dashboard/addPost'}><FaPlus></FaPlus> Add Post</NavLink></li>
-                <li><NavLink className={linkClass} to={'/dashboard/myPost'}><FaList></FaList> My Post</NavLink></li>
+          <li><NavLink end className={linkClass} to={'/dashboard'}> <FaChartPie></FaChartPie> Overview</NavLink></li>
+
+            {/* user and member route link */}
+            {
+              !roleLoading && (role === 'user' || role === 'member') && (
+                <>
+                  <li><NavLink className={linkClass} to={'/dashboard/myProfile'}><FaUser></FaUser> My Profile</NavLink></li>
+                  <li><NavLink className={linkClass} to={'/dashboard/addPost'}><FaPlus></FaPlus> Add Post</NavLink></li>
+                  <li><NavLink className={linkClass} to={'/dashboard/myPost'}><FaList></FaList> My Post</NavLink></li>
+                </>
+              )
+            }
+
+            {/* admin route Link */}
+            {
+              !roleLoading && role === 'admin' && <>
+
+                <li><NavLink className={linkClass} to={'/dashboard/adminProfile'}><FaUserShield></FaUserShield> Admin Profile</NavLink></li>
+                <li><NavLink className={linkClass} to={'/dashboard/manageUsers'}><FaUsers></FaUsers> Manage Users</NavLink></li>
+                <li><NavLink className={linkClass} to={'/dashboard/activities'}><FaChartBar></FaChartBar> Activities</NavLink></li>
+                <li><NavLink className={linkClass} to={'/dashboard/announcement'}><FaBullhorn></FaBullhorn> Make Announcement</NavLink></li>
               </>
-            )
-          }
+            }
 
-          {/* admin route Link */}
-          {
-            !roleLoading && role === 'admin' && <>
-
-              <li><NavLink className={linkClass} to={'/dashboard/adminProfile'}><FaUserShield></FaUserShield> Admin Profile</NavLink></li>
-              <li><NavLink className={linkClass} to={'/dashboard/manageUsers'}><FaUsers></FaUsers> Manage Users</NavLink></li>
-              <li><NavLink className={linkClass} to={'/dashboard/activities'}><FaChartBar></FaChartBar> Activities</NavLink></li>
-              <li><NavLink className={linkClass} to={'/dashboard/announcement'}><FaBullhorn></FaBullhorn> Make Announcement</NavLink></li>
-            </>
-          }
-
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
   );
