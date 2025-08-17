@@ -100,7 +100,7 @@ const PaymentForm = () => {
                 <form onSubmit={handleSubmit}>
                     <CardElement className='border p-2 rounded mb-4' />
                     <button
-                        className='btn bg-blue-400 hover:bg-blue-500 w-full text-white'
+                        className='btn bg-blue-400 hover:bg-blue-500 border-none w-full text-white'
                         type="submit"
                         disabled={!stripe}
                     >

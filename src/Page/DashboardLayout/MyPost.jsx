@@ -74,7 +74,7 @@ const MyPosts = () => {
 
     return (
         <div className="max-w-5xl mx-auto px-4 py-8">
-            <h2 className="text-2xl font-bold mb-6">My Posts</h2>
+            <h2 className="text-2xl font-bold mb-6 text-black">My Posts</h2>
             {posts.length === 0 ? (
                 <p className="text-gray-600">You haven’t posted anything yet.</p>
             ) : (
@@ -89,18 +89,18 @@ const MyPosts = () => {
                                 <th>Delete</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className=''>
                             {myPosts.map((post, index) => (
-                                <tr key={post._id}>
-                                    <td>{index + 1}</td>
-                                    <td className="font-medium">{post.postTitle}</td>
-                                    <td className='hidden md:block'>{(post.upVote || 0) - (post.downVote || 0)}</td>
-                                    <td>
-                                        <Link to={`/postComments/${post._id}`}>
+                                <tr key={post._id} className='bg-white text-black'>
+                                    <td className='text-black bg-white'>{index + 1}</td>
+                                    <td className="font-medium bg-white text-black">{post.postTitle}</td>
+                                    <td className='hidden md:block bg-white text-black'>{(post.upVote || 0) - (post.downVote || 0)}</td>
+                                    <td className='bg-white'>
+                                        <Link className='bg-white' to={`/postComments/${post._id}`}>
                                             <button className="btn btn-sm btn-outline btn-info">Comments</button>
                                         </Link>
                                     </td>
-                                    <td>
+                                    <td className='bg-white'>
                                         <button className="btn btn-sm btn-outline btn-error" onClick={() => handleDelete(post._id)}>
                                             Delete
                                         </button>
@@ -115,7 +115,7 @@ const MyPosts = () => {
                     <div className="join flex flex-wrap justify-center mt-6 gap-2">
                         {/* Previous Button */}
                         <button
-                            className="join-item btn btn-sm"
+                            className="join-item btn btn-sm bg-white text-black border-gray-300 shadow-none hover:bg-gray-100"
                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                             disabled={currentPage === 1}
                         >
@@ -149,14 +149,14 @@ const MyPosts = () => {
                                 pages.push(
                                     <button
                                         key={1}
-                                        className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                                        className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active shadow-none bg-gray-200 text-black' : 'bg-white text-black border-gray-300'}`}
                                         onClick={() => setCurrentPage(1)}
                                     >
                                         1
                                     </button>
                                 );
                                 if (startPage > 2) {
-                                    pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                                    pages.push(<span key="start-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
                                 }
                             }
 
@@ -164,7 +164,7 @@ const MyPosts = () => {
                                 pages.push(
                                     <button
                                         key={i}
-                                        className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                                        className={`join-item btn btn-sm ${currentPage === i ? 'btn-active shadow-none border-gray-300 bg-gray-200 text-black' : 'bg-white text-black border-gray-300'} hover:bg-gray-100`}
                                         onClick={() => setCurrentPage(i)}
                                     >
                                         {i}
@@ -174,12 +174,12 @@ const MyPosts = () => {
 
                             if (endPage < totalPages) {
                                 if (endPage < totalPages - 1) {
-                                    pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                                    pages.push(<span key="end-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
                                 }
                                 pages.push(
                                     <button
                                         key={totalPages}
-                                        className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                                        className={`join-item shadow-none btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
                                         onClick={() => setCurrentPage(totalPages)}
                                     >
                                         {totalPages}
@@ -192,7 +192,7 @@ const MyPosts = () => {
 
                         {/* Next Button */}
                         <button
-                            className="join-item btn btn-sm"
+                            className="join-item shadow-none btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100"
                             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                             disabled={currentPage === totalPages}
                         >

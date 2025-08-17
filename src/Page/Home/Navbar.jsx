@@ -6,14 +6,15 @@ import { use } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
+import ThemeToogle from "../../components/ThemeToogle";
 
 const Navbar = () => {
   const { logoutUser, user } = use(AuthContext)
 
   const ActiveLinks = ({ isActive }) =>
     isActive
-      ? "text-blue-400 border-b-2 border-blue-400  font-medium transition-all duration-200"
-      : "hover:text-blue-400 font-medium transition-all duration-200";
+      ? "text-blue-400 border-b-2 border-blue-400 font-medium transition-all duration-200"
+      : "text-black hover:text-blue-400 font-medium transition-all duration-200";
 
 
   const handleLogout = async () => {
@@ -130,6 +131,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
+        <ThemeToogle></ThemeToogle>
         {
           user ? (
             <div className="dropdown dropdown-end">

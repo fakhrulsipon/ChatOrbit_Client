@@ -65,7 +65,7 @@ const AdminProfile = () => {
             {/* profile Fn */}
             <div className="flex items-center gap-4 bg-white shadow p-4 rounded-lg">
                 <img src={user.photoURL} alt="Admin" className="w-20 h-20 rounded-full" />
-                <div>
+                <div className='text-black'>
                     <h2 className="text-xl font-bold">{user.displayName}</h2>
                     <p className="text-gray-600">{user.email}</p>
                     <p>📦 Posts: {stats.totalPosts}</p>
@@ -76,7 +76,7 @@ const AdminProfile = () => {
 
             {/* pieChart */}
             <div className="bg-white p-4 rounded-lg shadow">
-                <h3 className="text-lg font-semibold mb-4">📊 Overall Site Statistics</h3>
+                <h3 className="text-lg font-semibold mb-4 text-black">📊 Overall Site Statistics</h3>
                 <div className="w-full h-64">
                     <ResponsiveContainer>
                         <PieChart>
@@ -103,17 +103,17 @@ const AdminProfile = () => {
 
             {/* tag Fn */}
             <div className="bg-white p-4 rounded-lg shadow">
-                <h3 className="text-lg font-semibold mb-2">➕ Add New Tag</h3>
+                <h3 className="text-lg font-semibold mb-2 text-black">➕ Add New Tag</h3>
                 <form onSubmit={handleAddTag} className="flex gap-3">
                     <input
                         type="text"
                         placeholder="Enter tag name..."
-                        className="input input-bordered w-full"
+                        className="input input-bordered w-full bg-white text-gray-400 border-gray-400 focus:outline-none"
                         value={tagName}
                         onChange={(e) => setTagName(e.target.value)}
                         required
                     />
-                    <button type="submit" className="btn bg-blue-400 hover:bg-blue-500 text-white">Add Tag</button>
+                    <button type="submit" className="btn bg-blue-400 border-none hover:bg-blue-500 text-white">Add Tag</button>
                 </form>
             </div>
 

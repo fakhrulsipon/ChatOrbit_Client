@@ -27,7 +27,7 @@ const AllTags = ({ setSearchTag, setCurrentPage }) => {
               setSearchTag(tag.tag);
               setCurrentPage(1);
             }}
-            className="btn btn-sm border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm"
+            className="btn btn-sm text-black border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm shadow-none"
           >
             {tag.tag}
           </button>

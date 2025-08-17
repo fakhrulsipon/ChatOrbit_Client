@@ -10,9 +10,9 @@ const Activities = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const limit = 5;
 
-     useEffect(() => {
-            document.title = 'Activies | ChatOrbit';
-        }, []);
+    useEffect(() => {
+        document.title = 'Activies | ChatOrbit';
+    }, []);
 
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["reported-comments"],
@@ -76,7 +76,7 @@ const Activities = () => {
     const { reports, totalPages } = data;
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
+        <div className="max-w-6xl mx-auto p-6 text-black">
             <h2 className="text-3xl font-bold mb-6 text-center">🚨 Reported Comments</h2>
 
             {reports.length === 0 ? (
@@ -85,7 +85,7 @@ const Activities = () => {
                 <div className="overflow-x-auto">
                     <table className="table w-full border border-gray-300">
                         <thead className="bg-gray-100">
-                            <tr>
+                            <tr className="text-black">
                                 <th className="px-4 py-2 text-left">#</th>
                                 <th className="px-4 py-2 text-left">Reported By</th>
                                 <th className="px-4 py-2 text-left">Comment</th>
@@ -153,7 +153,7 @@ const Activities = () => {
             <div className="join flex flex-wrap justify-center mt-6 gap-2">
                 {/* Previous Button */}
                 <button
-                    className="join-item btn btn-sm"
+                    className="join-item btn btn-sm bg-white shadow-none text-black border-gray-300 hover:bg-gray-100"
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                 >
@@ -187,14 +187,14 @@ const Activities = () => {
                         pages.push(
                             <button
                                 key={1}
-                                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                                className={`join-item btn btn-sm shadow-none ${currentPage === 1 ? 'btn-active bg-gray-200 text-black' : 'bg-white text-black border-gray-300'}`}
                                 onClick={() => setCurrentPage(1)}
                             >
                                 1
                             </button>
                         );
                         if (startPage > 2) {
-                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
                         }
                     }
 
@@ -202,7 +202,7 @@ const Activities = () => {
                         pages.push(
                             <button
                                 key={i}
-                                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                                className={`join-item btn shadow-none btn-sm ${currentPage === i ? 'btn-active border-gray-300 bg-gray-200 text-black' : 'bg-white text-black border-gray-300'} hover:bg-gray-100`}
                                 onClick={() => setCurrentPage(i)}
                             >
                                 {i}
@@ -212,7 +212,7 @@ const Activities = () => {
 
                     if (endPage < totalPages) {
                         if (endPage < totalPages - 1) {
-                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
                         }
                         pages.push(
                             <button
@@ -230,13 +230,14 @@ const Activities = () => {
 
                 {/* Next Button */}
                 <button
-                    className="join-item btn btn-sm"
+                    className="join-item btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100 shadow-none"
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                 >
                     »
                 </button>
             </div>
+
 
         </div>
 

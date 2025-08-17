@@ -52,21 +52,21 @@ const Overview = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6">📊 Website Overview</h2>
+      <h2 className="text-3xl font-bold mb-6 text-black">📊 Website Overview</h2>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <div className="bg-white shadow-md rounded-xl p-6 text-center">
           <h3 className="text-xl font-semibold text-blue-600">Total Users</h3>
-          <p className="text-3xl font-bold mt-2">{stats.totalUsers}</p>
+          <p className="text-3xl font-bold mt-2 text-black">{stats.totalUsers}</p>
         </div>
         <div className="bg-white shadow-md rounded-xl p-6 text-center">
           <h3 className="text-xl font-semibold text-green-600">Total Posts</h3>
-          <p className="text-3xl font-bold mt-2">{stats.totalPosts}</p>
+          <p className="text-3xl font-bold mt-2 text-black">{stats.totalPosts}</p>
         </div>
         <div className="bg-white shadow-md rounded-xl p-6 text-center">
           <h3 className="text-xl font-semibold text-purple-600">Total Comments</h3>
-          <p className="text-3xl font-bold mt-2">{stats.totalComments}</p>
+          <p className="text-3xl font-bold mt-2 text-black">{stats.totalComments}</p>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ const Overview = () => {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
         {/* Pie Chart */}
         <div className="bg-white shadow-md rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4 text-center">Content Distribution</h3>
+          <h3 className="text-xl font-semibold mb-4 text-center text-black">Content Distribution</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -96,7 +96,7 @@ const Overview = () => {
 
         {/* Bar Chart */}
         <div className="bg-white shadow-md rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4 text-center">Website Stats Overview</h3>
+          <h3 className="text-xl font-semibold mb-4 text-center text-black">Website Stats Overview</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={barData}>
               <CartesianGrid strokeDasharray="3 3" />

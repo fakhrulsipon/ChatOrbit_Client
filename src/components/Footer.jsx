@@ -76,7 +76,7 @@ const Footer = () => {
                         href="https://www.facebook.com/profile.php?id=100064008810904"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-blue-600"
+                        className="hover:text-blue-600 text-black"
                     >
                         <FaFacebook />
                     </a>
@@ -84,7 +84,7 @@ const Footer = () => {
                     {/* LinkedIn */}
                     <a
                         href="#"
-                        className="hover:text-blue-500 cursor-not-allowed"
+                        className="hover:text-blue-500 cursor-not-allowed text-black"
                         title="LinkedIn account not available"
                     >
                         <FaLinkedin />
@@ -95,14 +95,14 @@ const Footer = () => {
                         href="https://github.com/fakhrulsipon"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hover:text-blue-500"
+                        className="hover:text-blue-500 text-black"
                     >
                         <FaGithub />
                     </a>
                 </div>
             </nav>
             <aside>
-                <p>Copyright © {new Date().getFullYear()} - All right reserved by Fakhrul Islam Sipon</p>
+                <p className='text-black'>Copyright © {new Date().getFullYear()} - All right reserved by Fakhrul Islam Sipon</p>
             </aside>
         </footer>
     );

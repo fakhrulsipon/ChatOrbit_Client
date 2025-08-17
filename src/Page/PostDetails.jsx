@@ -74,7 +74,7 @@ const PostDetails = () => {
     );
 
     return (
-        <div className="max-w-full my-12 px-6 lg:px-20">
+        <div className="max-w-full my-12 px-6 lg:px-20 text-black">
             <div className="flex flex-col lg:flex-row gap-10">
                 {/* Left Side: Post Content */}
                 <div className="flex-1">
@@ -100,7 +100,7 @@ const PostDetails = () => {
                             </div>
                         </FacebookShareButton>
 
-                        <button className="btn btn-outline btn-sm text-sm hover:bg-emerald-500 hover:text-white transition">Comment</button>
+                        <button className="btn btn-outline  btn-sm text-sm hover:bg-emerald-500 hover:text-white transition">Comment</button>
                     </div>
 
                     {/* Comment Section */}
@@ -108,13 +108,13 @@ const PostDetails = () => {
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comments</h2>
                         <textarea
                             placeholder="Write your comment..."
-                            className="textarea textarea-bordered border-gray-400 w-full xl:w-5/10 mb-4 focus:outline-none rounded-lg text-base"
+                            className="textarea textarea-bordered border-gray-400 w-full bg-white text-gray-400 xl:w-5/10 mb-4 focus:outline-none rounded-lg text-base"
                             rows="4"
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}
                         ></textarea>
                         <div>
-                            <button onClick={handleComment} className="btn bg-blue-400 hover:bg-blue-500 text-white btn-sm transition">Post Comment</button>
+                            <button onClick={handleComment} className="btn border-none bg-blue-400 hover:bg-blue-500 text-white btn-sm transition">Post Comment</button>
                         </div>
                     </div>
                 </div>

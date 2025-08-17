@@ -20,11 +20,11 @@ const Banner = ({ onSearch }) => {
                     placeholder="Enter a tag to filter posts"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
-                    className="input border-2 border-blue-400 w-full sm:w-72 rounded-full px-5 focus:outline-none focus:ring-0"
+                    className="input bg-white text-gray-400 border-2 border-blue-400 w-full sm:w-72 rounded-full px-5 focus:outline-none focus:ring-0"
                 />
                 <button
                     onClick={() => onSearch(tagInput)}
-                    className="btn bg-blue-400 hover:bg-blue-500 text-white px-6 rounded-full"
+                    className="btn bg-blue-400 border-none shadow-none hover:bg-blue-500 text-white px-6 rounded-full"
                 >
                     Search
                 </button>

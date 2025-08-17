@@ -43,7 +43,7 @@ const HomePage = () => {
             {/* sorting dropdwon */}
             <div className="flex justify-center mb-6 mt-8">
                 <div className="dropdown dropdown-center">
-                    <div tabIndex={0} role="button" className="btn btn-outline">
+                    <div tabIndex={0} role="button" className="btn btn-outline border-gray-400 text-black hover:bg-gray-50 hover:shadow-none">
                         {sortBy === 'popularity' ? 'Sort by Popularity' : 'All Posts'}
 
                         <HiChevronDown className="w-4 h-4 ml-1" />
@@ -92,7 +92,7 @@ const HomePage = () => {
 
                                 {/* View More Button */}
                                 <Link to={`details/${post._id}`} className=''>
-                                    <button className="btn btn-sm rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white transition-all duration-300">
+                                    <button className="btn btn-sm border-none rounded-xl bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white transition-all duration-300">
                                         View More
                                     </button>
                                 </Link>
@@ -108,7 +108,7 @@ const HomePage = () => {
             <div className="join flex flex-wrap justify-center mt-6 gap-2">
                 {/* Previous Button */}
                 <button
-                    className="join-item btn btn-sm"
+                    className="join-item btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100"
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                 >
@@ -142,14 +142,14 @@ const HomePage = () => {
                         pages.push(
                             <button
                                 key={1}
-                                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active bg-gray-200 text-black' : 'bg-white text-black border-gray-300'}`}
                                 onClick={() => setCurrentPage(1)}
                             >
                                 1
                             </button>
                         );
                         if (startPage > 2) {
-                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
                         }
                     }
 
@@ -157,7 +157,7 @@ const HomePage = () => {
                         pages.push(
                             <button
                                 key={i}
-                                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active border-gray-300 bg-gray-200 text-black' : 'bg-white text-black border-gray-300'} hover:bg-gray-100`}
                                 onClick={() => setCurrentPage(i)}
                             >
                                 {i}
@@ -167,7 +167,7 @@ const HomePage = () => {
 
                     if (endPage < totalPages) {
                         if (endPage < totalPages - 1) {
-                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
                         }
                         pages.push(
                             <button
@@ -185,7 +185,7 @@ const HomePage = () => {
 
                 {/* Next Button */}
                 <button
-                    className="join-item btn btn-sm"
+                    className="join-item btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100"
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                 >

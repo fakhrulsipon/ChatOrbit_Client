@@ -10,9 +10,9 @@ const ManageUsers = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const limit = 5;
 
-   useEffect(() => {
-        document.title = 'ManageUsers | ChatOrbit';
-    }, []);
+  useEffect(() => {
+    document.title = 'ManageUsers | ChatOrbit';
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -66,13 +66,13 @@ const ManageUsers = () => {
   if (isError) return <p className="text-center mt-10 text-red-500">Failed to load users.</p>;
 
   return (
-    <div className="p-4">
+    <div className="p-4 text-black">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
-      <input type="text" placeholder='type user name' className='input input-bordered focus:outline-none mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input type="text" placeholder='type user name' className='input input-bordered bg-white text-gray-400 border-gray-400 focus:outline-none mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="overflow-x-auto">
         <table className="table w-full border border-gray-300">
           <thead className="bg-gray-100">
-            <tr>
+            <tr className='text-black'>
               <th className="px-4 py-2 border">Name</th>
               <th className=" px-4 py-2 border">Email</th>
               <th className="px-4 py-2 border">Role</th>
@@ -107,7 +107,7 @@ const ManageUsers = () => {
       <div className="join flex flex-wrap justify-center mt-6 gap-2">
         {/* Previous Button */}
         <button
-          className="join-item btn btn-sm"
+          className="join-item btn btn-sm bg-white shadow-none text-black border-gray-300 hover:bg-gray-100"
           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
@@ -141,14 +141,14 @@ const ManageUsers = () => {
             pages.push(
               <button
                 key={1}
-                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                className={`join-item btn btn-sm shadow-none ${currentPage === 1 ? 'btn-active bg-gray-200 text-black' : 'bg-white text-black border-gray-300'}`}
                 onClick={() => setCurrentPage(1)}
               >
                 1
               </button>
             );
             if (startPage > 2) {
-              pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+              pages.push(<span key="start-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
             }
           }
 
@@ -156,7 +156,7 @@ const ManageUsers = () => {
             pages.push(
               <button
                 key={i}
-                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                className={`join-item btn shadow-none btn-sm ${currentPage === i ? 'btn-active border-gray-300 bg-gray-200 text-black' : 'bg-white text-black border-gray-300'} hover:bg-gray-100`}
                 onClick={() => setCurrentPage(i)}
               >
                 {i}
@@ -166,7 +166,7 @@ const ManageUsers = () => {
 
           if (endPage < totalPages) {
             if (endPage < totalPages - 1) {
-              pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+              pages.push(<span key="end-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
             }
             pages.push(
               <button
@@ -184,7 +184,7 @@ const ManageUsers = () => {
 
         {/* Next Button */}
         <button
-          className="join-item btn btn-sm"
+          className="join-item btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100 shadow-none"
           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
         >
