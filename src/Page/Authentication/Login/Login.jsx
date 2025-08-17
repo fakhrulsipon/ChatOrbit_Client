@@ -46,7 +46,7 @@ const Login = () => {
                         <h1 className='text-3xl font-bold text-center text-blue-400'>Login to Your Account</h1>
                         <p className="text-center text-gray-500 text-sm mt-1">We're happy to see you again</p>
                         <label className="label font-semibold text-gray-700">Email</label>
-                        <input type="email" {...register('email')} autoComplete="off" className="input bg-white text-gray-400 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Email" />
+                        <input type="email" {...register('email')} autoComplete="off" className="input bg-white text-gray-800 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Email" />
 
                         <label className="label font-semibold text-gray-700">Password</label>
 
@@ -54,7 +54,7 @@ const Login = () => {
                             <input
                                 type={showPassword ? 'text' : 'password'}
                                 {...register('password', { required: true, minLength: 8 })}
-                                className="input w-full px-4 py-2 pr-10 bg-white text-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
+                                className="input w-full px-4 py-2 pr-10 bg-white text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
                                 placeholder="Password"
                             />
                             <span

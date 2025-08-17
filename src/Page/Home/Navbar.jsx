@@ -2,14 +2,14 @@
 import { IoNotificationsOutline } from "react-icons/io5";
 import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../../Provider/Provider';
-import { use } from "react";
+import { use, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
-import ThemeToogle from "../../components/ThemeToogle";
 
 const Navbar = () => {
   const { logoutUser, user } = use(AuthContext)
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const ActiveLinks = ({ isActive }) =>
     isActive
@@ -41,7 +41,7 @@ const Navbar = () => {
   const { data: announcementCount = 0, isLoading, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/announcement-count');
+      const res = await axios.get('https://chatorbit-server.vercel.app/announcement-count');
       return res.data.count;
     }
   });
@@ -131,13 +131,22 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
-        <ThemeToogle></ThemeToogle>
         {
           user ? (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar hover:ring-2 ring-white/50 transition-all">
-                <div className="w-10 rounded-full ring-2 ring-white/50 hover:ring-purple-300 transition-all">
-                  <img src={user?.photoURL || '/unknown.jpg'} alt="user" className="hover:scale-110 transition-transform" />
+                <div className="w-10 rounded-full ring-2 ring-white/50 hover:ring-purple-300 transition-all relative">
+                  {!imgLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white">
+                      <span className="loading loading-spinner loading-lg text-blue-500"></span>
+                    </div>
+                  )}
+                  <img
+                    src={user?.photoURL || "/unknown.jpg"}
+                    alt="user"
+                    className="hover:scale-110 transition-transform"
+                    onLoad={() => setImgLoaded(true)} 
+                  />
                 </div>
               </div>
               <ul

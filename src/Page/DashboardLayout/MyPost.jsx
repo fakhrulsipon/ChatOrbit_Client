@@ -19,7 +19,7 @@ const MyPosts = () => {
         queryKey: ['userPosts', user?.email, currentPage, limit],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get(` http://localhost:5000/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`, {
+            const res = await axios.get(` https://chatorbit-server.vercel.app/usersPosts?email=${user.email}&page=${currentPage}&limit=${limit}`, {
                 withCredentials: true
             });
             return res.data;
@@ -33,8 +33,8 @@ const MyPosts = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-[60vh] flex justify-center items-center">
-                <span className="loading loading-spinner text-cyan-500 w-16 h-16"></span>
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
             </div>
         );
     }
@@ -51,7 +51,7 @@ const MyPosts = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(` http://localhost:5000/user-posts/${postId}`, { withCredentials: true })
+                    await axios.delete(` https://chatorbit-server.vercel.app/user-posts/${postId}`, { withCredentials: true })
                     Swal.fire({
                         title: "Deleted!",
                         text: "Your post has been deleted.",
@@ -179,7 +179,7 @@ const MyPosts = () => {
                                 pages.push(
                                     <button
                                         key={totalPages}
-                                        className={`join-item shadow-none btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                                        className={`join-item shadow-none btn shadow-none btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
                                         onClick={() => setCurrentPage(totalPages)}
                                     >
                                         {totalPages}

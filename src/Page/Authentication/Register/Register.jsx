@@ -33,7 +33,7 @@ const Register = () => {
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
                 }
-                await axios.post('http://localhost:5000/users', userInfo)
+                await axios.post('https://chatorbit-server.vercel.app/users', userInfo)
 
                 // update user profile in firebase
                 const updateProfile = {
@@ -92,16 +92,16 @@ const Register = () => {
                             <fieldset className="fieldset">
 
                                 <label className="label font-semibold text-gray-700">Name</label>
-                                <input type="text" {...register('name', { required: true })} className="input bg-white text-gray-400 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Name" />
+                                <input type="text" {...register('name', { required: true })} className="input bg-white text-gray-800 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Name" />
                                 {
                                     errors.name?.type === 'required' && <p className='text-red-600'>name is required</p>
                                 }
 
                                 <label className="label font-semibold text-gray-700">Your Photo</label>
-                                <input type="file" onChange={handleImage} className="input w-full bg-white text-gray-400 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Your Profile Picture" />
+                                <input type="file" onChange={handleImage} className="input w-full bg-white text-gray-800 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Your Profile Picture" />
 
                                 <label className="label font-semibold text-gray-700">Email</label>
-                                <input type="email" {...register('email', { required: true })} autoComplete="off" className="input w-full px-4 py-2 border bg-white text-gray-400 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Email" />
+                                <input type="email" {...register('email', { required: true })} autoComplete="off" className="input w-full px-4 py-2 border bg-white text-gray-800 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Email" />
                                 {
                                     errors.email?.type === 'required' && <p className='text-red-600'>email is required</p>
                                 }
@@ -112,7 +112,7 @@ const Register = () => {
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         {...register('password', { required: true, minLength: 8 })}
-                                        className="input w-full px-4 py-2 border bg-white text-gray-400 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
+                                        className="input w-full px-4 py-2 border bg-white text-gray-800 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
                                         placeholder="Password"
                                     />
                                     <span
@@ -139,7 +139,7 @@ const Register = () => {
                                             required: true,
                                             validate: value => value === watch('password') || "Passwords do not match"
                                         })}
-                                        className="input w-full px-4 py-2 bg-white text-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
+                                        className="input w-full px-4 py-2 bg-white text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
                                         placeholder="Confirm Password"
                                     />
                                     <span

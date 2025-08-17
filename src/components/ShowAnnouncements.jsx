@@ -6,7 +6,7 @@ const ShowAnnouncements = () => {
   const { data: announcements = [], isLoading: loadingAnnouncements } = useQuery({
     queryKey: ["announcements"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:5000/announcements");
+      const res = await axios.get("https://chatorbit-server.vercel.app/announcements");
       return res.data;
     },
   });
@@ -15,13 +15,17 @@ const ShowAnnouncements = () => {
   const { data: announcementCount = 0, isLoading: loadingCount, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/announcement-count');
+      const res = await axios.get('https://chatorbit-server.vercel.app/announcement-count');
       return res.data.count;
     }
   });
 
   if (loadingAnnouncements || loadingCount) {
-    return <span className="loading loading-bars loading-xl"></span>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
+      </div>
+    );
   }
 
   if (isError) return <p>Something went wrong!</p>;

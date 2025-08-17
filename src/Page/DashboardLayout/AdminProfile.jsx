@@ -11,8 +11,8 @@ const AdminProfile = () => {
     const [tagName, setTagName] = useState('')
 
     useEffect(() => {
-           document.title = 'AdminProfile | ChatOrbit';
-       }, []);
+        document.title = 'AdminProfile | ChatOrbit';
+    }, []);
 
     const { data: stats = {}, isLoading } = useQuery({
         queryKey: ["admin-stats"],
@@ -26,7 +26,7 @@ const AdminProfile = () => {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-64">
-                <span className="loading loading-spinner loading-lg text-primary"></span>
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
             </div>
         );
     }
@@ -108,7 +108,7 @@ const AdminProfile = () => {
                     <input
                         type="text"
                         placeholder="Enter tag name..."
-                        className="input input-bordered w-full bg-white text-gray-400 border-gray-400 focus:outline-none"
+                        className="input input-bordered w-full bg-white text-gray-800 border-gray-400 focus:outline-none"
                         value={tagName}
                         onChange={(e) => setTagName(e.target.value)}
                         required

@@ -56,11 +56,11 @@ const ManageUsers = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
-    );
+    return(
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
+            </div>
+        );
   }
 
   if (isError) return <p className="text-center mt-10 text-red-500">Failed to load users.</p>;
@@ -68,7 +68,7 @@ const ManageUsers = () => {
   return (
     <div className="p-4 text-black">
       <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
-      <input type="text" placeholder='type user name' className='input input-bordered bg-white text-gray-400 border-gray-400 focus:outline-none mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input type="text" placeholder='type user name' className='input input-bordered bg-white text-gray-800 border-gray-400 focus:outline-none mb-4 w-full max-w-xs' value={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="overflow-x-auto">
         <table className="table w-full border border-gray-300">
           <thead className="bg-gray-100">

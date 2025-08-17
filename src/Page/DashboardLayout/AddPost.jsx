@@ -30,7 +30,7 @@ const AddPost = () => {
     const { data: tags, isLoading: tagLoading } = useQuery({
         queryKey: ['tags'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/tags');
+            const res = await axios.get('https://chatorbit-server.vercel.app/tags');
             return res.data
         }
     })
@@ -66,16 +66,8 @@ const AddPost = () => {
 
     if (!user || countLoading || badgeLoading || tagLoading) {
         return (
-            <div className="flex items-center justify-center h-screen bg-gradient-to-br from-indigo-100 via-white to-indigo-200">
-                <div className="flex flex-col items-center gap-6 animate-fade-in">
-                    <div className="relative">
-                        <div className="w-16 h-16 border-4 border-dashed rounded-full border-indigo-500 animate-spin"></div>
-                        <div className="absolute top-1/2 left-1/2 w-6 h-6 -translate-x-1/2 -translate-y-1/2 bg-indigo-500 rounded-full"></div>
-                    </div>
-                    <p className="text-xl font-bold text-indigo-700 animate-pulse tracking-wide">
-                        Loading please wait...
-                    </p>
-                </div>
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
             </div>
         );
     }
@@ -104,7 +96,7 @@ const AddPost = () => {
         };
 
         try {
-            await axiosSecure.post('http://localhost:5000/posts', postData);
+            await axiosSecure.post('https://chatorbit-server.vercel.app/posts', postData);
             Swal.fire({
                 icon: 'success',
                 title: 'Success!',
@@ -141,7 +133,7 @@ const AddPost = () => {
                     type="text"
                     defaultValue={user?.displayName || ''}
                     readOnly
-                    className="w-full px-5 py-3 rounded-2xl text-gray-400 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl text-gray-800 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
 
                 {/* Photo URL */}
@@ -152,7 +144,7 @@ const AddPost = () => {
                     type="text"
                     defaultValue={user?.photoURL || ''}
                     readOnly
-                    className="w-full px-5 py-3 rounded-2xl text-gray-400 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl text-gray-800 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
 
                 {/* Email */}
@@ -163,7 +155,7 @@ const AddPost = () => {
                     type="email"
                     defaultValue={user?.email || ''}
                     readOnly
-                    className="w-full px-5 py-3 rounded-2xl text-gray-400 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl text-gray-800 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
 
                 {/* Post Title */}
@@ -174,7 +166,7 @@ const AddPost = () => {
                     type="text"
                     {...register('postTitle', { required: true })}
                     placeholder="Type your post title here..."
-                    className="w-full px-5 py-3 rounded-2xl border text-gray-400 border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border text-gray-800 border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                 />
                 {errors.postTitle && <p className="text-red-600 text-sm mt-1">Post Title is required</p>}
 
@@ -185,7 +177,7 @@ const AddPost = () => {
                 <textarea
                     {...register('postDescription', { required: true })}
                     placeholder="Write your post description here..."
-                    className="w-full px-5 py-3 rounded-2xl text-gray-400 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl text-gray-800 border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                     rows={5}
                 />
                 {errors.postDescription && <p className="text-red-600 text-sm mt-1">Post Description is required</p>}
@@ -196,7 +188,7 @@ const AddPost = () => {
                 </label>
                 <select
                     {...register('tag', { required: true })}
-                    className="w-full px-5 py-3 rounded-2xl border text-gray-400 border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
+                    className="w-full px-5 py-3 rounded-2xl border text-gray-800 border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow duration-300"
                     defaultValue=""
                 >
                     <option value="" disabled>Select a tag</option>

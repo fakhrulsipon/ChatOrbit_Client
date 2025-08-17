@@ -66,7 +66,7 @@ const Activities = () => {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-64">
-                <span className="loading loading-spinner loading-lg text-primary"></span>
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
             </div>
         );
     }

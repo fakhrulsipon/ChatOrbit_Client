@@ -36,8 +36,8 @@ const MyProfile = () => {
 
     if (userLoading || postsLoading) {
         return (
-            <div className="min-h-[60vh] flex justify-center items-center">
-                <span className="loading loading-spinner text-cyan-500 w-16 h-16"></span>
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
             </div>
         );
     }

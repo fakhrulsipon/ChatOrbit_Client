@@ -7,13 +7,17 @@ const LatestPosts = () => {
     const { data: latestPosts = [], isLoading, isError } = useQuery({
         queryKey: ['latestPosts'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/latest');
+            const res = await axios.get('https://chatorbit-server.vercel.app/latest');
             return res.data;
         }
     });
 
     if (isLoading) {
-        return <div className="text-center py-10">Loading latest posts...</div>;
+        return (
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
+            </div>
+        );
     }
 
     if (isError) {

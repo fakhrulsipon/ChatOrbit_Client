@@ -24,7 +24,7 @@ const PostDetails = () => {
         queryKey: ['post', postId],
         enabled: !!postId,
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/post/${postId}`);
+            const res = await axios.get(`https://chatorbit-server.vercel.app/post/${postId}`);
             return res.data;
         }
     });
@@ -67,11 +67,11 @@ const PostDetails = () => {
     };
 
     if (isError) return <p>Something is Wrong</p>;
-    if (isLoading) return (
-        <div className="flex justify-center items-center h-[60vh]">
-            <span className="loading loading-bars loading-lg"></span>
-        </div>
-    );
+    if (isLoading) return(
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
+            </div>
+        );
 
     return (
         <div className="max-w-full my-12 px-6 lg:px-20 text-black">
@@ -108,7 +108,7 @@ const PostDetails = () => {
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Comments</h2>
                         <textarea
                             placeholder="Write your comment..."
-                            className="textarea textarea-bordered border-gray-400 w-full bg-white text-gray-400 xl:w-5/10 mb-4 focus:outline-none rounded-lg text-base"
+                            className="textarea textarea-bordered border-gray-400 w-full bg-white text-gray-800 xl:w-5/10 mb-4 focus:outline-none rounded-lg text-base"
                             rows="4"
                             value={commentText}
                             onChange={(e) => setCommentText(e.target.value)}

@@ -14,15 +14,15 @@ const HomePage = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['posts', currentPage, sortBy, searchTag],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
+            const res = await axios.get(`https://chatorbit-server.vercel.app/posts?page=${currentPage}&sort=${sortBy}&tag=${searchTag}`);
             return res.data;
         },
     });
 
     if (isLoading) {
         return (
-            <div className="flex justify-center mt-20">
-                <span className="loading loading-bars loading-xl text-center"></span>
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
             </div>
         );
     }

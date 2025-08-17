@@ -13,9 +13,9 @@ const PostComments = () => {
   const [modalComment, setModalComment] = useState("");
   const modalRef = useRef()
 
-   useEffect(() => {
-            document.title = 'Feedback | ChatOrbit';
-        }, []);
+  useEffect(() => {
+    document.title = 'Feedback | ChatOrbit';
+  }, []);
 
 
   const { id } = useParams();
@@ -54,7 +54,7 @@ const PostComments = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["comments", id, currentPage, limit],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:5000
+      const res = await axios.get(`https://chatorbit-server.vercel.app
 /comments/${id}?page=${currentPage}&limit=${limit}`);
       return res.data;
     },
@@ -115,13 +115,13 @@ const PostComments = () => {
 
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-8 text-black">
       <h2 className="text-2xl font-bold mb-6">Comments for Post: {id}</h2>
 
       <div className="overflow-x-auto">
         <table className="table w-full border border-gray-200">
           <thead className="bg-gray-100">
-            <tr>
+            <tr className="text-black">
               <th>Email</th>
               <th>Comment</th>
               <th>Feedback / Report</th>
@@ -221,7 +221,7 @@ const PostComments = () => {
       <div className="join flex flex-wrap justify-center mt-6 gap-2">
         {/* Previous Button */}
         <button
-          className="join-item btn btn-sm"
+          className="join-item btn btn-sm bg-white text-black border-gray-300 shadow-none hover:bg-gray-100"
           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
@@ -255,14 +255,14 @@ const PostComments = () => {
             pages.push(
               <button
                 key={1}
-                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active' : ''}`}
+                className={`join-item btn btn-sm ${currentPage === 1 ? 'btn-active shadow-none bg-gray-200 text-black' : 'bg-white text-black border-gray-300'}`}
                 onClick={() => setCurrentPage(1)}
               >
                 1
               </button>
             );
             if (startPage > 2) {
-              pages.push(<span key="start-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+              pages.push(<span key="start-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
             }
           }
 
@@ -270,7 +270,7 @@ const PostComments = () => {
             pages.push(
               <button
                 key={i}
-                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}
+                className={`join-item btn btn-sm ${currentPage === i ? 'btn-active shadow-none border-gray-300 bg-gray-200 text-black' : 'bg-white text-black border-gray-300'} hover:bg-gray-100`}
                 onClick={() => setCurrentPage(i)}
               >
                 {i}
@@ -280,12 +280,12 @@ const PostComments = () => {
 
           if (endPage < totalPages) {
             if (endPage < totalPages - 1) {
-              pages.push(<span key="end-ellipsis" className="join-item btn btn-sm disabled">...</span>);
+              pages.push(<span key="end-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
             }
             pages.push(
               <button
                 key={totalPages}
-                className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
+                className={`join-item shadow-none btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
                 onClick={() => setCurrentPage(totalPages)}
               >
                 {totalPages}
@@ -298,7 +298,7 @@ const PostComments = () => {
 
         {/* Next Button */}
         <button
-          className="join-item btn btn-sm"
+          className="join-item shadow-none btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100"
           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
           disabled={currentPage === totalPages}
         >

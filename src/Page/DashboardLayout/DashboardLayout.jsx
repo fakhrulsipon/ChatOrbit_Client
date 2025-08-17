@@ -12,7 +12,7 @@ const DashboardLayout = () => {
 
 
   return (
-    <div className="drawer lg:drawer-open bg-gradient-to-r from-blue-50 to-blue-100">
+    <div className="drawer lg:drawer-open bg-blue-100">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}

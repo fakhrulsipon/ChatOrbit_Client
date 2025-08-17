@@ -6,13 +6,17 @@ const TopVotedPosts = () => {
     const { data: topPosts = [], isLoading, isError } = useQuery({
         queryKey: ['topVotedPosts'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/top-voted');
+            const res = await axios.get('https://chatorbit-server.vercel.app/top-voted');
             return res.data;
         }
     });
 
     if (isLoading) {
-        return <div className="text-center py-10">Loading top voted posts...</div>;
+        return (
+            <div className="flex justify-center items-center h-64">
+                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
+            </div>
+        );
     }
 
     if (isError) {
