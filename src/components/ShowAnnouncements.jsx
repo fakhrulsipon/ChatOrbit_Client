@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const ShowAnnouncements = () => {
-  //get all announcements
+  // Get all announcements
   const { data: announcements = [], isLoading: loadingAnnouncements } = useQuery({
     queryKey: ["announcements"],
     queryFn: async () => {
@@ -11,7 +11,7 @@ const ShowAnnouncements = () => {
     },
   });
 
-  //get announcements count
+  // Get announcements count
   const { data: announcementCount = 0, isLoading: loadingCount, isError } = useQuery({
     queryKey: ['announcementCount'],
     queryFn: async () => {
@@ -23,49 +23,60 @@ const ShowAnnouncements = () => {
   if (loadingAnnouncements || loadingCount) {
     return (
       <div className="flex flex-col justify-center items-center h-80 gap-4">
-        <span className="loading loading-ring loading-lg text-indigo-500 scale-150"></span>
+        <span className="loading loading-ring loading-lg text-[#FF8A00] scale-150"></span>
         <p className="text-sm font-medium text-slate-500 animate-pulse">Loading announcements...</p>
       </div>
     );
   }
 
-  if (isError) return <p className="text-center text-rose-455 font-semibold my-8">Something went wrong!</p>;
+  if (isError) return <p className="text-center text-[#FF5C5C] font-semibold my-8 heading-display">Something went wrong!</p>;
 
   if (announcementCount === 0) {
     return null;
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4 mt-8 lg:mt-12 xl:mt-16">
-      <h2 className="text-3xl font-extrabold mb-8 text-center text-white tracking-tight flex items-center justify-center gap-2">
-        📢 Community Announcements
-      </h2>
+    <section className="py-10 lg:py-16 w-full max-w-4xl mx-auto px-4 md:px-12 lg:px-8 xl:px-16">
+      <div className="text-center mb-16">
+        <h2 className="text-3xl sm:text-[48px] heading-display font-bold text-white mb-4 tracking-tight leading-none flex items-center justify-center gap-3">
+          📢 Community Announcements
+        </h2>
+        <p className="text-[#CBD5E1] text-sm lg:text-base leading-relaxed">
+          Stay up to date with the latest guidelines, releases, and updates from the ChatOrbit admin crew.
+        </p>
+      </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {announcements.map((item) => (
           <div
             key={item._id}
-            className="relative border border-slate-850/80 rounded-3xl overflow-hidden bg-slate-900/30 hover:shadow-xl shadow-sm transition-all duration-300"
+            className="relative border border-slate-800 rounded-[20px] overflow-hidden bg-[#1B2435] shadow-lg hover:shadow-2xl hover:border-[#FF5C5C]/30 transition-all duration-300"
           >
             {/* Ribbon for important announcements */}
             {item.isImportant && (
-              <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 text-[10px] font-black rounded-full shadow-sm tracking-wider uppercase">
+              <div 
+                style={{
+                  background: 'linear-gradient(135deg, #FF8A00 0%, #FF5C5C 55%, #FF4D79 100%)'
+                }}
+                className="absolute top-0 right-0 text-white px-4 py-1.5 text-[10px] font-black rounded-bl-xl shadow-md tracking-wider uppercase heading-display"
+              >
                 Important
               </div>
             )}
 
             <div className="p-8">
-              <div className="flex items-center gap-4 mb-5">
+              {/* Author header */}
+              <div className="flex items-center gap-4 mb-6">
                 <img
                   src={item.authorImage}
                   alt={item.authorName}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-slate-850 shadow-md ring-2 ring-indigo-950/40"
+                  className="w-12 h-12 rounded-full object-cover border border-slate-800 shadow-md"
                 />
                 <div>
                   <p className="font-bold text-slate-200 flex items-center gap-2 text-sm">
                     {item.authorName}
                     {item.isAdmin && (
-                      <span className="bg-indigo-950/40 text-indigo-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-indigo-900/30">
+                      <span className="bg-[#FF8A00]/10 text-[#FF8A00] text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-[#FF8A00]/25 heading-display">
                         Admin
                       </span>
                     )}
@@ -82,28 +93,32 @@ const ShowAnnouncements = () => {
                 </div>
               </div>
 
-              <h3 className="text-xl font-extrabold mb-3 text-slate-100 tracking-tight leading-snug">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 text-white tracking-tight leading-snug heading-display">
                 {item.title.includes('!') ? '🚀 ' : '📌 '}
                 {item.title}
               </h3>
 
-              <div className="prose max-w-none text-slate-400 text-sm mb-6 leading-relaxed">
+              <div className="prose max-w-none text-[#CBD5E1] text-sm mb-6 leading-relaxed">
                 {item.description.split('\n').map((paragraph, i) => (
                   <p key={i} className="mb-3">{paragraph}</p>
                 ))}
               </div>
 
               {/* Action buttons */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-850">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-800/80">
                 {item.actionLink ? (
                   <a
                     href={item.actionLink}
-                    className="inline-flex items-center px-4 py-2 bg-indigo-650 text-white text-xs font-bold rounded-xl hover:bg-indigo-500 transition-all duration-300 shadow-md shadow-indigo-650/10 cursor-pointer"
+                    style={{
+                      background: 'linear-gradient(135deg, #FF8A00 0%, #FF5C5C 55%, #FF4D79 100%)',
+                      boxShadow: '0 0 20px rgba(255,138,0,0.15)'
+                    }}
+                    className="inline-flex items-center px-5 py-2.5 text-white text-xs font-bold rounded-xl hover:scale-[1.02] active:scale-98 transition-all duration-200 cursor-pointer"
                   >
                     Learn More →
                   </a>
                 ) : <div />}
-                <button className="text-xs text-indigo-400 hover:text-indigo-350 font-bold transition-colors cursor-pointer">
+                <button className="text-xs text-[#FF8A00] hover:text-[#FF5C5C] font-bold transition-colors cursor-pointer">
                   Share Announcement
                 </button>
               </div>
@@ -111,12 +126,12 @@ const ShowAnnouncements = () => {
 
             {/* Footer with tags */}
             {item.tags && item.tags.length > 0 && (
-              <div className="px-8 py-4 bg-slate-950/30 border-t border-slate-850">
+              <div className="px-8 py-4 bg-[#0B1120]/40 border-t border-slate-800/80">
                 <div className="flex flex-wrap gap-2">
                   {item.tags.map(tag => (
                     <span
                       key={tag}
-                      className="text-[10px] font-bold px-2.5 py-1 bg-slate-900/50 text-slate-400 border border-slate-800 rounded-full shadow-sm"
+                      className="text-[10px] font-bold px-3 py-1 bg-[#1B2435] text-slate-400 border border-slate-800 rounded-full shadow-sm"
                     >
                       #{tag}
                     </span>
@@ -127,7 +142,7 @@ const ShowAnnouncements = () => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

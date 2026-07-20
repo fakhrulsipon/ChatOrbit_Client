@@ -42,7 +42,7 @@ const CommunityStats = () => {
     ];
 
     return (
-        <div className="mt-12 lg:mt-16 xl:mt-20 px-4 md:px-12 lg:px-8 xl:px-16">
+        <div className="mt-4 sm:mt-6 px-4 md:px-12 lg:px-8 xl:px-16">
             {/* Section Header */}
             <div className="text-center mb-10 max-w-2xl mx-auto">
                 <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4 tracking-tight">

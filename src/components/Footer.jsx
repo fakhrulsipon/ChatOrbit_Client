@@ -9,7 +9,7 @@ const Footer = () => {
             : "text-slate-400 hover:text-[#FF8A00] transition-all duration-200";
 
     return (
-        <footer className="w-full bg-[#0B1120] border-t border-slate-900 py-12 mt-16 px-4 md:px-12 lg:px-8 xl:px-16">
+        <footer className="w-full bg-transparent border-t border-slate-900/50 py-12 mt-4 sm:mt-16 px-4 md:px-12 lg:px-8 xl:px-16">
             <div className="max-w-7xl mx-auto flex flex-col items-center justify-between gap-6 md:flex-row">
                 {/* Logo & copyright */}
                 <div className="flex flex-col items-center md:items-start gap-1">

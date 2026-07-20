@@ -39,7 +39,7 @@ const Home = () => {
     };
 
     return (
-        <div className="pb-24 overflow-hidden bg-[#0B1120] text-[#CBD5E1] font-sans">
+        <div className="pb-6 sm:pb-8 overflow-hidden bg-[#0B1120] text-[#CBD5E1] font-sans">
             {/* HERO SECTION with Glowing Orbs */}
             <div className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 px-4 md:px-12 lg:px-8 xl:px-16 max-w-7xl mx-auto text-center">
                 {/* Stripe/Linear style abstract gradients */}
@@ -75,8 +75,8 @@ const Home = () => {
                     >
                         Explore Feed <FiArrowRight className="w-5 h-5" />
                     </button>
-                    <Link 
-                        to="/membership" 
+                    <Link
+                        to="/membership"
                         className="w-full sm:w-auto px-8 h-14 rounded-full bg-[#1B2435] border border-slate-800 text-white font-bold text-base flex items-center justify-center gap-2 hover:bg-slate-900 active:scale-95 transition-all duration-300"
                     >
                         View Premium
@@ -258,33 +258,30 @@ const Home = () => {
                                 <div className="inline-flex bg-slate-900/60 backdrop-blur-md border border-slate-800/80 p-1.5 rounded-2xl shadow-sm gap-2">
                                     <button
                                         onClick={() => setActiveTab('all')}
-                                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
-                                            activeTab === 'all'
-                                                ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white shadow-md shadow-orange-500/20 scale-105 cursor-pointer'
-                                                : 'text-slate-400 hover:text-[#FF8A00] hover:bg-slate-800/40 cursor-pointer'
-                                        }`}
+                                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${activeTab === 'all'
+                                            ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white shadow-md shadow-orange-500/20 scale-105 cursor-pointer'
+                                            : 'text-slate-400 hover:text-[#FF8A00] hover:bg-slate-800/40 cursor-pointer'
+                                            }`}
                                     >
                                         <HiChatAlt className="w-5 h-5" />
                                         All Discussions
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('latest')}
-                                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
-                                            activeTab === 'latest'
-                                                ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white shadow-md shadow-orange-500/20 scale-105 cursor-pointer'
-                                                : 'text-slate-400 hover:text-[#FF8A00] hover:bg-slate-800/40 cursor-pointer'
-                                        }`}
+                                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${activeTab === 'latest'
+                                            ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white shadow-md shadow-orange-500/20 scale-105 cursor-pointer'
+                                            : 'text-slate-400 hover:text-[#FF8A00] hover:bg-slate-800/40 cursor-pointer'
+                                            }`}
                                     >
                                         <HiClock className="w-5 h-5" />
                                         Latest Posts
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('top')}
-                                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
-                                            activeTab === 'top'
-                                                ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white shadow-md shadow-orange-500/20 scale-105 cursor-pointer'
-                                                : 'text-slate-400 hover:text-[#FF8A00] hover:bg-slate-800/40 cursor-pointer'
-                                        }`}
+                                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${activeTab === 'top'
+                                            ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white shadow-md shadow-orange-500/20 scale-105 cursor-pointer'
+                                            : 'text-slate-400 hover:text-[#FF8A00] hover:bg-slate-800/40 cursor-pointer'
+                                            }`}
                                     >
                                         <HiFire className="w-5 h-5" />
                                         Top Voted
@@ -297,11 +294,11 @@ const Home = () => {
                                 {activeTab === 'all' && (
                                     <div className="space-y-6">
                                         <AllTags setSearchTag={handleSearch} setCurrentPage={setCurrentPage} />
-                                        <Posts 
-                                            searchTag={searchTag} 
-                                            setSearchTag={setSearchTag} 
-                                            currentPage={currentPage} 
-                                            setCurrentPage={setCurrentPage} 
+                                        <Posts
+                                            searchTag={searchTag}
+                                            setSearchTag={setSearchTag}
+                                            currentPage={currentPage}
+                                            setCurrentPage={setCurrentPage}
                                         />
                                     </div>
                                 )}
@@ -327,12 +324,12 @@ const Home = () => {
             <FAQSection />
 
             {/* PRE-FOOTER FINAL SIGNUP ACCENT BLOCK */}
-            <div className="max-w-5xl mx-auto mt-24 px-4">
-                <div 
+            <div className="max-w-5xl mx-auto mt-8 sm:mt-12 px-4">
+                <div
                     style={{
                         background: 'linear-gradient(135deg, rgba(255,138,0,0.1) 0%, rgba(255,92,92,0.1) 50%, rgba(255,77,121,0.05) 100%)'
                     }}
-                    className="border border-[#FF5C5C]/20 p-8 sm:p-16 rounded-[20px] text-center space-y-6 relative overflow-hidden shadow-2xl"
+                    className="border border-[#FF5C5C]/20 p-8 sm:p-12 rounded-[20px] text-center space-y-6 relative overflow-hidden shadow-2xl"
                 >
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[150px] bg-orange-500/5 rounded-full filter blur-[80px] -z-10"></div>
                     <h2 className="text-3xl sm:text-4xl heading-display font-bold text-white tracking-tight">Ready to Enter the Orbit?</h2>
@@ -341,7 +338,7 @@ const Home = () => {
                     </p>
                     <div className="pt-4">
                         <Link to="/register">
-                            <button 
+                            <button
                                 style={{
                                     background: 'linear-gradient(135deg, #FF8A00 0%, #FF5C5C 55%, #FF4D79 100%)',
                                     boxShadow: '0 0 35px rgba(255,138,0,.35)'

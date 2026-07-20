@@ -25,7 +25,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-20 lg:py-28 max-w-4xl mx-auto px-4 md:px-12 lg:px-8 xl:px-16 w-full">
+    <section className="py-10 lg:py-16 max-w-4xl mx-auto px-4 md:px-12 lg:px-8 xl:px-16 w-full">
       {/* Title & Description */}
       <div className="text-center mb-16">
         <h2 className="text-3xl sm:text-[48px] heading-display font-bold mb-4 text-white tracking-tight leading-none">
