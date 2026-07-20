@@ -1,251 +1,214 @@
-
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hook/useAxiosSecure";
+import { HiExclamation, HiEye, HiTrash } from 'react-icons/hi';
 
 const Activities = () => {
-    const axiosSecure = useAxiosSecure()
-    const [selectedComment, setSelectedComment] = useState('')
-    const [currentPage, setCurrentPage] = useState(1)
+    const axiosSecure = useAxiosSecure();
+    const [selectedComment, setSelectedComment] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
     const limit = 5;
 
     useEffect(() => {
-        document.title = 'Activies | ChatOrbit';
+        document.title = 'Activities | ChatOrbit';
     }, []);
 
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: ["reported-comments"],
+        queryKey: ["reported-comments", currentPage],
         queryFn: async () => {
             const res = await axiosSecure.get(`/reported-comments?page=${currentPage}&limit=${limit}`);
             return res.data;
         },
     });
 
-
     const handleDelete = (reportId, commentId) => {
-        // console.log('reportId', reportId, 'commentId', commentId)
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "This comment will be permanently deleted!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonColor: "#FF5C5C",
+            cancelButtonColor: "#1E293B",
+            confirmButtonText: "Yes, delete it!",
+            background: '#1B2435',
+            color: '#FFFFFF'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await axiosSecure.delete(`/admin/delete-reported-comment/${reportId}/${commentId}`)
+                    const res = await axiosSecure.delete(`/admin/delete-reported-comment/${reportId}/${commentId}`);
                     const { deletedComment, deletedReport } = res.data;
                     if (deletedComment === 1 || deletedReport === 1) {
                         Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
+                            title: "Deleted! 🚀",
+                            text: "Comment has been deleted successfully.",
+                            icon: "success",
+                            background: '#1B2435',
+                            color: '#FFFFFF'
                         });
-                        refetch()
+                        refetch();
                     }
-
                 } catch (error) {
-                    console.error("Error deleting:", error);
-                    Swal.fire("Error", "Something went wrong. Try again.", "error");
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong. Please try again.",
+                        icon: "error",
+                        background: '#1B2435',
+                        color: '#FFFFFF'
+                    });
                 }
             }
         });
-    }
+    };
 
     const modalRef = useRef();
 
     const handleReadMore = (comment) => {
-        setSelectedComment(comment)
+        setSelectedComment(comment);
         modalRef.current?.showModal();
-    }
-
+    };
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-64">
-                <div className="h-10 w-10 animate-[spin_2s_linear_infinite] rounded-full border-4 border-dashed border-sky-600"></div>;
+            <div className="flex flex-col justify-center items-center h-80 gap-4">
+                <span className="loading loading-ring loading-lg text-[#FF8A00] scale-150"></span>
+                <p className="text-sm font-medium text-slate-500 animate-pulse">Loading reported content...</p>
             </div>
         );
     }
 
-    if (isError) return <p className="text-red-500">Failed to load reported comments.</p>;
+    if (isError) {
+        return <p className="text-center mt-10 text-red-500 font-bold heading-display">Failed to load reports feed.</p>;
+    }
 
-    const { reports, totalPages } = data;
+    const reports = data?.reports || [];
+    const totalPages = data?.totalPages || 1;
 
     return (
-        <div className="max-w-6xl mx-auto p-6 text-black">
-            <h2 className="text-3xl font-bold mb-6 text-center">🚨 Reported Comments</h2>
+        <div className="max-w-6xl mx-auto space-y-8 font-sans">
+            <h2 className="text-3xl font-bold text-white tracking-tight heading-display flex items-center gap-2">
+                <HiExclamation className="text-[#FF5C5C]" /> Reported Comments
+            </h2>
 
             {reports.length === 0 ? (
-                <p className="text-center text-gray-600">No reports found.</p>
+                <div className="flex flex-col items-center justify-center py-16 px-4 bg-slate-900/10 border border-dashed border-slate-855 rounded-3xl">
+                    <span className="text-4xl mb-3">✅</span>
+                    <p className="text-center text-slate-400 font-medium font-display">Clean Inbox! No reports filed yet.</p>
+                </div>
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="table w-full border border-gray-300">
-                        <thead className="bg-gray-100">
-                            <tr className="text-black">
-                                <th className="px-4 py-2 text-left">#</th>
-                                <th className="px-4 py-2 text-left">Reported By</th>
-                                <th className="px-4 py-2 text-left">Comment</th>
-                                <th className="px-4 py-2 text-left">Feedback</th>
-                                <th className="px-4 py-2 text-left">Reported At</th>
-                                <th className="px-4 py-2 text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reports.map((report, index) => (
-                                <tr key={report._id} className="border-t border-gray-300">
-                                    <td className="px-4 py-2">{index + 1}</td>
-                                    <td className="px-4 py-2">{report.reportedBy}</td>
-                                    {/* commet Text er Fn */}
-                                    <td className="px-4 py-2">
-                                        {report.commentText.length > 20 ? (
-                                            <>
-                                                {report.commentText.slice(0, 20)}...
+                <div className="space-y-6">
+                    {/* Table Container */}
+                    <div className="bg-[#1B2435] border border-slate-800 rounded-[20px] overflow-hidden shadow-2xl">
+                        <div className="overflow-x-auto">
+                            <table className="table w-full">
+                                <thead>
+                                    <tr className="bg-[#131C2E] border-b border-slate-850 text-slate-355 text-sm heading-display">
+                                        <th className="py-4 pl-6">#</th>
+                                        <th className="py-4">Reported By</th>
+                                        <th className="py-4">Comment</th>
+                                        <th className="py-4">Feedback Reason</th>
+                                        <th className="py-4 hidden md:table-cell">Reported At</th>
+                                        <th className="py-4 pr-6 text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {reports.map((report, index) => (
+                                        <tr key={report._id} className="border-b border-slate-850/50 hover:bg-[#131C2E]/40 transition-colors text-xs font-medium">
+                                            <td className="py-4 pl-6 font-bold text-slate-500">{(currentPage - 1) * limit + index + 1}</td>
+                                            <td className="py-4 text-white font-semibold">{report.reportedBy}</td>
+                                            <td className="py-4 text-slate-300 max-w-xs truncate">
+                                                {report.commentText.length > 25 ? (
+                                                    <span className="flex items-center gap-1.5">
+                                                        {report.commentText.slice(0, 25)}...
+                                                        <button
+                                                            onClick={() => handleReadMore(report.commentText)}
+                                                            className="text-[#FF8A00] font-bold hover:underline inline-flex items-center gap-0.5 cursor-pointer"
+                                                        >
+                                                            <HiEye className="w-3.5 h-3.5" /> Read
+                                                        </button>
+                                                    </span>
+                                                ) : (
+                                                    report.commentText
+                                                )}
+                                            </td>
+                                            <td className="py-4 text-[#CBD5E1]">{report.feedback}</td>
+                                            <td className="py-4 hidden md:table-cell text-slate-450">
+                                                {new Date(report.reportedAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'})}
+                                            </td>
+                                            <td className="py-4 pr-6 text-center">
                                                 <button
-                                                    onClick={() => handleReadMore(report.commentText)}
-                                                    className="ml-2 text-blue-600 underline text-sm"
+                                                    onClick={() => handleDelete(report._id, report.commentId)}
+                                                    className="btn btn-xs bg-rose-950/20 hover:bg-rose-900/30 text-rose-500 border border-rose-900/20 rounded-xl flex items-center gap-1 cursor-pointer"
                                                 >
-                                                    Read More
+                                                    <HiTrash className="w-3.5 h-3.5" /> Delete
                                                 </button>
-                                            </>
-                                        ) : (
-                                            report.commentText
-                                        )}
-                                    </td>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-                                    <td className="px-4 py-2">{report.feedback}</td>
-                                    <td className="px-4 py-2 text-sm text-gray-600">
-                                        {new Date(report.reportedAt).toLocaleString()}
-                                    </td>
-                                    <td className="px-4 py-2 text-center">
+                    {/* Pagination Buttons */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center mt-8 gap-1.5">
+                            <button
+                                className="btn btn-sm bg-[#1B2435] hover:bg-[#131C2E] text-slate-455 border border-slate-800 rounded-xl cursor-pointer disabled:opacity-40"
+                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                disabled={currentPage === 1}
+                            >
+                                «
+                            </button>
+
+                            {(() => {
+                                const pages = [];
+                                for (let i = 1; i <= totalPages; i++) {
+                                    pages.push(
                                         <button
-                                            onClick={() => handleDelete(report._id, report.commentId)}
-                                            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                                            key={i}
+                                            className={`btn btn-sm rounded-xl cursor-pointer ${
+                                                currentPage === i
+                                                    ? 'bg-gradient-to-r from-[#FF8A00] to-[#FF4D79] text-white border-none shadow-md shadow-orange-500/20'
+                                                    : 'bg-[#1B2435] hover:bg-[#131C2E] text-slate-400 border border-slate-800'
+                                            }`}
+                                            onClick={() => setCurrentPage(i)}
                                         >
-                                            Delete Comment
+                                            {i}
                                         </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                    );
+                                }
+                                return pages;
+                            })()}
+
+                            <button
+                                className="btn btn-sm bg-[#1B2435] hover:bg-[#131C2E] text-slate-455 border border-slate-800 rounded-xl cursor-pointer disabled:opacity-40"
+                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                            >
+                                »
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
 
-            {/* modal */}
-            <dialog ref={modalRef} id="my_modal_1" className="modal">
-                <div className="modal-box">
-                    {selectedComment}
-                    <div className="modal-action">
+            {/* Read More Modal */}
+            <dialog ref={modalRef} id="my_modal_1" className="modal bg-[#0B1120]/80 backdrop-blur-sm">
+                <div className="modal-box bg-[#1B2435] border border-slate-800 rounded-[20px] shadow-2xl p-8 text-[#CBD5E1] space-y-4">
+                    <h3 className="text-lg font-bold text-white heading-display border-b border-slate-800/80 pb-3">Reported Comment Text</h3>
+                    <p className="text-sm leading-relaxed">{selectedComment}</p>
+                    <div className="modal-action pt-2">
                         <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn">Close</button>
+                            <button className="btn bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-850 rounded-xl cursor-pointer">
+                                Close
+                            </button>
                         </form>
                     </div>
                 </div>
             </dialog>
-
-
-            {/* Pagination Buttons */}
-            <div className="join flex flex-wrap justify-center mt-6 gap-2">
-                {/* Previous Button */}
-                <button
-                    className="join-item btn btn-sm bg-white shadow-none text-black border-gray-300 hover:bg-gray-100"
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                >
-                    «
-                </button>
-
-                {/* Dynamic Page Numbers */}
-                {(() => {
-                    const pages = [];
-                    const maxVisiblePages = 5;
-                    let startPage, endPage;
-
-                    if (totalPages <= maxVisiblePages) {
-                        startPage = 1;
-                        endPage = totalPages;
-                    } else {
-                        const half = Math.floor(maxVisiblePages / 2);
-                        if (currentPage <= half + 1) {
-                            startPage = 1;
-                            endPage = maxVisiblePages;
-                        } else if (currentPage >= totalPages - half) {
-                            startPage = totalPages - maxVisiblePages + 1;
-                            endPage = totalPages;
-                        } else {
-                            startPage = currentPage - half;
-                            endPage = currentPage + half;
-                        }
-                    }
-
-                    if (startPage > 1) {
-                        pages.push(
-                            <button
-                                key={1}
-                                className={`join-item btn btn-sm shadow-none ${currentPage === 1 ? 'btn-active bg-gray-200 text-black' : 'bg-white text-black border-gray-300'}`}
-                                onClick={() => setCurrentPage(1)}
-                            >
-                                1
-                            </button>
-                        );
-                        if (startPage > 2) {
-                            pages.push(<span key="start-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
-                        }
-                    }
-
-                    for (let i = startPage; i <= endPage; i++) {
-                        pages.push(
-                            <button
-                                key={i}
-                                className={`join-item btn shadow-none btn-sm ${currentPage === i ? 'btn-active border-gray-300 bg-gray-200 text-black' : 'bg-white text-black border-gray-300'} hover:bg-gray-100`}
-                                onClick={() => setCurrentPage(i)}
-                            >
-                                {i}
-                            </button>
-                        );
-                    }
-
-                    if (endPage < totalPages) {
-                        if (endPage < totalPages - 1) {
-                            pages.push(<span key="end-ellipsis" className="join-item btn btn-sm bg-white text-black border-gray-300 disabled">...</span>);
-                        }
-                        pages.push(
-                            <button
-                                key={totalPages}
-                                className={`join-item btn btn-sm ${currentPage === totalPages ? 'btn-active' : ''}`}
-                                onClick={() => setCurrentPage(totalPages)}
-                            >
-                                {totalPages}
-                            </button>
-                        );
-                    }
-
-                    return pages;
-                })()}
-
-                {/* Next Button */}
-                <button
-                    className="join-item btn btn-sm bg-white text-black border-gray-300 hover:bg-gray-100 shadow-none"
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                >
-                    »
-                </button>
-            </div>
-
-
         </div>
-
-
-
     );
 };
 
 export default Activities;
-
-

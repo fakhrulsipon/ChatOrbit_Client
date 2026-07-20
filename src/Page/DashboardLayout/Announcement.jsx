@@ -8,11 +8,11 @@ import { useNavigate } from "react-router";
 const MakeAnnouncement = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
-  const { user } = use(AuthContext)
+  const { user } = use(AuthContext);
 
- useEffect(() => {
-        document.title = 'Annoucement | ChatOrbit';
-    }, []);
+  useEffect(() => {
+    document.title = 'Make Announcement | ChatOrbit';
+  }, []);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -28,75 +28,91 @@ const MakeAnnouncement = () => {
       if (res.data.insertedId) {
         Swal.fire({
           icon: "success",
-          title: "Announcement Posted!",
+          title: "Announcement Posted! 🚀",
           text: "Your announcement has been successfully published.",
+          background: '#1B2435',
+          color: '#FFFFFF',
+          confirmButtonColor: '#FF8A00'
         });
         reset();
-        navigate('/')
-
+        navigate('/');
       }
     } catch (err) {
-      console.error(err);
       Swal.fire({
         icon: "error",
-        title: "Something went wrong!",
-        text: "Failed to post the announcement.",
+        title: "Error ❌",
+        text: "Failed to post the announcement. Please try again.",
+        background: '#1B2435',
+        color: '#FFFFFF',
+        confirmButtonColor: '#FF8A00'
       });
     }
   };
+
   return (
-    <div className="max-w-3xl p-6 rounded-xl my-10 mx-4 lg:mx-10 xl:mx-auto text-black">
-      <h2 className="text-2xl font-semibold mb-6 text-center">📢 Make Announcement</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-
-        <div>
-          <label className="block mb-1 font-medium">Author Image URL</label>
+    <div className="max-w-xl mx-auto my-6 p-8 bg-[#1B2435] border border-slate-800 rounded-[20px] shadow-2xl">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 text-white heading-display tracking-tight flex items-center justify-center gap-2">
+        📢 Make Announcement
+      </h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        
+        {/* Author Image URL */}
+        <div className="space-y-1.5">
+          <label className="block text-[11px] font-bold tracking-wider text-slate-400 uppercase">Author Image URL</label>
           <input
             type="text"
-            defaultValue={user.photoURL}
-            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
-            placeholder="Author Image"
+            defaultValue={user?.photoURL}
+            readOnly
+            className="w-full px-4 py-3 rounded-xl text-slate-400 border border-slate-800 bg-[#0B1120] focus:outline-none text-sm font-semibold select-none"
           />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Author Name</label>
+        {/* Author Name */}
+        <div className="space-y-1.5">
+          <label className="block text-[11px] font-bold tracking-wider text-slate-400 uppercase">Author Name</label>
           <input
             type="text"
-            defaultValue={user.displayName}
-            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
-            placeholder="Author Name"
+            defaultValue={user?.displayName}
+            readOnly
+            className="w-full px-4 py-3 rounded-xl text-slate-400 border border-slate-800 bg-[#0B1120] focus:outline-none text-sm font-semibold select-none"
           />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Title</label>
+        {/* Title */}
+        <div className="space-y-1.5">
+          <label className="block text-[11px] font-bold tracking-wider text-slate-350 uppercase">Title</label>
           <input
             type="text"
             {...register("title", { required: true })}
-            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
-            placeholder="New Feature Announcement"
+            className="w-full px-4 py-3 rounded-xl text-white border border-slate-800 bg-[#0B1120] focus:outline-none focus:border-[#FF8A00] text-sm font-medium transition-colors"
+            placeholder="New Feature Announcement..."
+            required
           />
         </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Description</label>
+        {/* Description */}
+        <div className="space-y-1.5">
+          <label className="block text-[11px] font-bold tracking-wider text-slate-350 uppercase">Description</label>
           <textarea
             {...register("description", { required: true })}
-            className="w-full border-2 bg-white border-gray-400 focus:outline-none px-4 py-2 rounded-lg"
+            className="w-full px-4 py-3 rounded-xl text-white border border-slate-800 bg-[#0B1120] focus:outline-none focus:border-[#FF8A00] text-sm font-medium transition-colors"
             rows="4"
-            placeholder="Write the announcement details..."
+            placeholder="Write the announcement details here..."
+            required
           ></textarea>
         </div>
 
-        <div className="w-full">
-          <button
+        {/* Action button */}
+        <button
           type="submit"
-          className="bg-blue-400 hover:bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg flex mx-auto"
+          style={{
+            background: 'linear-gradient(135deg, #FF8A00 0%, #FF5C5C 55%, #FF4D79 100%)',
+            boxShadow: '0 0 25px rgba(255,138,0,0.25)'
+          }}
+          className="w-full text-white font-extrabold text-sm py-4 rounded-xl border-none shadow-lg active:scale-98 transition-all duration-300 cursor-pointer"
         >
           Post Announcement
         </button>
-        </div>
       </form>
     </div>
   );
