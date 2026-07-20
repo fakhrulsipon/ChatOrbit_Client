@@ -1,10 +1,10 @@
-import React, { use, useState } from 'react';
+import React, { use, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SociaLogin/SocialLogin';
 import { AuthContext } from '../../../Provider/Provider';
 import Swal from 'sweetalert2';
-import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { HiEye, HiEyeOff, HiSparkles } from 'react-icons/hi';
 import Loginlottie from '../../../assets/loginLottie.json'
 import Lottie from 'lottie-react';
 
@@ -13,80 +13,149 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { signUser } = use(AuthContext);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
-    const onSubmit = data => {
-        // console.log(data)
-        signUser(data.email, data.password)
+    useEffect(() => {
+        document.title = 'Login | ChatOrbit';
+    }, []);
+
+    const performLogin = (email, password) => {
+        signUser(email, password)
             .then(res => {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Login Successful',
-                    text: `Welcome back, ${res.user.displayName || 'User'}!`,
+                    title: 'Welcome Back! 👋',
+                    text: `Login successful. Welcome, ${res.user.displayName || 'User'}!`,
                     timer: 2000,
-                    showConfirmButton: false
+                    showConfirmButton: false,
+                    background: '#1B2435',
+                    color: '#FFFFFF'
                 });
-                navigate(location.state || '/')
+                navigate(location.state || '/');
             })
             .catch(error => {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Login Failed',
-                    text: error.message || 'Something went wrong!'
+                    title: 'Login Failed ❌',
+                    text: error.message || 'Incorrect email or password.',
+                    background: '#1B2435',
+                    color: '#FFFFFF',
+                    confirmButtonColor: '#FF8A00'
                 });
-            })
+            });
+    };
 
-    }
+    const onSubmit = data => {
+        performLogin(data.email, data.password);
+    };
+
+    const handleQuickAccess = (email, password) => {
+        setValue('email', email);
+        setValue('password', password);
+        performLogin(email, password);
+    };
+
     return (
-        <div className=' min-h-screen flex items-center justify-center px-4 py-12'>
+        <div className="min-h-[calc(100vh-200px)] flex items-center justify-center px-4 py-12 bg-[#0B1120]">
+            <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-12 max-w-6xl w-full">
+                
+                {/* Form Container */}
+                <div className="max-w-md w-full bg-[#1B2435] border border-slate-800 p-8 rounded-[20px] shadow-2xl space-y-6 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#FF8A00]/5 to-transparent rounded-full filter blur-2xl"></div>
 
-            <div className='flex flex-col-reverse lg:flex-row items-center justify-center gap-12 max-w-6xl w-full'>
-                <div className="max-w-sm w-full bg-white mx-auto p-8 rounded-2xl transition-all duration-300 space-y-6 mt-6">
-                    <form onSubmit={handleSubmit(onSubmit)} className="fieldset">
-                        <h1 className='text-3xl font-bold text-center text-blue-400'>Login to Your Account</h1>
-                        <p className="text-center text-gray-500 text-sm mt-1">We're happy to see you again</p>
-                        <label className="label font-semibold text-gray-700">Email</label>
-                        <input type="email" {...register('email')} autoComplete="off" className="input bg-white text-gray-800 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200" placeholder="Email" />
+                    <div className="text-center">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF8A00]/10 border border-[#FF8A00]/25 text-[#FF8A00] text-[10px] font-bold uppercase tracking-wider mb-3 heading-display">
+                            <HiSparkles className="w-3.5 h-3.5 text-[#FF5C5C]" />
+                            Join the Orbit
+                        </div>
+                        <h1 className="text-2xl sm:text-3xl font-extrabold text-white heading-display tracking-tight">Login to Your Account</h1>
+                        <p className="text-xs text-[#94A3B8] font-semibold mt-1">Explore discussions and connect globally</p>
+                    </div>
 
-                        <label className="label font-semibold text-gray-700">Password</label>
-
-                        <div className="relative">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                {...register('password', { required: true, minLength: 8 })}
-                                className="input w-full px-4 py-2 pr-10 bg-white text-gray-800 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-200"
-                                placeholder="Password"
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                        {/* Email */}
+                        <div className="space-y-1.5">
+                            <label className="block text-[11px] font-bold tracking-wider text-slate-400 uppercase">Email Address</label>
+                            <input 
+                                type="email" 
+                                {...register('email', { required: true })} 
+                                className="w-full px-4 py-3 rounded-xl text-white border border-slate-800 bg-[#0B1120] focus:outline-none focus:border-[#FF8A00] text-sm font-medium transition-colors" 
+                                placeholder="name@email.com" 
                             />
-                            <span
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 z-50 top-3 cursor-pointer text-gray-600 text-xl"
-                            >
-                                {showPassword ? <HiEyeOff /> : <HiEye />}
-                            </span>
+                            {errors.email && <p className="text-red-500 font-bold text-xs">Email is required</p>}
                         </div>
 
+                        {/* Password */}
+                        <div className="space-y-1.5">
+                            <div className="flex justify-between items-center">
+                                <label className="block text-[11px] font-bold tracking-wider text-slate-400 uppercase">Password</label>
+                                <a className="text-[10px] font-black text-[#FF8A00] hover:underline cursor-pointer">Forgot password?</a>
+                            </div>
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    {...register('password', { required: true, minLength: 8 })}
+                                    className="w-full px-4 py-3 pr-10 rounded-xl text-white border border-slate-800 bg-[#0B1120] focus:outline-none focus:border-[#FF8A00] text-sm font-medium transition-colors"
+                                    placeholder="••••••••"
+                                />
+                                <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3.5 top-3.5 cursor-pointer text-slate-500 hover:text-white transition-colors text-lg"
+                                >
+                                    {showPassword ? <HiEyeOff /> : <HiEye />}
+                                </span>
+                            </div>
+                            {errors.password?.type === 'required' && <p className="text-red-500 font-bold text-xs">Password is required</p>}
+                            {errors.password?.type === 'minLength' && <p className="text-red-500 font-bold text-xs">Password must be 8 characters or longer</p>}
+                        </div>
 
-                        {
-                            errors.password?.type === 'required' && <p className='text-red-600'>Password is required</p>
-                        }
-                        {
-                            errors.password?.type === 'minLength' && <p className='text-red-600'>password must be 8 character or longer</p>
-                        }
-
-                        <div><a className="link link-hover text-sm text-gray-500 hover:text-blue-600">Forgot password?</a></div>
-
-                        <button className="w-full py-2 font-semibold bg-blue-400 hover:bg-blue-500 text-white rounded-lg shadow hover:shadow-lg transition-all duration-200 mt-4">Login</button>
+                        {/* Login Button */}
+                        <button 
+                            style={{
+                                background: 'linear-gradient(135deg, #FF8A00 0%, #FF5C5C 55%, #FF4D79 100%)',
+                                boxShadow: '0 0 25px rgba(255,138,0,0.25)'
+                            }}
+                            className="w-full text-white font-extrabold text-sm py-4 rounded-xl border-none shadow-lg active:scale-98 transition-all duration-300 cursor-pointer mt-4"
+                        >
+                            Sign In
+                        </button>
                     </form>
-                    <p className='text-center text-gray-600 text-sm'>Are you new this site? please <Link className='underline text-blue-400 font-bold hover:text-blue-500' to='/register'>Register</Link></p>
+
+                    {/* Quick Access Recruiter Buttons */}
+                    <div className="space-y-3 pt-3 border-t border-slate-900/60">
+                        <p className="text-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                            — Quick Access for Recruiters —
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => handleQuickAccess('siponkhan@gmail.com', '12345678')}
+                                className="btn btn-sm bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 hover:border-slate-700 rounded-xl font-bold py-2 text-xs flex-1 transition-all duration-300 cursor-pointer"
+                            >
+                                🔑 Demo User
+                            </button>
+                            <button
+                                onClick={() => handleQuickAccess('sipon@gmail.com', '12345678')}
+                                className="btn btn-sm bg-slate-900 hover:bg-slate-850 text-[#FF8A00] border border-[#FF8A00]/20 hover:border-[#FF8A00]/40 rounded-xl font-bold py-2 text-xs flex-1 transition-all duration-300 cursor-pointer"
+                            >
+                                🛡️ Demo Admin
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="pt-2 text-center">
+                        <p className="text-xs text-slate-450 font-semibold">
+                            New to ChatOrbit? <Link className="text-[#FF8A00] font-black hover:underline" to="/register">Create an account</Link>
+                        </p>
+                    </div>
+
                     <SocialLogin location={location}></SocialLogin>
                 </div>
-                {/* ✅ Right: Responsive Lottie Animation */}
-                <div className="w-full max-w-md">
+
+                {/* Right: Lottie Animation */}
+                <div className="w-full max-w-md hidden lg:block">
                     <Lottie animationData={Loginlottie} loop={true} style={{ width: '100%', height: '100%' }} />
                 </div>
-
             </div>
-
         </div>
     );
 };

@@ -4,7 +4,7 @@ import { FaCookieBite, FaUserShield, FaExclamationTriangle } from 'react-icons/f
 
 const Privacy = () => {
     return (
-        <div className="min-h-screen pb-24 overflow-hidden bg-[#0B1120] text-[#CBD5E1] font-sans">
+        <div className="min-h-screen pb-6 sm:pb-8 overflow-hidden bg-[#0B1120] text-[#CBD5E1] font-sans">
             {/* HERO SECTION with Glowing Orbs */}
             <div className="relative pt-16 pb-12 lg:pt-20 px-4 md:px-12 lg:px-8 xl:px-16 max-w-7xl mx-auto text-center">
                 {/* Stripe/Linear style abstract gradients */}
