@@ -8,6 +8,8 @@ import { HiEye, HiEyeOff, HiSparkles } from 'react-icons/hi';
 import Loginlottie from '../../../assets/loginLottie.json'
 import Lottie from 'lottie-react';
 
+import { toast } from 'react-toastify';
+
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
@@ -22,15 +24,7 @@ const Login = () => {
     const performLogin = (email, password) => {
         signUser(email, password)
             .then(res => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Welcome Back! 👋',
-                    text: `Login successful. Welcome, ${res.user.displayName || 'User'}!`,
-                    timer: 2000,
-                    showConfirmButton: false,
-                    background: '#1B2435',
-                    color: '#FFFFFF'
-                });
+                toast.success(`Welcome Back, ${res.user.displayName || 'User'}! 👋`);
                 navigate(location.state || '/');
             })
             .catch(error => {

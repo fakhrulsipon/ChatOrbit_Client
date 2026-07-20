@@ -9,6 +9,8 @@ import { HiEye, HiEyeOff, HiSparkles } from 'react-icons/hi';
 import Lottie from 'lottie-react';
 import Loginlottie from '../../../assets/registerLottie.json'
 
+import { toast } from 'react-toastify';
+
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,15 +48,7 @@ const Register = () => {
                 };
                 updateProfileInfo(updateProfile)
                     .then(() => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Welcome to ChatOrbit! 🎉',
-                            text: 'Registration successful. Let\'s explore discussions!',
-                            timer: 2500,
-                            showConfirmButton: false,
-                            background: '#1B2435',
-                            color: '#FFFFFF'
-                        });
+                        toast.success(`Welcome to ChatOrbit, ${data.name}! 🎉`);
                         navigate('/');
                     })
                     .catch(error => {

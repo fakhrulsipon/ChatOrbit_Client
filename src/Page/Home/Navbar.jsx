@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
 
+import { toast } from 'react-toastify';
+
 const Navbar = () => {
   const { logoutUser, user } = use(AuthContext)
   const [imgLoaded, setImgLoaded] = useState(false);
@@ -18,18 +20,15 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      Swal.fire({
-        icon: 'success',
-        title: 'Logout Successful',
-        text: 'You have been logged out successfully.',
-        timer: 2000,
-        showConfirmButton: false,
-      });
+      toast.success('Logged out successfully. See you soon! 👋');
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: 'Logout Failed',
+        title: 'Logout Failed ❌',
         text: error.message || 'Something went wrong.',
+        background: '#1B2435',
+        color: '#FFFFFF',
+        confirmButtonColor: '#FF8A00'
       });
     }
   };
