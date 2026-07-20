@@ -11,15 +11,15 @@ const AllTags = ({ setSearchTag, setCurrentPage }) => {
   })
   if (isLoading) return (
     <div className="flex justify-center mt-4">
-      <span className="loading loading-spinner text-primary"></span>
+      <span className="loading loading-spinner text-indigo-500"></span>
     </div>
   );
-  
-  if (isError) return <p className="text-center text-red-500 mt-4">Failed to load tags</p>;
+
+  if (isError) return <p className="text-center text-rose-450 mt-4 font-semibold text-sm">Failed to load tags</p>;
 
   return (
-    <div className="">
-      <div className="flex flex-wrap gap-2 justify-center">
+    <div className="py-2">
+      <div className="flex flex-wrap gap-2.5 justify-center max-w-3xl mx-auto">
         {tags.map((tag, index) => (
           <button
             key={index}
@@ -27,9 +27,9 @@ const AllTags = ({ setSearchTag, setCurrentPage }) => {
               setSearchTag(tag.tag);
               setCurrentPage(1);
             }}
-            className="btn btn-sm text-black border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm shadow-none"
+            className="btn btn-sm px-4 py-1.5 text-xs font-semibold text-slate-400 bg-slate-900/60 hover:text-indigo-400 hover:bg-slate-800/80 hover:border-slate-700 border border-slate-800/80 rounded-full shadow-sm active:scale-95 transition-all duration-200 cursor-pointer"
           >
-            {tag.tag}
+            #{tag.tag}
           </button>
         ))}
       </div>
