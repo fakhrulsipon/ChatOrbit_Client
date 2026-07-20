@@ -103,7 +103,7 @@ const LatestPosts = () => {
                             </div>
 
                             <Link to={`/details/${post._id}`}>
-                                <button className="btn btn-sm px-4 h-9 bg-gradient-to-r from-orange-500 to-rose-500 text-white border-none rounded-xl hover:from-orange-450 hover:to-rose-450 hover:shadow-md hover:shadow-orange-500/20 active:scale-95 transition-all duration-300 font-semibold cursor-pointer">
+                                <button className="btn btn-sm px-3 xl:px-2 2xl:px-4 h-9 whitespace-nowrap bg-gradient-to-r from-orange-500 to-rose-500 text-white border-none rounded-xl hover:from-orange-450 hover:to-rose-450 hover:shadow-md hover:shadow-orange-500/20 active:scale-95 transition-all duration-300 font-semibold cursor-pointer">
                                     View More
                                 </button>
                             </Link>

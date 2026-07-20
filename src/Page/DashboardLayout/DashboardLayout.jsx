@@ -50,9 +50,29 @@ const DashboardLayout = () => {
         <div className="min-h-full w-80 bg-[#131C2E] border-r border-slate-800/80 p-8 flex flex-col justify-between">
           <div>
             {/* Branding Logo */}
-            <Link className="flex items-center justify-center gap-2 mb-12 hover:scale-[1.02] transition-transform" to="/">
-              <img className="w-10 h-10" src="/Chatorbit.png" alt="Logo" />
-              <span className="text-xl text-white font-extrabold tracking-tight heading-display">Chatorbit</span>
+            <Link className="flex items-center justify-center gap-2.5 mb-12 hover:opacity-95 transition-opacity" to="/">
+              {/* Premium SVG Logo Icon */}
+              <svg className="w-9 h-9 shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="logoGradDash" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FF8A00" />
+                    <stop offset="50%" stopColor="#FF5C5C" />
+                    <stop offset="100%" stopColor="#FF4D79" />
+                  </linearGradient>
+                </defs>
+                {/* Background planet glow */}
+                <circle cx="50" cy="50" r="16" fill="url(#logoGradDash)" opacity="0.25" />
+                {/* Outer Orbit Ring */}
+                <ellipse cx="50" cy="50" rx="36" ry="12" stroke="url(#logoGradDash)" strokeWidth="3.5" transform="rotate(-30 50 50)" opacity="0.8" />
+                {/* Inner Planet */}
+                <circle cx="50" cy="50" r="18" fill="url(#logoGradDash)" />
+                {/* Little Orbiting Satellites / Chat Nodes */}
+                <circle cx="22" cy="34" r="5" fill="#FFFFFF" />
+                <circle cx="78" cy="66" r="4.5" fill="#FF4D79" />
+              </svg>
+              <span className="text-xl font-extrabold heading-display tracking-tight text-white flex items-center">
+                Chat<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] to-[#FF5C5C]">Orbit</span>
+              </span>
             </Link>
 
             {/* Menu Links */}
